@@ -1,0 +1,55 @@
+/**
+ * Copyright 2016 Igor Rubis
+ * Licensed under the Apache License, Version 2.0
+ */
+
+group 'com.irubis_framework'
+version '1.0-SNAPSHOT'
+
+apply plugin: 'groovy'
+apply plugin: 'java'
+
+repositories {
+    mavenCentral()
+}
+
+configurations {
+    agent
+}
+
+dependencies {
+    agent "org.aspectj:aspectjweaver:${aspectjVersion}"
+    compile     group: 'org.codehaus.groovy',       name: 'groovy-all',             version: '2.3.11'
+    compile     group: 'org.seleniumhq.selenium',   name: 'selenium-java',          version: '2.53.0'
+    testCompile group: 'ru.yandex.qatools.allure',  name: 'allure-junit-adaptor',   version: "${allureVersion}"
+    testCompile files("${projectDir}/src/main/groovy")
+}
+
+task generateAllureReport(type: Exec) {
+    executable 'allure'
+    args 'generate build/reports/allure -o allure-report'
+}
+
+task runTests(type: Test) {
+    include '**/*.*'
+}
+
+task runTests3(type: Test) {
+    include '**/ExampleTest3.*'
+}
+
+task runTests2(type: Test) {
+    include '**/ExampleTest2.*'
+}
+
+new HashSet(tasks.withType(Test)).each {
+    System.setProperty('allure.results.directory', 'build/reports/allure')
+
+    it.dependsOn(clean)
+    it.ignoreFailures(true)
+    it.useJUnit()
+    it.systemProperties(System.properties)
+    it.jvmArgs "-javaagent:${configurations.agent.singleFile}"
+    it.maxParallelForks(System.properties.getProperty('maxParallelForks', '10').toInteger())
+    it.finalizedBy(generateAllureReport)
+}
