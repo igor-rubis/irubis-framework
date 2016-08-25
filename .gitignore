@@ -20,8 +20,6 @@ chromedriver_mac
 gradle/
 gradlew
 gradlew.bat
-src/main/groovy/com/irubis_framework/.DS_Store
-src/main/groovy/com/irubis_framework/helpers/browser/.DS_Store
 src/main/groovy/com/irubis_framework/helpers/threadSafeInstanceFactory/
 src/main/groovy/com/irubis_framework/steps/userActionsLevelSteps/
 target/
