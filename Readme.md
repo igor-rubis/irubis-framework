@@ -1,3 +1,5 @@
+My self-educational project to create automation testing framework from scratch.
+
 ##command line options:
 * browser
     * firefox
@@ -11,3 +13,4 @@
 * screenshots
 * logger
 * bdd
+* spring?
