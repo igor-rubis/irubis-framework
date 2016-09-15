@@ -10,6 +10,7 @@ import org.openqa.selenium.WebDriver
 /**
  * Created by Igor_Rubis. 7/29/16.
  */
+
 abstract class Steps {
     private interval = 15000
     protected WebDriver driver
@@ -20,12 +21,12 @@ abstract class Steps {
 
     protected eventually(interval=this.interval, closure) {
         long end = new Date().getTime() + interval;
-        Exception exception = null
+        Throwable exception = null
 
         while (new Date().getTime() <= end) {
             try {
                 return closure()
-            } catch (Exception e) {
+            } catch (Throwable e) {
                 exception = e
             }
         }

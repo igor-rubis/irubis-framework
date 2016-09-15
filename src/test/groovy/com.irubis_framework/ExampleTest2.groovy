@@ -6,12 +6,10 @@
 package com.irubis_framework
 
 import com.irubis_framework.steps.pageLevelSteps.homePage.HomePageSteps
+import com.irubis_framework.steps.userActionsLevelSteps.navigation.HomePageActions
 import org.junit.Test
 import ru.yandex.qatools.allure.annotations.Description
 import ru.yandex.qatools.allure.annotations.Title
-
-import static org.hamcrest.CoreMatchers.equalTo
-import static org.hamcrest.MatcherAssert.assertThat
 
 /**
  * Created by Igor_Rubis. 7/29/16.
@@ -19,37 +17,40 @@ import static org.hamcrest.MatcherAssert.assertThat
 
 @Description("This is an example test suite")
 class ExampleTest2 extends BaseTest{
-    HomePageSteps homePage
 
     @Title("Failing test")
     @Test
     def void openHomePage() {
-        homePage = new HomePageSteps(driver)
+        def homePage = new HomePageSteps(driver)
         homePage.open()
-        throw new RuntimeException('runtime exception')
+        def homePageActions = new HomePageActions(driver)
+        homePageActions.verifyTitleIs('Google_')
     }
 
     @Title("Passing test")
     @Test
     def void openHomePage2() {
-        homePage = new HomePageSteps(driver)
+        def homePage = new HomePageSteps(driver)
         homePage.open()
-        assertThat(1, equalTo(1))
+        def homePageActions = new HomePageActions(driver)
+        homePageActions.verifyTitleIs('Google')
     }
 
     @Title("Failing test")
     @Test
     def void openHomePage3() {
-        homePage = new HomePageSteps(driver)
+        def homePage = new HomePageSteps(driver)
         homePage.open()
-        assertThat(1, equalTo(2))
+        def homePageActions = new HomePageActions(driver)
+        homePageActions.verifyTitleIs('Google+')
     }
 
     @Title("Failing test")
     @Test
     def void openHomePage4() {
-        homePage = new HomePageSteps(driver)
+        def homePage = new HomePageSteps(driver)
         homePage.open()
-        assertThat(1, equalTo(2))
+        def homePageActions = new HomePageActions(driver)
+        homePageActions.verifyTitleIs('Googl')
     }
 }

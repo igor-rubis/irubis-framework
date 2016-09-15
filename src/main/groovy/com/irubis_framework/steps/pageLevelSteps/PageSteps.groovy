@@ -7,32 +7,36 @@ package com.irubis_framework.steps.pageLevelSteps
 
 import com.irubis_framework.steps.Steps
 import org.openqa.selenium.By
+import org.openqa.selenium.JavascriptExecutor
 import org.openqa.selenium.WebDriver
+import org.openqa.selenium.WebElement
 
 /**
  * Created by Igor_Rubis. 7/29/16.
  */
 abstract class PageSteps extends Steps {
 
-    PageSteps(WebDriver driver) {
+    def protected abstract open()
+
+    def PageSteps(WebDriver driver) {
         super(driver)
     }
 
-    private element(By by) {
-        driver.findElement(by)
+    def protected WebElement element(String cssSelector) {
+        return driver.findElement(By.cssSelector(cssSelector))
     }
 
-    protected clickElement(By by) {
+    def protected clickElement(String cssSelector) {
         eventually(15000) {
-            element(by).click()
+            element(cssSelector).click()
         }
     }
 
-    protected goToUrl(String url) {
-        eventually {
-            driver.navigate().to(url)
-        }
+    def protected goToUrl(String url) {
+        driver.navigate().to(url)
     }
 
-    protected abstract open()
+    def protected String getElementText(String cssSelector) {
+        return ((JavascriptExecutor) driver).executeScript('return arguments[0].innerHTML', element(cssSelector))
+    }
 }

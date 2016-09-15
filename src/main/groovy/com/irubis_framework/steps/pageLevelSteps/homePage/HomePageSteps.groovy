@@ -8,6 +8,7 @@ package com.irubis_framework.steps.pageLevelSteps.homePage
 import com.irubis_framework.pages.homePage.HomePage
 import com.irubis_framework.steps.pageLevelSteps.PageSteps
 import org.openqa.selenium.WebDriver
+import ru.yandex.qatools.allure.annotations.Step
 
 /**
  * Created by Igor_Rubis. 7/29/16.
@@ -20,7 +21,13 @@ class HomePageSteps extends PageSteps {
         page = new HomePage()
     }
 
+    @Step
     def open() {
         goToUrl(page.url())
+    }
+
+    @Step
+    def String getTitle() {
+        getElementText(page.title)
     }
 }

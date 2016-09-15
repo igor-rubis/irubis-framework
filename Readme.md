@@ -1,6 +1,6 @@
 My self-educational project to create automation testing framework from scratch.
 
-##command line options:
+##Command line options:
 * browser
     * firefox
     * chrome
@@ -14,3 +14,4 @@ My self-educational project to create automation testing framework from scratch.
 * logger
 * bdd
 * spring?
+* API tests

@@ -12,6 +12,8 @@ import com.irubis_framework.pages.Page
  */
 public class HomePage extends Page {
     def String url() {
-        'https://www.google.com.ua'
+        'https://www.google.com/'
     }
+
+    def title = 'title'
 }
