@@ -23,6 +23,7 @@ dependencies {
     compile     group: 'org.codehaus.groovy',       name: 'groovy-all',             version: '2.3.11'
     compile     group: 'org.seleniumhq.selenium',   name: 'selenium-java',          version: '2.53.0'
     compile     group: 'ru.yandex.qatools.allure',  name: 'allure-junit-adaptor',   version: "${allureVersion}"
+    compile     group: 'ru.yandex.qatools.ashot',   name: 'ashot',                  version: '1.5.2'
     testCompile files("${projectDir}/src/main/groovy")
 }
 

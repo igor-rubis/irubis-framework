@@ -5,8 +5,8 @@
 
 package com.irubis_framework
 
-import com.irubis_framework.steps.pageLevelSteps.homePage.HomePageSteps
-import com.irubis_framework.steps.userActionsLevelSteps.navigation.HomePageActions
+import com.irubis_framework.steps.webUiSteps.pageLevelSteps.homePage.HomePageSteps
+import com.irubis_framework.steps.webUiSteps.userActionsLevelSteps.navigation.HomePageActions
 import org.junit.Test
 import ru.yandex.qatools.allure.annotations.Description
 import ru.yandex.qatools.allure.annotations.Title

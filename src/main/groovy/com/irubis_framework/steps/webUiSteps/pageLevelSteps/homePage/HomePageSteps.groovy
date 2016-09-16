@@ -3,10 +3,10 @@
  * Licensed under the Apache License, Version 2.0
  */
 
-package com.irubis_framework.steps.pageLevelSteps.homePage
+package com.irubis_framework.steps.webUiSteps.pageLevelSteps.homePage
 
 import com.irubis_framework.pages.homePage.HomePage
-import com.irubis_framework.steps.pageLevelSteps.PageSteps
+import com.irubis_framework.steps.webUiSteps.pageLevelSteps.PageSteps
 import org.openqa.selenium.WebDriver
 import ru.yandex.qatools.allure.annotations.Step
 
@@ -26,7 +26,6 @@ class HomePageSteps extends PageSteps {
         goToUrl(page.url())
     }
 
-    @Step
     def String getTitle() {
         getElementText(page.title)
     }

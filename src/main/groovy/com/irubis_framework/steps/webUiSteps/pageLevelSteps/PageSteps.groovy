@@ -3,9 +3,9 @@
  * Licensed under the Apache License, Version 2.0
  */
 
-package com.irubis_framework.steps.pageLevelSteps
+package com.irubis_framework.steps.webUiSteps.pageLevelSteps
 
-import com.irubis_framework.steps.Steps
+import com.irubis_framework.steps.webUiSteps.WebUiSteps
 import org.openqa.selenium.By
 import org.openqa.selenium.JavascriptExecutor
 import org.openqa.selenium.WebDriver
@@ -14,7 +14,7 @@ import org.openqa.selenium.WebElement
 /**
  * Created by Igor_Rubis. 7/29/16.
  */
-abstract class PageSteps extends Steps {
+abstract class PageSteps extends WebUiSteps {
 
     def protected abstract open()
 

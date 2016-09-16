@@ -4,23 +4,15 @@
  */
 
 package com.irubis_framework.steps
-
-import org.openqa.selenium.WebDriver
-
 /**
  * Created by Igor_Rubis. 7/29/16.
  */
 
 abstract class Steps {
-    private interval = 15000
-    protected WebDriver driver
+    protected final INTERVAL = 15000
 
-    public Steps(driver) {
-        this.driver = driver
-    }
-
-    protected eventually(interval=this.interval, closure) {
-        long end = new Date().getTime() + interval;
+    protected eventually(interval=this.INTERVAL, closure) {
+        long end = new Date().getTime() + interval
         Throwable exception = null
 
         while (new Date().getTime() <= end) {
