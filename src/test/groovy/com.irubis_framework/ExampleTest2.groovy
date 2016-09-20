@@ -45,12 +45,11 @@ class ExampleTest2 extends BaseTest{
         homePageActions.verifyTitleIs('Google+')
     }
 
-    @Title("Failing test")
+    @Title("Errored test")
     @Test
     def void openHomePage4() {
         def homePage = new HomePageSteps(driver)
         homePage.open()
-        def homePageActions = new HomePageActions(driver)
-        homePageActions.verifyTitleIs('Googl')
+        throw new RuntimeException('Smth went wrong!!!')
     }
 }

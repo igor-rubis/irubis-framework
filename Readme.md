@@ -10,7 +10,6 @@ My self-educational project to create automation testing framework from scratch.
 * maxParallelForks
 
 ##TODO:
-* screenshots
 * logger
 * bdd
 * spring?
