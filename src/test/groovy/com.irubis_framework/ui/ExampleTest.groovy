@@ -3,7 +3,7 @@
  * Licensed under the Apache License, Version 2.0
  */
 
-package com.irubis_framework
+package com.irubis_framework.ui
 
 import com.irubis_framework.steps.webUiSteps.pageLevelSteps.homePage.HomePageSteps
 import com.irubis_framework.steps.webUiSteps.userActionsLevelSteps.navigation.HomePageActions
@@ -16,7 +16,7 @@ import ru.yandex.qatools.allure.annotations.Title
  */
 
 @Description("This is an example test suite")
-class ExampleTest3 extends BaseTest{
+class ExampleTest extends BaseTest{
 
     @Title("Failing test")
     @Test

@@ -1,4 +1,4 @@
-package com.irubis_framework;
+package com.irubis_framework.ui;
 
 import org.junit.runner.Description;
 import org.junit.runner.Result;

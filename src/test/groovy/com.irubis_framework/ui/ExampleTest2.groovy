@@ -3,7 +3,7 @@
  * Licensed under the Apache License, Version 2.0
  */
 
-package com.irubis_framework
+package com.irubis_framework.ui
 
 import com.irubis_framework.steps.webUiSteps.pageLevelSteps.homePage.HomePageSteps
 import com.irubis_framework.steps.webUiSteps.userActionsLevelSteps.navigation.HomePageActions

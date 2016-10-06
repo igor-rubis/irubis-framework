@@ -33,15 +33,15 @@ task generateAllureReport(type: Exec) {
 }
 
 task runTests(type: Test) {
-    include '**/*.*'
+    include '**/ui/*.*'
 }
 
 task runTests3(type: Test) {
-    include '**/ExampleTest3.*'
+    include '**/ui/ExampleTest3.*'
 }
 
 task runTests2(type: Test) {
-    include '**/ExampleTest2.*'
+    include '**/ui/ExampleTest2.*'
 }
 
 new HashSet(tasks.withType(Test)).each {
