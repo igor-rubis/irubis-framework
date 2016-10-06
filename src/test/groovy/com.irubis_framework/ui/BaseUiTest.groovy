@@ -5,18 +5,17 @@
 
 package com.irubis_framework.ui
 
+import com.irubis_framework.BaseTest
 import com.irubis_framework.helpers.browser.Browser
 import org.junit.After
 import org.junit.Before
-import org.junit.runner.RunWith
 import org.openqa.selenium.WebDriver
 
 /**
  * Created by Igor_Rubis. 8/3/16.
  */
 
-@RunWith(AllureTestRunner.class)
-abstract class BaseTest {
+abstract class BaseUiTest extends BaseTest {
     WebDriver driver
 
     @Before

@@ -16,7 +16,7 @@ import ru.yandex.qatools.allure.annotations.Title
  */
 
 @Description("This is an example test suite")
-class ExampleTest2 extends BaseTest{
+class ExampleTest2 extends BaseUiTest{
 
     @Title("Failing test")
     @Test
