@@ -1,13 +1,15 @@
 package com.irubis_framework.api.soap
 
 import com.irubis_framework.api.BaseApiTest
-import com.irubis_framework.steps.apiSteps.ApiSteps
+import org.junit.Before
 import org.junit.Test
 import ru.yandex.qatools.allure.annotations.Description
 import ru.yandex.qatools.allure.annotations.Title
+import wslite.soap.SOAPClient
 
 import static org.hamcrest.MatcherAssert.assertThat
 import static org.hamcrest.Matchers.comparesEqualTo
+import static org.hamcrest.Matchers.equalTo
 import static org.hamcrest.text.IsEqualIgnoringCase.equalToIgnoringCase
 
 /**
@@ -16,51 +18,65 @@ import static org.hamcrest.text.IsEqualIgnoringCase.equalToIgnoringCase
 
 @Description("This is an example test suite")
 class ExampleSoapApiTest extends BaseApiTest {
+    def service = '/Holidays/US/Dates/USHolidayDates.asmx?WSDL'
+    def baseNS = 'http://www.27seconds.com/Holidays/US/Dates/'
+    def client
 
-    @Override
-    protected service() {
-        return '/Holidays/US/Dates/USHolidayDates.asmx?WSDL'
+    @Before
+    def void createClient() {
+        client = new SOAPClient("${baseUrl}${service}")
     }
 
     @Title("Soap test")
     @Test
     void testMLKDay() {
-        def baseNS = 'http://www.27seconds.com/Holidays/US/Dates/'
-        action = "${baseNS}GetMartinLutherKingDay"
-
-        def steps = new ApiSteps()
-        response = steps.getResponse(client, action) {
+        def response = client.send(SOAPAction: "${baseNS}GetMartinLutherKingDay") {
             body {
                 GetMartinLutherKingDay('xmlns': baseNS) {
-                    year(2016)
+                    year(2013)
                 }
             }
         }
-
         def date = Date.parse("yyyy-MM-dd'T'hh:mm:ss", response.GetMartinLutherKingDayResponse.GetMartinLutherKingDayResult.text())
 
-        steps.compareResults(date, comparesEqualTo(Date.parse('yyyy-MM-dd', '2016-01-15')))
-        steps.compareResults(response.httpResponse.headers['X-Powered-By'].value as String, equalToIgnoringCase('ASP.NET'))
+        assertThat(date, comparesEqualTo(Date.parse('yyyy-MM-dd', '2013-01-15')))
+        assertThat(response.httpResponse.headers['X-Powered-By'] as String, equalToIgnoringCase('ASP.NET'))
     }
 
-    @Title("Failing Soap test")
+    @Title("Soap test xml")
     @Test
-    void testMLKDayFail() {
-        def baseNS = 'http://www.27seconds.com/Holidays/US/Dates/'
-        action = "${baseNS}GetMartinLutherKingDay"
+    void testMLKDay2() {
+        def response = client.send("""<?xml version='1.0' encoding='UTF-8'?>
+                                      <soapenv:Envelope
+                                      xmlns:soapenv='http://schemas.xmlsoap.org/soap/envelope/'
+                                      xmlns:dat='http://www.27seconds.com/Holidays/US/Dates/'>
+                                          <soapenv:Header/>
+                                          <soapenv:Body>
+                                              <dat:GetMartinLutherKingDay>
+                                                 <dat:year>2013</dat:year>
+                                              </dat:GetMartinLutherKingDay>
+                                          </soapenv:Body>
+                                      </soapenv:Envelope>""")
 
-        def steps = new ApiSteps()
-        response = steps.getResponse(client, action) {
+        def date = Date.parse("yyyy-MM-dd'T'hh:mm:ss", response.GetMartinLutherKingDayResponse.GetMartinLutherKingDayResult.text())
+
+        assertThat(date, comparesEqualTo(Date.parse('yyyy-MM-dd', '2015-01-15')))
+        assertThat(response.httpResponse.headers['X-Powered-By'], equalToIgnoringCase('ASP.NET'))
+    }
+
+    @Title("Soap test junit assertions")
+    @Test
+    void testMDay() {
+        def response = client.send(SOAPAction:'http://www.27seconds.com/Holidays/US/Dates/GetMothersDay') {
             body {
-                GetMartinLutherKingDay('xmlns': baseNS) {
-                    year(2016)
+                GetMothersDay('xmlns':'http://www.27seconds.com/Holidays/US/Dates/') {
+                    year(2011)
                 }
             }
         }
 
-        def date = Date.parse("yyyy-MM-dd'T'hh:mm:ss", response.GetMartinLutherKingDayResponse.GetMartinLutherKingDayResult.text())
-
-        steps.compareResults(date, comparesEqualTo(Date.parse('yyyy-MM-dd', '2013-01-15')))
-        steps.compareResults(response.httpResponse.headers['X-Powered-By'].value as String, equalToIgnoringCase('ASP.NET'))
+        assertThat(response.GetMothersDayResponse.GetMothersDayResult.text(), comparesEqualTo("2011-05-08T00:00:00"))
+        assertThat(response.httpResponse.statusCode, equalTo(200))
+        assertThat(response.httpResponse.headers['X-Powered-By'], equalToIgnoringCase('ASP.NET'))
     }
 }
