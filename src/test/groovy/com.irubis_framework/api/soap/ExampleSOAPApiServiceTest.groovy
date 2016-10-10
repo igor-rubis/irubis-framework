@@ -17,14 +17,14 @@ import static org.hamcrest.text.IsEqualIgnoringCase.equalToIgnoringCase
  */
 
 @Description("This is an example test suite")
-class ExampleSoapApiTest extends BaseApiTest {
+class ExampleSOAPApiServiceTest extends BaseApiTest {
     def service = '/Holidays/US/Dates/USHolidayDates.asmx?WSDL'
     def baseNS = 'http://www.27seconds.com/Holidays/US/Dates/'
     def client
 
     @Before
     def void createClient() {
-        client = new SOAPClient("${baseUrl}${service}")
+        client = new SOAPClient("${BASE_URL}${service}")
     }
 
     @Title("Soap test")
@@ -60,7 +60,7 @@ class ExampleSoapApiTest extends BaseApiTest {
 
         def date = Date.parse("yyyy-MM-dd'T'hh:mm:ss", response.GetMartinLutherKingDayResponse.GetMartinLutherKingDayResult.text())
 
-        assertThat(date, comparesEqualTo(Date.parse('yyyy-MM-dd', '2015-01-15')))
+        assertThat(date, comparesEqualTo(Date.parse('yyyy-MM-dd', '2013-01-15')))
         assertThat(response.httpResponse.headers['X-Powered-By'], equalToIgnoringCase('ASP.NET'))
     }
 

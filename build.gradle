@@ -45,8 +45,12 @@ task runTests2(type: Test) {
     include '**/ui/ExampleTest2.*'
 }
 
-task runApiTests(type: Test) {
-    include '**/api/**/*.*'
+task runSoapApiTests(type: Test) {
+    include '**/api/soap/**/*.*'
+}
+
+task runRestApiTests(type: Test) {
+    include '**/api/rest/**/*.*'
 }
 
 new HashSet(tasks.withType(Test)).each {
