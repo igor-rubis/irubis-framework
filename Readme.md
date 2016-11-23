@@ -8,9 +8,9 @@ My self-educational project to create automation testing framework from scratch.
 * webdriver.chrome.driver
 * allure.results.directory
 * maxParallelForks
+* apiProxy
 
 ##TODO:
-* logger
 * bdd
 * spring?
 * API tests
