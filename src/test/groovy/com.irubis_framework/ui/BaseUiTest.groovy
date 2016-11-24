@@ -16,16 +16,9 @@ import org.openqa.selenium.WebDriver
  */
 
 abstract class BaseUiTest extends BaseTest {
-    WebDriver driver
-
-    @Before
-    def void initializeDriver() {
-        driver = Browser.getInstance()
-    }
 
     @After
     def void killDriver() {
-        driver.quit()
         Browser.clear()
     }
 }

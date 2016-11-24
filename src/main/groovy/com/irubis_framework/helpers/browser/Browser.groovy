@@ -12,21 +12,24 @@ import org.openqa.selenium.WebDriver
  */
 class Browser {
     private static ThreadLocal driver
+    private static WebDriver webDriver
 
     private Browser() { }
 
     static getInstance() {
-        if (driver == null) {
+        if (!driver) {
             def drvr = PropertiesProvider.get('browser')
             def clazz = "org.openqa.selenium.${drvr}.${drvr.capitalize()}Driver"
 
             driver = new ThreadLocal()
             driver.set(Eval.me("return new ${clazz}()"))
         }
-        return (WebDriver) driver.get()
+        webDriver = (WebDriver) driver.get()
+        return webDriver
     }
 
     static clear() {
+        webDriver.quit()
         driver = null
     }
 }

@@ -5,10 +5,10 @@
 
 package com.irubis_framework.steps.webUiSteps.pageLevelSteps
 
+import com.irubis_framework.helpers.browser.Browser
 import com.irubis_framework.steps.webUiSteps.WebUiSteps
 import org.openqa.selenium.By
 import org.openqa.selenium.JavascriptExecutor
-import org.openqa.selenium.WebDriver
 import org.openqa.selenium.WebElement
 
 /**
@@ -18,12 +18,8 @@ abstract class PageSteps extends WebUiSteps {
 
     def protected abstract open()
 
-    def PageSteps(WebDriver driver) {
-        super(driver)
-    }
-
     def protected WebElement element(String cssSelector) {
-        return driver.findElement(By.cssSelector(cssSelector))
+        return Browser.getInstance().findElement(By.cssSelector(cssSelector))
     }
 
     def protected clickElement(String cssSelector) {
@@ -33,10 +29,10 @@ abstract class PageSteps extends WebUiSteps {
     }
 
     def protected goToUrl(String url) {
-        driver.navigate().to(url)
+        Browser.getInstance().navigate().to(url)
     }
 
     def protected String getElementText(String cssSelector) {
-        return ((JavascriptExecutor) driver).executeScript('return arguments[0].innerHTML', element(cssSelector))
+        return ((JavascriptExecutor) Browser.getInstance()).executeScript('return arguments[0].innerHTML', element(cssSelector))
     }
 }

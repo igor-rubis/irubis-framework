@@ -15,7 +15,7 @@ class FrameworkProperties {
     private FrameworkProperties() { }
 
     static Properties getInstance() {
-        if (instance == null) {
+        if (!instance) {
             ThreadLocal trdlcl = new ThreadLocal()
             trdlcl.set(new Properties())
             instance = (Properties) trdlcl.get()

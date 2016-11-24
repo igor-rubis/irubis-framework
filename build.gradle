@@ -32,8 +32,8 @@ dependencies {
 }
 
 task generateAllureReport(type: Exec) {
-    executable 'allure'
-    args 'generate build/reports/allure -o allure-report'
+    executable 'D:\\allure-commandline\\bin\\allure.bat'
+    args('generate', 'build/reports/allure')
 }
 
 task runTests(type: Test) {

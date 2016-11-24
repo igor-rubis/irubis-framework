@@ -5,8 +5,8 @@
 
 package com.irubis_framework.steps.webUiSteps
 
+import com.irubis_framework.helpers.browser.Browser
 import com.irubis_framework.steps.Steps
-import org.openqa.selenium.WebDriver
 import org.openqa.selenium.remote.Augmenter
 import ru.yandex.qatools.allure.annotations.Attachment
 import ru.yandex.qatools.ashot.AShot
@@ -19,11 +19,6 @@ import javax.imageio.ImageIO
  */
 
 abstract class WebUiSteps extends Steps {
-    protected WebDriver driver
-
-    public WebUiSteps(driver) {
-        this.driver = driver
-    }
 
     @Override
     protected eventually(interval = INTERVAL, closure) {
@@ -43,7 +38,7 @@ abstract class WebUiSteps extends Steps {
 
     @Attachment(value = "Page screenshot", type = "image/png")
     def private takeScreenShot() throws IOException {
-        def augmentedDriver = new Augmenter().augment(driver)
+        def augmentedDriver = new Augmenter().augment(Browser.getInstance())
         def image = new AShot().shootingStrategy(ShootingStrategies.viewportPasting(100)).takeScreenshot(augmentedDriver).getImage()
         def baos = new ByteArrayOutputStream()
         ImageIO.write(image, "png", baos)

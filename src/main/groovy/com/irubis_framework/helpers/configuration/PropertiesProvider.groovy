@@ -12,10 +12,6 @@ class PropertiesProvider {
     private PropertiesProvider() {}
 
     def static get(String prop) {
-        String property = System.properties[prop]
-        if (property == null) {
-            property = FrameworkProperties.getInstance()."${prop}"
-        }
-        return property
+        return System.properties[prop] ?: FrameworkProperties.getInstance()."${prop}"
     }
 }

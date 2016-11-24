@@ -11,6 +11,9 @@ import org.junit.Test
 import ru.yandex.qatools.allure.annotations.Description
 import ru.yandex.qatools.allure.annotations.Title
 
+import static com.irubis_framework.helpers.stepsProvider.pageLevelSteps.GetPageLevelSteps.homePageSteps
+import static com.irubis_framework.helpers.stepsProvider.userActionsLevelSteps.GetUserActionsLevelSteps.homePageActions
+
 /**
  * Created by Igor_Rubis. 7/29/16.
  */
@@ -21,35 +24,28 @@ class ExampleTest2 extends BaseUiTest{
     @Title("Failing test")
     @Test
     def void openHomePage() {
-        def homePage = new HomePageSteps(driver)
-        homePage.open()
-        def homePageActions = new HomePageActions(driver)
-        homePageActions.verifyTitleIs('Google_')
+        homePageSteps().open()
+        homePageActions().verifyTitleIs('Google_')
     }
 
     @Title("Passing test")
     @Test
     def void openHomePage2() {
-        def homePage = new HomePageSteps(driver)
-        homePage.open()
-        def homePageActions = new HomePageActions(driver)
-        homePageActions.verifyTitleIs('Google')
+        homePageSteps().open()
+        homePageActions().verifyTitleIs('Google')
     }
 
     @Title("Failing test")
     @Test
     def void openHomePage3() {
-        def homePage = new HomePageSteps(driver)
-        homePage.open()
-        def homePageActions = new HomePageActions(driver)
-        homePageActions.verifyTitleIs('Google+')
+        homePageSteps().open()
+        homePageActions().verifyTitleIs('Google+')
     }
 
     @Title("Errored test")
     @Test
     def void openHomePage4() {
-        def homePage = new HomePageSteps(driver)
-        homePage.open()
+        homePageSteps().open()
         throw new RuntimeException('Smth went wrong!!!')
     }
 }

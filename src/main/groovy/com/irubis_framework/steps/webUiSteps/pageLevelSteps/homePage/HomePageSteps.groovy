@@ -16,8 +16,7 @@ import ru.yandex.qatools.allure.annotations.Step
 class HomePageSteps extends PageSteps {
     private HomePage page
 
-    HomePageSteps(WebDriver driver) {
-        super(driver)
+    HomePageSteps() {
         page = new HomePage()
     }
 

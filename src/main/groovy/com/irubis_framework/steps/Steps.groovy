@@ -11,7 +11,7 @@ package com.irubis_framework.steps
 abstract class Steps {
     protected final INTERVAL = 15000
 
-    protected eventually(interval=this.INTERVAL, closure) {
+    protected eventually(interval = INTERVAL, closure) {
         long end = new Date().getTime() + interval
         Throwable exception = null
 
