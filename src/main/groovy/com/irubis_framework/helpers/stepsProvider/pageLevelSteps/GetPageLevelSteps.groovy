@@ -12,6 +12,7 @@ import com.irubis_framework.steps.webUiSteps.pageLevelSteps.homePage.HomePageSte
  */
 class GetPageLevelSteps {
     def private static homePageSteps
+
     def static homePageSteps() {
         homePageSteps = homePageSteps ?: new HomePageSteps()
     }

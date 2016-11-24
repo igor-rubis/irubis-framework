@@ -5,8 +5,6 @@
 
 package com.irubis_framework.ui
 
-import com.irubis_framework.steps.webUiSteps.pageLevelSteps.homePage.HomePageSteps
-import com.irubis_framework.steps.webUiSteps.userActionsLevelSteps.navigation.HomePageActions
 import org.junit.Test
 import ru.yandex.qatools.allure.annotations.Description
 import ru.yandex.qatools.allure.annotations.Title
@@ -19,7 +17,7 @@ import static com.irubis_framework.helpers.stepsProvider.userActionsLevelSteps.G
  */
 
 @Description("This is an example test suite")
-class ExampleTest2 extends BaseUiTest{
+class ExampleTest2 extends BaseUiTest {
 
     @Title("Failing test")
     @Test

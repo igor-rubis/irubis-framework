@@ -3,14 +3,14 @@
  * Licensed under the Apache License, Version 2.0
  */
 
-package com.irubis_framework;
+package com.irubis_framework
 
-import org.junit.runner.Description;
-import org.junit.runner.Result;
-import org.junit.runner.notification.RunNotifier;
-import org.junit.runners.BlockJUnit4ClassRunner;
-import org.junit.runners.model.InitializationError;
-import ru.yandex.qatools.allure.junit.AllureRunListener;
+import org.junit.runner.Description
+import org.junit.runner.Result
+import org.junit.runner.notification.RunNotifier
+import org.junit.runners.BlockJUnit4ClassRunner
+import org.junit.runners.model.InitializationError
+import ru.yandex.qatools.allure.junit.AllureRunListener
 
 public class AllureTestRunner extends BlockJUnit4ClassRunner {
 

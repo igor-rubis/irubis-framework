@@ -72,9 +72,9 @@ class ExampleSOAPApiServiceTest extends BaseApiTest {
     @Title("Soap test junit assertions")
     @Test
     void testMDay() {
-        def response = client.send(SOAPAction:'http://www.27seconds.com/Holidays/US/Dates/GetMothersDay') {
+        def response = client.send(SOAPAction: 'http://www.27seconds.com/Holidays/US/Dates/GetMothersDay') {
             body {
-                GetMothersDay('xmlns':'http://www.27seconds.com/Holidays/US/Dates/') {
+                GetMothersDay('xmlns': 'http://www.27seconds.com/Holidays/US/Dates/') {
                     year(2011)
                 }
             }

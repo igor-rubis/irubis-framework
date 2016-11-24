@@ -7,6 +7,7 @@ package com.irubis_framework.helpers.browser
 
 import com.irubis_framework.helpers.configuration.PropertiesProvider
 import org.openqa.selenium.WebDriver
+
 /**
  * Created by Igor_Rubis. 8/3/16.
  */
@@ -14,7 +15,7 @@ class Browser {
     private static ThreadLocal driver
     private static WebDriver webDriver
 
-    private Browser() { }
+    private Browser() {}
 
     static getInstance() {
         if (!driver) {

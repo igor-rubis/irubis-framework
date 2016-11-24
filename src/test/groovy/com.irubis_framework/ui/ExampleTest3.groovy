@@ -17,7 +17,7 @@ import static com.irubis_framework.helpers.stepsProvider.userActionsLevelSteps.G
  */
 
 @Description("This is an example test suite")
-class ExampleTest3 extends BaseUiTest{
+class ExampleTest3 extends BaseUiTest {
 
     @Title("Failing test")
     @Test

@@ -12,6 +12,7 @@ import com.irubis_framework.steps.webUiSteps.userActionsLevelSteps.navigation.Ho
  */
 class GetUserActionsLevelSteps {
     def private static homePageActions
+
     def static homePageActions() {
         homePageActions = homePageActions ?: new HomePageActions()
     }

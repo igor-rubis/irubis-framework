@@ -7,7 +7,6 @@ package com.irubis_framework.steps.webUiSteps.pageLevelSteps.homePage
 
 import com.irubis_framework.pages.homePage.HomePage
 import com.irubis_framework.steps.webUiSteps.pageLevelSteps.PageSteps
-import org.openqa.selenium.WebDriver
 import ru.yandex.qatools.allure.annotations.Step
 
 /**

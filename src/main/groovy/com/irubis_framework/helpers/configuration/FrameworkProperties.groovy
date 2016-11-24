@@ -12,7 +12,7 @@ package com.irubis_framework.helpers.configuration
 class FrameworkProperties {
     private static Properties instance
 
-    private FrameworkProperties() { }
+    private FrameworkProperties() {}
 
     static Properties getInstance() {
         if (!instance) {
