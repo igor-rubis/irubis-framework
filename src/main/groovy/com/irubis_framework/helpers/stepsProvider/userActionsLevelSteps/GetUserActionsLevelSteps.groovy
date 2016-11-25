@@ -5,15 +5,14 @@
 
 package com.irubis_framework.helpers.stepsProvider.userActionsLevelSteps
 
-import com.irubis_framework.steps.webUiSteps.userActionsLevelSteps.navigation.HomePageActions
+import com.irubis_framework.helpers.threadSafeObject.ThreadSafeObject
 
 /**
  * Created by Igor_Rubis, 11/23/2016.
  */
 class GetUserActionsLevelSteps {
     def private static homePageActions
-
     def static homePageActions() {
-        homePageActions = homePageActions ?: new HomePageActions()
+        homePageActions = homePageActions ?: ThreadSafeObject.create('com.irubis_framework.steps.webUiSteps.userActionsLevelSteps.navigation.HomePageActions')
     }
 }
