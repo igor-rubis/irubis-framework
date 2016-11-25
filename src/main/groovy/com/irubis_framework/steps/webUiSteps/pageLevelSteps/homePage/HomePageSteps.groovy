@@ -9,10 +9,14 @@ import com.irubis_framework.pages.homePage.HomePage
 import com.irubis_framework.steps.webUiSteps.pageLevelSteps.PageSteps
 import ru.yandex.qatools.allure.annotations.Step
 
+import java.util.logging.Logger
+
 /**
  * Created by Igor_Rubis. 7/29/16.
  */
 class HomePageSteps extends PageSteps {
+    def log = Logger.getAnonymousLogger()
+
     private HomePage page
 
     HomePageSteps() {
@@ -21,6 +25,7 @@ class HomePageSteps extends PageSteps {
 
     @Step
     def open() {
+        log.info('opening the home page')
         goToUrl(page.url())
     }
 

@@ -30,7 +30,7 @@ class Browser {
     }
 
     static clear() {
-        webDriver.quit()
+        !webDriver ?: webDriver.quit()
         driver = null
     }
 }

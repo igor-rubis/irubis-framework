@@ -10,19 +10,11 @@ package com.irubis_framework.helpers.configuration
  */
 
 class FrameworkProperties {
-    private static Properties instance
+    def private static instance
 
     private FrameworkProperties() {}
 
-    static Properties getInstance() {
-        if (!instance) {
-            ThreadLocal trdlcl = new ThreadLocal()
-            trdlcl.set(new Properties())
-            instance = (Properties) trdlcl.get()
-            new File('./src/test/groovy/resources/framework.properties').withInputStream {
-                instance.load(it)
-            }
-        }
-        return instance
+    def static getInstance() {
+        return instance = instance ?: new ConfigSlurper().parse(new File('src/test/groovy/resources/Properties.groovy').toURL())
     }
 }

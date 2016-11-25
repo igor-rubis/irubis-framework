@@ -14,15 +14,16 @@ import org.apache.http.impl.client.HttpClientBuilder
 import org.apache.http.impl.client.HttpClients
 import org.apache.http.impl.conn.DefaultProxyRoutePlanner
 import org.apache.http.util.EntityUtils
-import org.slf4j.LoggerFactory
 import wslite.json.JSONObject
+
+import java.util.logging.Logger
 
 /**
  * Created by Igor_Rubis, 11/22/2016.
  */
 
 class BaseWebService {
-    def log = LoggerFactory.getLogger(BaseWebService.class)
+    def log = Logger.getAnonymousLogger()
     def client
     def usingProxy
     def request
