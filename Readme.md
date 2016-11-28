@@ -12,5 +12,5 @@ My self-educational project to create automation testing framework from scratch.
 
 ##TODO:
 * bdd
-* spring?
 * API tests
+* Consider adding feature to compare screenshots for testing the front end
