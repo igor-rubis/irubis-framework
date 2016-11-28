@@ -6,13 +6,14 @@
 package com.irubis_framework.helpers.stepsProvider.pageLevelSteps
 
 import com.irubis_framework.helpers.threadSafeObject.ThreadSafeObject
+import com.irubis_framework.steps.webUiSteps.pageLevelSteps.homePage.HomePageSteps
 
 /**
  * Created by Igor_Rubis, 11/23/2016.
  */
 class GetPageLevelSteps {
     def private static homePageSteps
-    def static homePageSteps() {
-        homePageSteps = homePageSteps ?: ThreadSafeObject.create('com.irubis_framework.steps.webUiSteps.pageLevelSteps.homePage.HomePageSteps')
+    def static HomePageSteps homePageSteps() {
+        homePageSteps = homePageSteps ?: ThreadSafeObject.create(HomePageSteps.canonicalName)
     }
 }
