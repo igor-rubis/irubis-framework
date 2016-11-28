@@ -4,8 +4,7 @@ My self-educational project to create automation testing framework from scratch.
 * browser
     * firefox
     * chrome
-    * safari
-* webdriver.chrome.driver
+    * jBrowser
 * allure.results.directory
 * maxParallelForks
 * apiProxy

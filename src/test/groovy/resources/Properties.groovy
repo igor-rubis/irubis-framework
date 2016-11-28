@@ -7,5 +7,4 @@ package resources
 
 
 browser='chrome'
-webdriver.chrome.driver='chromedriver.exe' //Use chrome driver 2.24
 url='http://www.holidaywebservice.com'
