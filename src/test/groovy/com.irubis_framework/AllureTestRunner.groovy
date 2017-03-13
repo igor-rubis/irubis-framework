@@ -12,14 +12,14 @@ import org.junit.runners.BlockJUnit4ClassRunner
 import org.junit.runners.model.InitializationError
 import ru.yandex.qatools.allure.junit.AllureRunListener
 
-public class AllureTestRunner extends BlockJUnit4ClassRunner {
+class AllureTestRunner extends BlockJUnit4ClassRunner {
 
-    public AllureTestRunner(Class<?> klass) throws InitializationError {
+    AllureTestRunner(Class<?> klass) throws InitializationError {
         super(klass);
     }
 
     @Override
-    public void run(RunNotifier notifier) {
+    void run(RunNotifier notifier) {
         // JUnit don't support Java SPI for adding test listeners.
         // To add global Listener we should manually create JUnitCore.
         // With gradle we don't have (?) such option.

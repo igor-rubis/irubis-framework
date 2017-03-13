@@ -9,7 +9,7 @@ package com.irubis_framework.helpers.threadSafeObject
  * Created by Igor_Rubis, 11/25/2016.
  */
 class ThreadSafeObject {
-    def static create(clazz, coercionClass = clazz) {
+    static create(clazz, coercionClass = clazz) {
         if (!clazz.endsWith(')')) clazz += '()'
         Eval.me("""
             ThreadLocal trdlcl = new ThreadLocal()

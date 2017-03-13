@@ -11,7 +11,7 @@ package com.irubis_framework.helpers.configuration
 class PropertiesProvider {
     private PropertiesProvider() {}
 
-    def static get(String prop) {
+    static get(String prop) {
         return System.properties[prop] ?: FrameworkProperties.getInstance()."${prop}"
     }
 }

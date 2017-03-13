@@ -18,9 +18,16 @@ import static org.hamcrest.MatcherAssert.assertThat
 class HomePageActions extends WebUiSteps {
 
     @Step
-    def verifyTitleIs(text) {
+    verifyTitleIs(text) {
         eventually() {
             assertThat(homePageSteps().getTitle(), equalTo(text))
+        }
+    }
+
+    @Step
+    verifyUrlIs(url) {
+        eventually() {
+            assertThat(homePageSteps().getcurrentUrl(), equalTo(url))
         }
     }
 }

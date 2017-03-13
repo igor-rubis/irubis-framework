@@ -9,6 +9,7 @@ import com.irubis_framework.helpers.browser.Browser
 import com.irubis_framework.steps.webUiSteps.WebUiSteps
 import org.openqa.selenium.By
 import org.openqa.selenium.JavascriptExecutor
+import org.openqa.selenium.WebDriver
 import org.openqa.selenium.WebElement
 
 /**
@@ -16,23 +17,48 @@ import org.openqa.selenium.WebElement
  */
 abstract class PageSteps extends WebUiSteps {
 
-    def protected abstract open()
+    protected abstract open()
 
-    def protected WebElement element(String cssSelector) {
-        return Browser.getInstance().findElement(By.cssSelector(cssSelector))
+    protected WebElement element(By by) {
+        return Browser.getInstance().findElement(by)
     }
 
-    def protected clickElement(String cssSelector) {
-        eventually(15000) {
-            element(cssSelector).click()
+    protected clickElement(By by) {
+        eventually() {
+            element(by).click()
         }
     }
 
-    def protected goToUrl(String url) {
+    protected clickVisibleElement(By by) {
+        eventually() {
+            Browser.getInstance().findElements(by).find { element ->
+                element.isDisplayed()
+            }.click()
+        }
+    }
+
+    protected goToUrl(String url) {
         Browser.getInstance().navigate().to(url)
     }
 
-    def protected String getElementText(String cssSelector) {
-        return ((JavascriptExecutor) Browser.getInstance()).executeScript('return arguments[0].innerHTML', element(cssSelector))
+    protected String getElementText(By by) {
+        return ((JavascriptExecutor) Browser.getInstance()).executeScript('return arguments[0].innerHTML', element(by)).toString().replaceAll('\n', '').replaceAll('\t', '').trim()
+    }
+
+    def typeInto(By by, String text) {
+        eventually() {
+            element(by).clear()
+            element(by).sendKeys(text)
+        }
+    }
+
+    def jumpToIFrame(By by) {
+        eventually() {
+            Browser.getInstance().switchTo().defaultContent()
+            Browser.getInstance().switchTo().frame(element(by))
+        }
+    }
+    def getcurrentUrl() {
+        Browser.getInstance().currentUrl
     }
 }

@@ -24,12 +24,12 @@ class HomePageSteps extends PageSteps {
     }
 
     @Step
-    def open() {
+    open() {
         log.info('opening the home page')
         goToUrl(page.url())
     }
 
-    def String getTitle() {
+    String getTitle() {
         getElementText(page.title)
     }
 }

@@ -12,8 +12,8 @@ import com.irubis_framework.steps.webUiSteps.pageLevelSteps.homePage.HomePageSte
  * Created by Igor_Rubis, 11/23/2016.
  */
 class GetPageLevelSteps {
-    def private static homePageSteps
-    def static HomePageSteps homePageSteps() {
+    private static homePageSteps
+    static HomePageSteps homePageSteps() {
         homePageSteps = homePageSteps ?: ThreadSafeObject.create(HomePageSteps.canonicalName)
     }
 }

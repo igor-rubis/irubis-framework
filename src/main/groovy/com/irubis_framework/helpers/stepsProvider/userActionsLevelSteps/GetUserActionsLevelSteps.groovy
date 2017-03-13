@@ -12,8 +12,8 @@ import com.irubis_framework.steps.webUiSteps.userActionsLevelSteps.navigation.Ho
  * Created by Igor_Rubis, 11/23/2016.
  */
 class GetUserActionsLevelSteps {
-    def private static homePageActions
-    def static HomePageActions homePageActions() {
+    private static homePageActions
+    static HomePageActions homePageActions() {
         homePageActions = homePageActions ?: ThreadSafeObject.create(HomePageActions.canonicalName)
     }
 }

@@ -37,7 +37,7 @@ abstract class WebUiSteps extends Steps {
     }
 
     @Attachment(value = "Page screenshot", type = "image/png")
-    def private takeScreenShot() throws IOException {
+    private takeScreenShot() throws IOException {
         def augmentedDriver = new Augmenter().augment(Browser.getInstance())
         def image = new AShot().shootingStrategy(ShootingStrategies.viewportPasting(100)).takeScreenshot(augmentedDriver).getImage()
         def baos = new ByteArrayOutputStream()

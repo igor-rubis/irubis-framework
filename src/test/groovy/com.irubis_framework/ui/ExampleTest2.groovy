@@ -25,7 +25,7 @@ class ExampleTest2 extends BaseUiTest {
 
     @Title("Failing test")
     @Test
-    def void openHomePage() {
+    void openHomePage() {
         log.info('starting test')
         homePageSteps().open()
         homePageActions().verifyTitleIs('Google_')
@@ -33,7 +33,7 @@ class ExampleTest2 extends BaseUiTest {
 
     @Title("Passing test")
     @Test
-    def void openHomePage2() {
+    void openHomePage2() {
         log.info('starting test')
         homePageSteps().open()
         homePageActions().verifyTitleIs('Google')
@@ -41,7 +41,7 @@ class ExampleTest2 extends BaseUiTest {
 
     @Title("Failing test")
     @Test
-    def void openHomePage3() {
+    void openHomePage3() {
         log.info('starting test')
         homePageSteps().open()
         homePageActions().verifyTitleIs('Google+')
@@ -49,7 +49,7 @@ class ExampleTest2 extends BaseUiTest {
 
     @Title("Errored test")
     @Test
-    def void openHomePage4() {
+    void openHomePage4() {
         log.info('starting test')
         homePageSteps().open()
         throw new RuntimeException('Smth went wrong!!!')

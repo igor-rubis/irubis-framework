@@ -11,16 +11,17 @@ import com.machinepublishers.jbrowserdriver.JBrowserDriver
 import com.machinepublishers.jbrowserdriver.Settings
 import com.machinepublishers.jbrowserdriver.UserAgent
 import io.github.bonigarcia.wdm.ChromeDriverManager
+import org.openqa.selenium.WebDriver
 
 /**
  * Created by Igor_Rubis. 8/3/16.
  */
 class Browser {
-    def private static webDriver
+    private static webDriver
 
     private Browser() {}
 
-    static getInstance() {
+    static WebDriver getInstance() {
         if (!webDriver) {
             def drvr = PropertiesProvider.get('browser')
 

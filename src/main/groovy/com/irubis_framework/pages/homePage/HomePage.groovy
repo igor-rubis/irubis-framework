@@ -6,14 +6,15 @@
 package com.irubis_framework.pages.homePage
 
 import com.irubis_framework.pages.Page
+import org.openqa.selenium.By
 
 /**
  * Created by Igor_Rubis. 7/29/16.
  */
-public class HomePage extends Page {
-    def String url() {
+class HomePage extends Page {
+    String url() {
         'https://www.google.com/'
     }
 
-    def title = 'title'
+    def title = By.tagName('title')
 }

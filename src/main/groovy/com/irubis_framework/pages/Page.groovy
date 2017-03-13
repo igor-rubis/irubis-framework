@@ -9,5 +9,5 @@ package com.irubis_framework.pages
  * Created by Igor_Rubis. 7/29/16.
  */
 abstract class Page {
-    public abstract String url()
+    abstract String url()
 }

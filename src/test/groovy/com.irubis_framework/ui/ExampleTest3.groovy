@@ -21,28 +21,28 @@ class ExampleTest3 extends BaseUiTest {
 
     @Title("Failing test")
     @Test
-    def void openHomePage() {
+    void openHomePage() {
         homePageSteps().open()
         homePageActions().verifyTitleIs('Google_')
     }
 
     @Title("Passing test")
     @Test
-    def void openHomePage2() {
+    void openHomePage2() {
         homePageSteps().open()
         homePageActions().verifyTitleIs('Google')
     }
 
     @Title("Failing test")
     @Test
-    def void openHomePage3() {
+    void openHomePage3() {
         homePageSteps().open()
         homePageActions().verifyTitleIs('Google+')
     }
 
     @Title("Errored test")
     @Test
-    def void openHomePage4() {
+    void openHomePage4() {
         homePageSteps().open()
         throw new RuntimeException('Smth went wrong!!!')
     }

@@ -10,11 +10,11 @@ package com.irubis_framework.helpers.configuration
  */
 
 class FrameworkProperties {
-    def private static instance
+    private static instance
 
     private FrameworkProperties() {}
 
-    def static getInstance() {
+    static getInstance() {
         return instance = instance ?: new ConfigSlurper().parse(new File('src/test/groovy/resources/Properties.groovy').toURL())
     }
 }

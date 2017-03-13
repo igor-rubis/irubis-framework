@@ -16,7 +16,7 @@ import org.junit.After
 abstract class BaseUiTest extends BaseTest {
 
     @After
-    def void killDriver() {
+    void killDriver() {
         Browser.clear()
     }
 }
