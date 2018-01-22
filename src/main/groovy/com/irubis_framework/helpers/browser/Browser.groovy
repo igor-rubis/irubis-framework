@@ -12,6 +12,7 @@ import com.machinepublishers.jbrowserdriver.UserAgent
 import io.github.bonigarcia.wdm.ChromeDriverManager
 import io.github.bonigarcia.wdm.FirefoxDriverManager
 import org.openqa.selenium.WebDriver
+import org.openqa.selenium.WebDriverException
 
 /**
  * Created by Igor_Rubis. 8/3/16.
@@ -71,7 +72,14 @@ class Browser {
     }
 
     static clear() {
-        !WEB_DRIVER ?: WEB_DRIVER.quit()
-        WEB_DRIVER = null
+        try {
+            if (WEB_DRIVER) {
+                WEB_DRIVER.close()
+                WEB_DRIVER.quit()
+            }
+        } catch (WebDriverException ignored) {
+        } finally {
+            WEB_DRIVER = null
+        }
     }
 }
