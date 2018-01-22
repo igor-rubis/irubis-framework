@@ -20,7 +20,7 @@ configurations {
 dependencies {
     agent "org.aspectj:aspectjweaver:${aspectjVersion}"
     compile     group: 'org.hamcrest',              name: 'hamcrest-core',          version: '1.3'
-    compile     group: 'org.codehaus.groovy',       name: 'groovy-all',             version: '2.3.11'
+    compile     localGroovy()
     compile     group: 'org.seleniumhq.selenium',   name: 'selenium-java',          version: '2.53.0'
     compile     group: 'ru.yandex.qatools.allure',  name: 'allure-junit-adaptor',   version: "${allureVersion}"
     compile     group: 'ru.yandex.qatools.ashot',   name: 'ashot',                  version: '1.5.2'
@@ -38,34 +38,31 @@ task generateAllureReport(type: Exec) {
     args('generate', 'build/reports/allure')
 }
 
-task runTests(type: Test) {
-    include '**/ui/*.*'
+task openAllureReport(type: Exec) {
+    executable 'D:\\allure-commandline\\bin\\allure.bat'
+    args('report', 'open')
 }
 
-task runTests3(type: Test) {
-    include '**/ui/ExampleTest3.*'
+task runAnyTest(type: Test) {
+    include "**/${System.getProperty('currentTest', '*')}.*"
 }
 
-task runTests2(type: Test) {
-    include '**/ui/ExampleTest2.*'
+task splitTests(dependsOn: 'classes', type: JavaExec) {
+    main = 'com.irubis_framework.helpers.scripts.SplitTests'
+    classpath = sourceSets.main.runtimeClasspath
+    systemProperties(System.properties as Map)
 }
 
-task runSoapApiTests(type: Test) {
-    include '**/api/soap/**/*.*'
-}
+new HashSet(tasks.withType(Test)).each { task ->
+    task.dependsOn(clean)
+    task.ignoreFailures(true)
+    task.useJUnit()
+    task.systemProperties(System.properties)
+    task.jvmArgs "-javaagent:${configurations.agent.singleFile}"
+    task.testLogging.showStandardStreams = System.getProperty('debug', 'false').toBoolean()
+    task.testLogging.exceptionFormat = 'full'
+    task.testLogging.showExceptions = true
+    task.maxHeapSize = "1024m"
 
-task runRestApiTests(type: Test) {
-    include '**/api/rest/**/*.*'
-}
-
-new HashSet(tasks.withType(Test)).each {
-    System.setProperty('allure.results.directory', 'build/reports/allure')
-
-    it.dependsOn(clean)
-    it.ignoreFailures(true)
-    it.useJUnit()
-    it.systemProperties(System.properties)
-    it.jvmArgs "-javaagent:${configurations.agent.singleFile}"
-    it.maxParallelForks(System.properties.getProperty('maxParallelForks', '10').toInteger())
-    it.finalizedBy(generateAllureReport)
+    task.finalizedBy(generateAllureReport)
 }
