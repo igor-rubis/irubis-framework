@@ -6,10 +6,11 @@
 package com.irubis_framework.api
 
 import com.irubis_framework.BaseTest
+import com.irubis_framework.helpers.jvmProperties.JVMProperties
 
 /**
  * Created by Igor_Rubis. 10/6/16.
  */
 abstract class BaseApiTest extends BaseTest {
-    def final protected BASE_URL = System.getProperty('url')
+    def final protected BASE_URL = JVMProperties.URL
 }

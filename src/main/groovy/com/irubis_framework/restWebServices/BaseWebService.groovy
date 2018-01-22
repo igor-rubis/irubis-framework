@@ -6,7 +6,7 @@
 package com.irubis_framework.restWebServices
 
 import com.google.appengine.api.urlfetch.HTTPMethod
-
+import com.irubis_framework.helpers.jvmProperties.JVMProperties
 import org.apache.http.HttpHost
 import org.apache.http.client.methods.HttpPost
 import org.apache.http.entity.StringEntity
@@ -32,7 +32,7 @@ class BaseWebService {
     def responseJSON
 
     def buildHTTPClient() {
-        usingProxy = usingProxy ?: System.getProperty('apiProxy')
+        usingProxy = usingProxy ?: JVMProperties.API_PROXY
         if (usingProxy) {
             def proxy = URI.create(usingProxy)
             def routePlanner = new DefaultProxyRoutePlanner(new HttpHost(proxy.getHost(), proxy.getPort()))
