@@ -5,6 +5,7 @@
 
 package com.irubis_framework.helpers.browser
 
+import com.irubis_framework.helpers.jvmProperties.JVMProperties
 import com.machinepublishers.jbrowserdriver.JBrowserDriver
 import com.machinepublishers.jbrowserdriver.Settings
 import com.machinepublishers.jbrowserdriver.UserAgent
@@ -25,25 +26,45 @@ class Browser {
 
     static WebDriver getInstance() {
         if (!WEB_DRIVER) {
-            def drvr = System.getProperty('browser')
-            def initializeWebDriver
+            def drvr = JVMProperties.BROWSER
 
-            try {
-                switch (drvr) {
-                    case [FIREFOX, CHROME] : initializeWebDriver = { Eval.me("return new org.openqa.selenium.${drvr}.${drvr.capitalize()}Driver()") }; break
-                    case J_BROWSER : initializeWebDriver = { Eval.me("""return new ${JBrowserDriver.canonicalName}(
+            switch (JVMProperties.TESTS_MODE) {
+                case 'mobile':
+                    def capabilitiesMap = """[
+                        'browserName' : '',
+                        'deviceName'  : '',
+                        'platformName': 'Android'
+                        ]"""
+                    def capabilities = "org.openqa.selenium.remote.DesiredCapabilities(${capabilitiesMap})"
+
+                    WEB_DRIVER = Eval.me("return new org.openqa.selenium.remote.RemoteWebDriver(new URL('${JVMProperties.MOBILE_HUB_URL}'), new ${capabilities})")
+                    break
+                case 'remote':
+                    WEB_DRIVER = Eval.me("""return new org.openqa.selenium.remote.RemoteWebDriver(
+                                                            new URL('${JVMProperties.UI_HUB_URL}'),
+                                                            org.openqa.selenium.remote.DesiredCapabilities.${drvr}()
+                                                        )""")
+                    WEB_DRIVER.manage().window().maximize()
+                    break
+                case 'local':
+                    try {
+                        switch (drvr) {
+                            case [FIREFOX, CHROME]: WEB_DRIVER = Eval.me("return new org.openqa.selenium.${drvr}.${drvr.capitalize()}Driver()"); break
+                            case J_BROWSER: WEB_DRIVER = Eval.me("""return new ${JBrowserDriver.canonicalName}(
                                                                     ${Settings.canonicalName}.builder()
                                                                         .hostnameVerification(false)
                                                                         .userAgent(${UserAgent.canonicalName}.CHROME)
-                                                                        .build())""") }; break
-                }
-                WEB_DRIVER = initializeWebDriver()
-            } catch (IllegalStateException ignored) {
-                switch (drvr) {
-                    case CHROME: ChromeDriverManager.getInstance().setup(); break
-                    case FIREFOX: FirefoxDriverManager.getInstance().setup(); break
-                }
-                getInstance()
+                                                                        .build()
+                                                                        )"""); break
+                        }
+                    } catch (IllegalStateException ignored) {
+                        switch (drvr) {
+                            case CHROME: ChromeDriverManager.getInstance().setup(); break
+                            case FIREFOX: FirefoxDriverManager.getInstance().setup(); break
+                        }
+                        getInstance()
+                    }
+                    break
             }
         }
         return WEB_DRIVER
