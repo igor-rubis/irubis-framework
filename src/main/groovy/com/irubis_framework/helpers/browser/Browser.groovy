@@ -5,7 +5,7 @@
 
 package com.irubis_framework.helpers.browser
 
-import com.irubis_framework.helpers.configuration.PropertiesProvider
+
 import com.irubis_framework.helpers.threadSafeObject.ThreadSafeObject
 import com.machinepublishers.jbrowserdriver.JBrowserDriver
 import com.machinepublishers.jbrowserdriver.Settings
@@ -23,7 +23,7 @@ class Browser {
 
     static WebDriver getInstance() {
         if (!webDriver) {
-            def drvr = PropertiesProvider.get('browser')
+            def drvr = System.getProperty('browser')
 
             try {
                 def clazz
