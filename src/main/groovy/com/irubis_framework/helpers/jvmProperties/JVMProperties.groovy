@@ -7,4 +7,6 @@ class JVMProperties {
     static TESTS_MODE = System.getProperty('testsMode', 'local')
     static UI_HUB_URL = System.getProperty('uiHubUrl')
     static MOBILE_HUB_URL = System.getProperty('mobileHubUrl')
+    static CURRENT_FOLDER = System.getProperty("user.dir")
+    static TESTS_FOLDER = System.getProperty('testsFolder')
 }
