@@ -14,6 +14,6 @@ import com.irubis_framework.steps.webUiSteps.userActionsLevelSteps.navigation.Ho
 class GetUserActionsLevelSteps {
     private static homePageActions
     static HomePageActions homePageActions() {
-        homePageActions = homePageActions ?: ThreadSafeObject.create(HomePageActions.canonicalName)
+        homePageActions = homePageActions ?: new HomePageActions()
     }
 }
