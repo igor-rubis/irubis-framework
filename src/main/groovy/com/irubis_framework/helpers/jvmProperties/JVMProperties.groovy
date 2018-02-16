@@ -9,4 +9,5 @@ class JVMProperties {
     static MOBILE_HUB_URL = System.getProperty('mobileHubUrl')
     static CURRENT_FOLDER = System.getProperty("user.dir")
     static TESTS_FOLDER = System.getProperty('testsFolder')
+    static POLLING_INTERVAL = System.getProperty('pollingInterval', '500') as Integer
 }
