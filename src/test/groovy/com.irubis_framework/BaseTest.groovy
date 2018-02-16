@@ -5,6 +5,8 @@
 
 package com.irubis_framework
 
+import com.irubis_framework.helpers.currentSession.CurrentSession
+import org.junit.After
 import org.junit.runner.RunWith
 
 /**
@@ -13,4 +15,8 @@ import org.junit.runner.RunWith
 
 @RunWith(AllureTestRunner.class)
 abstract class BaseTest {
+    @After
+    void tearDown() {
+        CurrentSession.clear()
+    }
 }

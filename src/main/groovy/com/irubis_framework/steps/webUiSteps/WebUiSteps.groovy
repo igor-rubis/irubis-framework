@@ -16,12 +16,10 @@ import ru.yandex.qatools.allure.annotations.Attachment
  */
 
 abstract class WebUiSteps extends Steps {
-    @Override
     protected eventually(interval = INTERVAL, closure) {
         eventually(interval, POLLING_INTERVAL, closure)
     }
 
-    @Override
     protected eventually(interval, pollingInterval, closure) {
         try {
             super.eventually(interval, pollingInterval, closure)

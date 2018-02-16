@@ -14,9 +14,9 @@ import org.junit.After
  */
 
 abstract class BaseUiTest extends BaseTest {
-
     @After
-    void killDriver() {
+    void tearDown() {
         Browser.clear()
+        super.tearDown()
     }
 }

@@ -74,7 +74,7 @@ class Browser {
     static clear() {
         try {
             if (WEB_DRIVER) {
-                WEB_DRIVER.dispose()
+                WEB_DRIVER.quit()
             }
         } catch (WebDriverException ignored) {
         } finally {

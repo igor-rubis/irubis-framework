@@ -23,21 +23,21 @@ class ExampleTest extends BaseUiTest {
     @Test
     void openHomePage() {
         homePageSteps.open()
-        getHomePageActions.verifyTitleIs('Google_')
+        homePageActions.verifyTitleIs('Google_')
     }
 
     @Title("Passing test")
     @Test
     void openHomePage2() {
         homePageSteps.open()
-        getHomePageActions.verifyTitleIs('Google')
+        homePageActions.verifyTitleIs('Google')
     }
 
     @Title("Failing test")
     @Test
     void openHomePage3() {
         homePageSteps.open()
-        getHomePageActions.verifyTitleIs('Google+')
+        homePageActions.verifyTitleIs('Google+')
     }
 
     @Title("Errored test")
