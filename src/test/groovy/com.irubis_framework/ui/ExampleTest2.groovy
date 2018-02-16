@@ -12,8 +12,8 @@ import ru.yandex.qatools.allure.annotations.Title
 
 import java.util.logging.Logger
 
-import static com.irubis_framework.helpers.stepsProvider.pageLevelSteps.GetPageLevelSteps.homePageSteps
-import static com.irubis_framework.helpers.stepsProvider.userActionsLevelSteps.GetUserActionsLevelSteps.homePageActions
+import static com.irubis_framework.helpers.stepsAndPagesProvider.pageLevelSteps.GetPageLevelSteps.getHomePageSteps
+import static com.irubis_framework.helpers.stepsAndPagesProvider.userActionsLevelSteps.GetUserActionsLevelSteps.getHomePageActions
 
 /**
  * Created by Igor_Rubis. 7/29/16.
@@ -27,31 +27,31 @@ class ExampleTest2 extends BaseUiTest {
     @Test
     void openHomePage() {
         log.info('starting test')
-        homePageSteps().open()
-        homePageActions().verifyTitleIs('Google_')
+        homePageSteps.open()
+        homePageActions.verifyTitleIs('Google_')
     }
 
     @Title("Passing test")
     @Test
     void openHomePage2() {
         log.info('starting test')
-        homePageSteps().open()
-        homePageActions().verifyTitleIs('Google')
+        homePageSteps.open()
+        homePageActions.verifyTitleIs('Google')
     }
 
     @Title("Failing test")
     @Test
     void openHomePage3() {
         log.info('starting test')
-        homePageSteps().open()
-        homePageActions().verifyTitleIs('Google+')
+        homePageSteps.open()
+        homePageActions.verifyTitleIs('Google+')
     }
 
     @Title("Errored test")
     @Test
     void openHomePage4() {
         log.info('starting test')
-        homePageSteps().open()
+        homePageSteps.open()
         throw new RuntimeException('Smth went wrong!!!')
     }
 }

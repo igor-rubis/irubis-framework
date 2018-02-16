@@ -3,9 +3,8 @@
  * Licensed under the Apache License, Version 2.0
  */
 
-package com.irubis_framework.helpers.stepsProvider.userActionsLevelSteps
+package com.irubis_framework.helpers.stepsAndPagesProvider.userActionsLevelSteps
 
-import com.irubis_framework.helpers.threadSafeObject.ThreadSafeObject
 import com.irubis_framework.steps.webUiSteps.userActionsLevelSteps.navigation.HomePageActions
 
 /**
@@ -13,7 +12,7 @@ import com.irubis_framework.steps.webUiSteps.userActionsLevelSteps.navigation.Ho
  */
 class GetUserActionsLevelSteps {
     private static homePageActions
-    static HomePageActions homePageActions() {
+    static HomePageActions getHomePageActions() {
         homePageActions = homePageActions ?: new HomePageActions()
     }
 }

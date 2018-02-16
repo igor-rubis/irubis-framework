@@ -8,7 +8,7 @@ package com.irubis_framework.steps.webUiSteps.userActionsLevelSteps.navigation
 import com.irubis_framework.steps.webUiSteps.WebUiSteps
 import ru.yandex.qatools.allure.annotations.Step
 
-import static com.irubis_framework.helpers.stepsProvider.pageLevelSteps.GetPageLevelSteps.homePageSteps
+import static com.irubis_framework.helpers.stepsAndPagesProvider.pageLevelSteps.GetPageLevelSteps.getHomePageSteps
 import static org.hamcrest.CoreMatchers.equalTo
 import static org.hamcrest.MatcherAssert.assertThat
 
@@ -20,14 +20,14 @@ class HomePageActions extends WebUiSteps {
     @Step
     verifyTitleIs(text) {
         eventually() {
-            assertThat(homePageSteps().getTitle(), equalTo(text))
+            assertThat(homePageSteps.getTitle(), equalTo(text))
         }
     }
 
     @Step
     verifyUrlIs(url) {
         eventually() {
-            assertThat(homePageSteps().getcurrentUrl(), equalTo(url))
+            assertThat(homePageSteps.getcurrentUrl(), equalTo(url))
         }
     }
 }

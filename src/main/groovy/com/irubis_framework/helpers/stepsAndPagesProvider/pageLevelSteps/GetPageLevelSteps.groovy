@@ -3,9 +3,8 @@
  * Licensed under the Apache License, Version 2.0
  */
 
-package com.irubis_framework.helpers.stepsProvider.pageLevelSteps
+package com.irubis_framework.helpers.stepsAndPagesProvider.pageLevelSteps
 
-import com.irubis_framework.helpers.threadSafeObject.ThreadSafeObject
 import com.irubis_framework.steps.webUiSteps.pageLevelSteps.homePage.HomePageSteps
 
 /**
@@ -13,7 +12,7 @@ import com.irubis_framework.steps.webUiSteps.pageLevelSteps.homePage.HomePageSte
  */
 class GetPageLevelSteps {
     private static homePageSteps
-    static HomePageSteps homePageSteps() {
+    static HomePageSteps getHomePageSteps() {
         homePageSteps = homePageSteps ?: new HomePageSteps()
     }
 }
