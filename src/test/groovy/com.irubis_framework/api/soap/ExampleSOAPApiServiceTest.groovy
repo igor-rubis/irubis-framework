@@ -13,9 +13,9 @@ import ru.yandex.qatools.allure.annotations.Title
 import wslite.soap.SOAPClient
 
 import static org.hamcrest.MatcherAssert.assertThat
-import static org.hamcrest.Matchers.comparesEqualTo
-import static org.hamcrest.Matchers.equalTo
-import static org.hamcrest.text.IsEqualIgnoringCase.equalToIgnoringCase
+//import static org.hamcrest.Matchers.comparesEqualTo //TODO fix matchers
+//import static org.hamcrest.Matchers.equalTo
+//import static org.hamcrest.text.IsEqualIgnoringCase.equalToIgnoringCase
 
 /**
  * Created by Igor_Rubis. 10/6/16.
