@@ -33,13 +33,15 @@ dependencies {
     testCompile files("${projectDir}/src/main/groovy")
 }
 
+def allureExecutable = 'D:\\Downloads\\allure-2.5.0\\bin\\allure.bat'
+
 task generateAllureReport(type: Exec) {
-    executable 'D:\\allure-commandline\\bin\\allure.bat'
+    executable allureExecutable
     args('generate', 'build/reports/allure')
 }
 
 task openAllureReport(type: Exec) {
-    executable 'D:\\allure-commandline\\bin\\allure.bat'
+    executable allureExecutable
     args('report', 'open')
 }
 
