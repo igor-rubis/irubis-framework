@@ -20,3 +20,6 @@ sudo apt-add-repository ppa:yandex-qatools/allure-framework
 sudo apt-get update
 sudo apt-get install allure-commandline
 ```
+or
+
+```https://docs.qameta.io/allure/#_installing_a_commandline```

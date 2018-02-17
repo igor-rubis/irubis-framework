@@ -33,7 +33,7 @@ class ExampleTest extends BaseUiTest {
         homePageActions.verifyTitleIs('Google')
     }
 
-    @Title("Failing test")
+    @Title("Failing test 2")
     @Test
     void openHomePage3() {
         homePageSteps.open()
