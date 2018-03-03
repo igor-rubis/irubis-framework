@@ -13,6 +13,8 @@ import io.github.bonigarcia.wdm.ChromeDriverManager
 import io.github.bonigarcia.wdm.FirefoxDriverManager
 import org.openqa.selenium.WebDriver
 import org.openqa.selenium.WebDriverException
+import org.openqa.selenium.chrome.ChromeDriver
+import org.openqa.selenium.chrome.ChromeOptions
 
 /**
  * Created by Igor_Rubis. 8/3/16.
@@ -63,6 +65,17 @@ class Browser {
                             case CHROME: ChromeDriverManager.getInstance().setup(); break
                             case FIREFOX: FirefoxDriverManager.getInstance().setup(); break
                         }
+                        getInstance()
+                    }
+                    break
+                case 'electron':
+                    try {
+                        def opts = new ChromeOptions()
+                        opts.setBinary(JVMProperties.ELECTRON_BINARY)
+                        opts.setCapability('browserName', 'electron')
+                        WEB_DRIVER = new ChromeDriver(opts)
+                    } catch (IllegalStateException ignored) {
+                        ChromeDriverManager.getInstance().setup()
                         getInstance()
                     }
                     break

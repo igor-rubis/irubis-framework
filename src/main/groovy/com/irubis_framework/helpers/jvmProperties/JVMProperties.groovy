@@ -10,4 +10,5 @@ class JVMProperties {
     static CURRENT_FOLDER = System.getProperty("user.dir")
     static TESTS_FOLDER = System.getProperty('testsFolder')
     static POLLING_INTERVAL = System.getProperty('pollingInterval', '500') as Integer
+    static ELECTRON_BINARY = System.getProperty('electronBinary')
 }
