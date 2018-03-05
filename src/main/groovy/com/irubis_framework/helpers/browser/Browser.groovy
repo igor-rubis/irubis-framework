@@ -45,7 +45,7 @@ class Browser {
                 case 'remote':
                     WEB_DRIVER = Eval.me("""return new org.openqa.selenium.remote.RemoteWebDriver(
                                                             new URL('${JVMProperties.UI_HUB_URL}'),
-                                                            org.openqa.selenium.remote.DesiredCapabilities.${drvr}()
+                                                            new org.openqa.selenium.${drvr}.${drvr.capitalize()}Options()
                                                         )""")
                     WEB_DRIVER.manage().window().maximize()
                     break
