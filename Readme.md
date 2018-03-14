@@ -15,6 +15,7 @@
 * Implement test-splitter to paralellize test run by batches
 * Consider adding feature to compare screenshots for testing the front end
 ## Install allure ubuntu:
+##### Allure 1
 ```bash
 sudo apt-add-repository ppa:yandex-qatools/allure-framework
 sudo apt-get update
@@ -22,4 +23,5 @@ sudo apt-get install allure-commandline
 ```
 or
 
+##### Allure 2
 ```https://docs.qameta.io/allure/#_installing_a_commandline```
