@@ -32,11 +32,11 @@ abstract class WebUiSteps extends Steps {
 
     @Attachment(value = 'Page screenshot', type = 'image/png')
     def takeScreenShot() throws IOException {
-        return ((TakesScreenshot)Browser.getInstance()).getScreenshotAs(OutputType.BYTES)
+        return ((TakesScreenshot)Browser.instance).getScreenshotAs(OutputType.BYTES)
     }
 
     @Attachment(value = 'Page source', type = "text/html")
     def dumpPageSource() {
-        return Browser.getInstance().getPageSource()
+        return Browser.instance.getPageSource()
     }
 }

@@ -62,10 +62,10 @@ class Browser {
                         }
                     } catch (IllegalStateException ignored) {
                         switch (drvr) {
-                            case CHROME: ChromeDriverManager.getInstance().setup(); break
-                            case FIREFOX: FirefoxDriverManager.getInstance().setup(); break
+                            case CHROME: ChromeDriverManager.instance.setup(); break
+                            case FIREFOX: FirefoxDriverManager.instance.setup(); break
                         }
-                        getInstance()
+                        instance
                     }
                     break
                 case 'electron':
@@ -75,8 +75,8 @@ class Browser {
                         opts.setCapability('browserName', 'electron')
                         WEB_DRIVER = new ChromeDriver(opts)
                     } catch (IllegalStateException ignored) {
-                        ChromeDriverManager.getInstance().setup()
-                        getInstance()
+                        ChromeDriverManager.instance.setup()
+                        instance
                     }
                     break
             }

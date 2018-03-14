@@ -9,7 +9,6 @@ import com.irubis_framework.helpers.browser.Browser
 import com.irubis_framework.steps.webUiSteps.WebUiSteps
 import org.openqa.selenium.By
 import org.openqa.selenium.JavascriptExecutor
-import org.openqa.selenium.WebDriver
 import org.openqa.selenium.WebElement
 
 /**
@@ -20,7 +19,7 @@ abstract class PageSteps extends WebUiSteps {
     protected abstract open()
 
     protected WebElement element(By by) {
-        return Browser.getInstance().findElement(by)
+        return Browser.instance.findElement(by)
     }
 
     protected clickElement(By by) {
@@ -31,18 +30,18 @@ abstract class PageSteps extends WebUiSteps {
 
     protected clickVisibleElement(By by) {
         eventually() {
-            Browser.getInstance().findElements(by).find { element ->
+            Browser.instance.findElements(by).find { element ->
                 element.isDisplayed()
             }.click()
         }
     }
 
     protected goToUrl(String url) {
-        Browser.getInstance().navigate().to(url)
+        Browser.instance.navigate().to(url)
     }
 
     protected String getElementText(By by) {
-        return ((JavascriptExecutor) Browser.getInstance()).executeScript('return arguments[0].innerHTML', element(by)).toString().replaceAll('\n', '').replaceAll('\t', '').trim()
+        return ((JavascriptExecutor) Browser.instance).executeScript('return arguments[0].innerHTML', element(by)).toString().replaceAll('\n', '').replaceAll('\t', '').trim()
     }
 
     def typeInto(By by, String text) {
@@ -54,11 +53,11 @@ abstract class PageSteps extends WebUiSteps {
 
     def jumpToIFrame(By by) {
         eventually() {
-            Browser.getInstance().switchTo().defaultContent()
-            Browser.getInstance().switchTo().frame(element(by))
+            Browser.instance.switchTo().defaultContent()
+            Browser.instance.switchTo().frame(element(by))
         }
     }
     def getcurrentUrl() {
-        Browser.getInstance().currentUrl
+        Browser.instance.currentUrl
     }
 }

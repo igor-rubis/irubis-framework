@@ -70,7 +70,7 @@ abstract class Steps {
     @Attachment(value = 'Console log', type = 'application/json')
     def dumpConsoleLog() {
         try {
-            def logs = Browser.getInstance().manage().logs()
+            def logs = Browser.instance.manage().logs()
             def json = [
                     browser: logs.get('browser'),
                     driver : logs.get('driver'),
