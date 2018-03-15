@@ -51,7 +51,7 @@ task generateAllureReport(type: Exec) {
 
 task runAnyTest(type: Test) {
     dependsOn(clean)
-    include "**/${System.getProperty('currentTest', '*')}.*"
+    include "**/testSuites/**/${System.getProperty('currentTest', '*')}.*"
 }
 
 task splitTests(dependsOn: 'classes', type: JavaExec) {

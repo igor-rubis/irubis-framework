@@ -3,10 +3,10 @@
  * Licensed under the Apache License, Version 2.0
  */
 
-package com.irubis_framework.api
+package com.irubis_framework.testSuites.api
 
-import com.irubis_framework.BaseTest
 import com.irubis_framework.helpers.jvmProperties.JVMProperties
+import com.irubis_framework.testSuites.BaseTest
 
 /**
  * Created by Igor_Rubis. 10/6/16.

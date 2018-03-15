@@ -3,7 +3,7 @@
  * Licensed under the Apache License, Version 2.0
  */
 
-package com.irubis_framework
+package com.irubis_framework.testRunner
 
 import org.junit.runner.Description
 import org.junit.runner.Result
@@ -15,7 +15,7 @@ import ru.yandex.qatools.allure.junit.AllureRunListener
 class AllureTestRunner extends BlockJUnit4ClassRunner {
 
     AllureTestRunner(Class<?> klass) throws InitializationError {
-        super(klass);
+        super(klass)
     }
 
     @Override
@@ -25,17 +25,17 @@ class AllureTestRunner extends BlockJUnit4ClassRunner {
         // With gradle we don't have (?) such option.
         // Solution - add listener via runner.
         // And manually call "runStarted" and "runFinished" events.
-        notifier.addListener(new AllureRunListener());
+        notifier.addListener(new AllureRunListener())
 
         // Allure do nothing on testRunStarted
         // Just for consitency.
-        notifier.fireTestRunStarted(Description.createSuiteDescription("Tests"));
+        notifier.fireTestRunStarted(Description.createSuiteDescription("Tests"))
 
-        super.run(notifier);
+        super.run(notifier)
 
         // Allure don't use Result from JUnit.
         // It gathers results on its own.
         // So, basically any param is OK here.
-        notifier.fireTestRunFinished(new Result());
+        notifier.fireTestRunFinished(new Result())
     }
 }

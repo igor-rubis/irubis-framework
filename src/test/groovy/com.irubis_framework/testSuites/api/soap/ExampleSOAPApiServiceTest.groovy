@@ -3,9 +3,9 @@
  * Licensed under the Apache License, Version 2.0
  */
 
-package com.irubis_framework.api.soap
+package com.irubis_framework.testSuites.api.soap
 
-import com.irubis_framework.api.BaseApiTest
+import com.irubis_framework.testSuites.api.BaseApiTest
 import org.junit.Before
 import org.junit.Test
 import ru.yandex.qatools.allure.annotations.Description

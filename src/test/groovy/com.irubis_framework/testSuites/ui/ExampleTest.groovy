@@ -3,14 +3,11 @@
  * Licensed under the Apache License, Version 2.0
  */
 
-package com.irubis_framework.ui
-
+package com.irubis_framework.testSuites.ui
 
 import org.junit.Test
 import ru.yandex.qatools.allure.annotations.Description
 import ru.yandex.qatools.allure.annotations.Title
-
-import java.util.logging.Logger
 
 import static com.irubis_framework.helpers.stepsAndPagesProvider.pageLevelSteps.GetPageLevelSteps.getHomePageSteps
 import static com.irubis_framework.helpers.stepsAndPagesProvider.userActionsLevelSteps.GetUserActionsLevelSteps.getHomePageActions
@@ -20,13 +17,11 @@ import static com.irubis_framework.helpers.stepsAndPagesProvider.userActionsLeve
  */
 
 @Description("This is an example test suite")
-class ExampleTest2 extends BaseUiTest {
-    def log = Logger.getAnonymousLogger()
+class ExampleTest extends BaseUiTest {
 
     @Title("Failing test")
     @Test
     void openHomePage() {
-        log.info('starting test')
         homePageSteps.open()
         homePageActions.verifyTitleIs('Google_')
     }
@@ -34,7 +29,6 @@ class ExampleTest2 extends BaseUiTest {
     @Title("Passing test")
     @Test
     void openHomePage2() {
-        log.info('starting test')
         homePageSteps.open()
         homePageActions.verifyTitleIs('Google')
     }
@@ -42,7 +36,6 @@ class ExampleTest2 extends BaseUiTest {
     @Title("Error test")
     @Test
     void openHomePage4() {
-        log.info('starting test')
         homePageSteps.open()
         throw new RuntimeException('Smth went wrong!!!')
     }
