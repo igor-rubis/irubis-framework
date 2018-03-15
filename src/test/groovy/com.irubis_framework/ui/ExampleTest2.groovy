@@ -39,15 +39,7 @@ class ExampleTest2 extends BaseUiTest {
         homePageActions.verifyTitleIs('Google')
     }
 
-    @Title("Failing test")
-    @Test
-    void openHomePage3() {
-        log.info('starting test')
-        homePageSteps.open()
-        homePageActions.verifyTitleIs('Google+')
-    }
-
-    @Title("Errored test")
+    @Title("Error test")
     @Test
     void openHomePage4() {
         log.info('starting test')
