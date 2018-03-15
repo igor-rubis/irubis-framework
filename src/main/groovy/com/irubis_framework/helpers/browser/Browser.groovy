@@ -70,10 +70,10 @@ class Browser {
                     break
                 case 'electron':
                     try {
-                        def opts = new ChromeOptions()
-                        opts.setBinary(JVMProperties.ELECTRON_BINARY)
-                        opts.setCapability('browserName', 'electron')
-                        WEB_DRIVER = new ChromeDriver(opts)
+                        def options = new ChromeOptions()
+                        options.setBinary(JVMProperties.ELECTRON_BINARY)
+                        options.setCapability('browserName', 'electron')
+                        WEB_DRIVER = new ChromeDriver(options)
                     } catch (IllegalStateException ignored) {
                         ChromeDriverManager.instance.setup()
                         instance
