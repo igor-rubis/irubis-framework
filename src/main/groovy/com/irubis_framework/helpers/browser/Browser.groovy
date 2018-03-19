@@ -13,8 +13,9 @@ import io.github.bonigarcia.wdm.ChromeDriverManager
 import io.github.bonigarcia.wdm.FirefoxDriverManager
 import org.openqa.selenium.WebDriver
 import org.openqa.selenium.WebDriverException
-import org.openqa.selenium.chrome.ChromeDriver
+import org.openqa.selenium.chrome.ChromeDriverService
 import org.openqa.selenium.chrome.ChromeOptions
+import org.openqa.selenium.remote.RemoteWebDriver
 
 /**
  * Created by Igor_Rubis. 8/3/16.
@@ -24,6 +25,7 @@ class Browser {
     private static CHROME = 'chrome'
     private static J_BROWSER = 'jBrowser'
     private static WEB_DRIVER
+    private static CHROME_DRIVER_SERVICE
 
     private Browser() {}
 
@@ -70,11 +72,16 @@ class Browser {
                     break
                 case 'electron':
                     try {
-                        def options = new ChromeOptions()
+                        ChromeOptions options = new ChromeOptions()
                         options.setBinary(JVMProperties.ELECTRON_BINARY)
                         options.setCapability('browserName', 'electron')
-                        WEB_DRIVER = new ChromeDriver(options)
-                    } catch (IllegalStateException ignored) {
+
+                        def driverExecutable = new File(System.getProperty('webdriver.chrome.driver'))
+                        CHROME_DRIVER_SERVICE = new ChromeDriverService.Builder().usingDriverExecutable(driverExecutable).usingPort(9515).build()
+                        CHROME_DRIVER_SERVICE.start()
+
+                        WEB_DRIVER = new RemoteWebDriver(CHROME_DRIVER_SERVICE.getUrl(), options)
+                    } catch (IllegalStateException | GroovyRuntimeException ignored) {
                         ChromeDriverManager.instance.setup()
                         instance
                     }
@@ -88,6 +95,10 @@ class Browser {
         try {
             if (WEB_DRIVER) {
                 WEB_DRIVER.quit()
+            }
+
+            if (CHROME_DRIVER_SERVICE) {
+                CHROME_DRIVER_SERVICE.stop()
             }
         } catch (WebDriverException ignored) {
         } finally {
