@@ -13,9 +13,8 @@ import io.github.bonigarcia.wdm.ChromeDriverManager
 import io.github.bonigarcia.wdm.FirefoxDriverManager
 import org.openqa.selenium.WebDriver
 import org.openqa.selenium.WebDriverException
-import org.openqa.selenium.chrome.ChromeDriverService
+import org.openqa.selenium.chrome.ChromeDriver
 import org.openqa.selenium.chrome.ChromeOptions
-import org.openqa.selenium.remote.RemoteWebDriver
 
 /**
  * Created by Igor_Rubis. 8/3/16.
@@ -24,8 +23,8 @@ class Browser {
     private static FIREFOX = 'firefox'
     private static CHROME = 'chrome'
     private static J_BROWSER = 'jBrowser'
+    private static ELECTRON = 'electron'
     private static WEB_DRIVER
-    private static CHROME_DRIVER_SERVICE
 
     private Browser() {}
 
@@ -33,26 +32,26 @@ class Browser {
         if (!WEB_DRIVER) {
             def drvr = JVMProperties.BROWSER
 
-            switch (JVMProperties.TESTS_MODE) {
-                case 'mobile':
-                    def capabilitiesMap = """[
+            try {
+                switch (JVMProperties.TESTS_MODE) {
+                    case 'mobile':
+                        def capabilitiesMap = """[
                         'browserName' : '',
                         'deviceName'  : '',
                         'platformName': 'Android'
                         ]"""
-                    def capabilities = "org.openqa.selenium.remote.DesiredCapabilities(${capabilitiesMap})"
+                        def capabilities = "org.openqa.selenium.remote.DesiredCapabilities(${capabilitiesMap})"
 
-                    WEB_DRIVER = Eval.me("return new org.openqa.selenium.remote.RemoteWebDriver(new URL('${JVMProperties.MOBILE_HUB_URL}'), new ${capabilities})")
-                    break
-                case 'remote':
-                    WEB_DRIVER = Eval.me("""return new org.openqa.selenium.remote.RemoteWebDriver(
+                        WEB_DRIVER = Eval.me("return new org.openqa.selenium.remote.RemoteWebDriver(new URL('${JVMProperties.MOBILE_HUB_URL}'), new ${capabilities})")
+                        break
+                    case 'remote':
+                        WEB_DRIVER = Eval.me("""return new org.openqa.selenium.remote.RemoteWebDriver(
                                                             new URL('${JVMProperties.UI_HUB_URL}'),
                                                             new org.openqa.selenium.${drvr}.${drvr.capitalize()}Options()
                                                         )""")
-                    WEB_DRIVER.manage().window().maximize()
-                    break
-                case 'local':
-                    try {
+                        WEB_DRIVER.manage().window().maximize()
+                        break
+                    case 'local':
                         switch (drvr) {
                             case [FIREFOX, CHROME]: WEB_DRIVER = Eval.me("return new org.openqa.selenium.${drvr}.${drvr.capitalize()}Driver()"); break
                             case J_BROWSER: WEB_DRIVER = Eval.me("""return new ${JBrowserDriver.canonicalName}(
@@ -61,31 +60,21 @@ class Browser {
                                                                         .userAgent(${UserAgent.canonicalName}.CHROME)
                                                                         .build()
                                                                         )"""); break
-                        }
-                    } catch (IllegalStateException ignored) {
-                        switch (drvr) {
-                            case CHROME: ChromeDriverManager.instance.setup(); break
-                            case FIREFOX: FirefoxDriverManager.instance.setup(); break
-                        }
-                        instance
-                    }
-                    break
-                case 'electron':
-                    try {
-                        ChromeOptions options = new ChromeOptions()
-                        options.setBinary(JVMProperties.ELECTRON_BINARY)
-                        options.setCapability('browserName', 'electron')
+                            case ELECTRON:
+                                ChromeOptions options = new ChromeOptions()
+                                options.setBinary('path/to/electron/executable')
 
-                        def driverExecutable = new File(System.getProperty('webdriver.chrome.driver'))
-                        CHROME_DRIVER_SERVICE = new ChromeDriverService.Builder().usingDriverExecutable(driverExecutable).usingPort(9515).build()
-                        CHROME_DRIVER_SERVICE.start()
-
-                        WEB_DRIVER = new RemoteWebDriver(CHROME_DRIVER_SERVICE.getUrl(), options)
-                    } catch (IllegalStateException | GroovyRuntimeException ignored) {
-                        ChromeDriverManager.instance.setup()
-                        instance
-                    }
-                    break
+                                WEB_DRIVER = new ChromeDriver(options)
+                                break
+                        }
+                        break
+                }
+            } catch (IllegalStateException ignored) {
+                switch (drvr) {
+                    case [CHROME, ELECTRON]: ChromeDriverManager.instance.setup(); break
+                    case FIREFOX: FirefoxDriverManager.instance.setup(); break
+                }
+                instance
             }
         }
         return WEB_DRIVER
@@ -94,11 +83,8 @@ class Browser {
     static clear() {
         try {
             if (WEB_DRIVER) {
+                WEB_DRIVER.close()
                 WEB_DRIVER.quit()
-            }
-
-            if (CHROME_DRIVER_SERVICE) {
-                CHROME_DRIVER_SERVICE.stop()
             }
         } catch (WebDriverException ignored) {
         } finally {
