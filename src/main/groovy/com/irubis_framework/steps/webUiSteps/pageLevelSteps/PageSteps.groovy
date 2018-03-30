@@ -18,21 +18,30 @@ abstract class PageSteps extends WebUiSteps {
 
     protected abstract open()
 
+    protected WebElement element(List locators) {
+        def chain = 'com.irubis_framework.helpers.browser.Browser.instance'
+        locators.each { locator ->
+            def locStr = locator.toString()
+            chain = "${chain}.findElement(org.openqa.selenium.${locStr.replace(locStr[locStr.indexOf(':') + 1..-1], "\"${locStr[locStr.indexOf(':') + 1..-1]}\")").replace(':', '(')})"
+        }
+        Eval.me("return ${chain}")
+    }
+
     protected WebElement element(By by) {
-        return Browser.instance.findElement(by)
+        Browser.instance.findElement(by)
     }
 
     protected evaluateJavascript(script, Object... args) {
         ((JavascriptExecutor) Browser.getInstance()).executeScript(script, args)
     }
 
-    protected clickElement(By by) {
+    protected clickElement(by) {
         eventually() {
             element(by).click()
         }
     }
 
-    protected clickVisibleElement(By by) {
+    protected clickVisibleElement(by) {
         eventually() {
             Browser.instance.findElements(by).find { element ->
                 element.isDisplayed()
@@ -40,7 +49,7 @@ abstract class PageSteps extends WebUiSteps {
         }
     }
 
-    protected jsClickElement(By by, interval = INTERVAL) {
+    protected jsClickElement(by, interval = INTERVAL) {
         eventually(interval) {
             evaluateJavascript('arguments[0].click();', element(by))
         }
@@ -64,7 +73,7 @@ abstract class PageSteps extends WebUiSteps {
         Browser.instance.navigate().to(url)
     }
 
-    protected String getElementText(By by) {
+    protected String getElementText(by) {
         return ((JavascriptExecutor) Browser.instance).executeScript('return arguments[0].innerHTML', element(by)).toString().replaceAll('\n', '').replaceAll('\t', '').trim()
     }
 
@@ -74,14 +83,14 @@ abstract class PageSteps extends WebUiSteps {
         }
     }
 
-    def typeInto(By by, String text) {
+    def typeInto(by, String text) {
         eventually() {
             element(by).clear()
             element(by).sendKeys(text)
         }
     }
 
-    def jumpToIFrame(By by) {
+    def jumpToIFrame(by) {
         eventually() {
             Browser.instance.switchTo().defaultContent()
             Browser.instance.switchTo().frame(element(by))
