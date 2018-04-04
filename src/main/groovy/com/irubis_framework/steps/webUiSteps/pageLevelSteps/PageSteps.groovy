@@ -22,7 +22,7 @@ abstract class PageSteps extends WebUiSteps {
         def chain = 'com.irubis_framework.helpers.browser.Browser.instance'
         locators.each { locator ->
             def locStr = locator.toString()
-            chain = "${chain}.findElement(org.openqa.selenium.${locStr.replace(locStr[locStr.indexOf(':') + 1..-1], "\"${locStr[locStr.indexOf(':') + 1..-1]}\")").replace(':', '(')})"
+            chain = "${chain}.findElement(org.openqa.selenium.${locStr.replace(locStr[locStr.indexOf(':') + 2..-1], "\"${locStr[locStr.indexOf(':') + 2..-1]}\")").replace(':', '(')})"
         }
         Eval.me("return ${chain}")
     }
