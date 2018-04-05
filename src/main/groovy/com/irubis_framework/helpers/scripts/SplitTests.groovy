@@ -1,11 +1,10 @@
 package com.irubis_framework.helpers.scripts
 
-import com.irubis_framework.helpers.jvmProperties.JVMProperties
 import groovy.io.FileType
 
 class SplitTests {
     static void main(agrs) {
-        def testsFolder = JVMProperties.CURRENT_FOLDER + JVMProperties.TESTS_FOLDER
+        def testsFolder = System.getProperty("user.dir") + System.getProperty('testsFolder')
         def files = []
         def folder = new File(testsFolder)
 

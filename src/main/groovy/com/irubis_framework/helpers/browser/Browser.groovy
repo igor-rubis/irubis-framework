@@ -5,7 +5,7 @@
 
 package com.irubis_framework.helpers.browser
 
-import com.irubis_framework.helpers.jvmProperties.JVMProperties
+
 import com.machinepublishers.jbrowserdriver.JBrowserDriver
 import com.machinepublishers.jbrowserdriver.Settings
 import com.machinepublishers.jbrowserdriver.UserAgent
@@ -30,10 +30,10 @@ class Browser {
 
     static WebDriver getInstance() {
         if (!WEB_DRIVER) {
-            def drvr = JVMProperties.BROWSER
+            def drvr = System.getProperty('browser')
 
             try {
-                switch (JVMProperties.TESTS_MODE) {
+                switch (System.getProperty('testsMode')) {
                     case 'mobile':
                         def capabilitiesMap = """[
                         'browserName' : '',
@@ -42,11 +42,11 @@ class Browser {
                         ]"""
                         def capabilities = "org.openqa.selenium.remote.DesiredCapabilities(${capabilitiesMap})"
 
-                        WEB_DRIVER = Eval.me("return new org.openqa.selenium.remote.RemoteWebDriver(new URL('${JVMProperties.MOBILE_HUB_URL}'), new ${capabilities})")
+                        WEB_DRIVER = Eval.me("return new org.openqa.selenium.remote.RemoteWebDriver(new URL('${System.getProperty('mobileHubUrl')}'), new ${capabilities})")
                         break
                     case 'remote':
                         WEB_DRIVER = Eval.me("""return new org.openqa.selenium.remote.RemoteWebDriver(
-                                                            new URL('${JVMProperties.UI_HUB_URL}'),
+                                                            new URL('${System.getProperty('uiHubUrl')}'),
                                                             new org.openqa.selenium.${drvr}.${drvr.capitalize()}Options()
                                                         )""")
                         WEB_DRIVER.manage().window().maximize()
@@ -62,7 +62,7 @@ class Browser {
                                                                         )"""); break
                             case ELECTRON:
                                 ChromeOptions options = new ChromeOptions()
-                                options.setBinary('path/to/electron/executable')
+                                options.setBinary(System.getProperty('electronBinary'))
 
                                 WEB_DRIVER = new ChromeDriver(options)
                                 break

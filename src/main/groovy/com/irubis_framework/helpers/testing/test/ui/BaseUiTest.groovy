@@ -3,10 +3,10 @@
  * Licensed under the Apache License, Version 2.0
  */
 
-package com.irubis_framework.testSuites.ui
+package com.irubis_framework.helpers.testing.test.ui
 
 import com.irubis_framework.helpers.browser.Browser
-import com.irubis_framework.testSuites.BaseTest
+import com.irubis_framework.helpers.testing.test.BaseTest
 import org.junit.After
 
 /**

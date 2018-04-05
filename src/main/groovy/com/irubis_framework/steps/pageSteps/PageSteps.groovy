@@ -3,10 +3,10 @@
  * Licensed under the Apache License, Version 2.0
  */
 
-package com.irubis_framework.steps.webUiSteps.pageLevelSteps
+package com.irubis_framework.steps.pageSteps
 
 import com.irubis_framework.helpers.browser.Browser
-import com.irubis_framework.steps.webUiSteps.WebUiActions
+import com.irubis_framework.steps.webUiActions.WebUiActions
 import org.openqa.selenium.By
 import org.openqa.selenium.JavascriptExecutor
 import org.openqa.selenium.WebElement
@@ -49,23 +49,23 @@ abstract class PageSteps extends WebUiActions {
         }
     }
 
-    protected jsClickElement(by, interval = INTERVAL) {
+    protected jsClickElement(by, interval = WAITING_INTERVAL) {
         eventually(interval) {
             evaluateJavascript('arguments[0].click();', element(by))
         }
     }
 
-    protected String getElementAttribute(by, attr, interval = INTERVAL) {
+    protected String getElementAttribute(by, attr, interval = WAITING_INTERVAL) {
         eventually(interval) {
             element(by).getAttribute(attr)
         }
     }
 
-    protected String getElementClassAttribute(by, interval = INTERVAL) {
+    protected String getElementClassAttribute(by, interval = WAITING_INTERVAL) {
         getElementAttribute(by, 'class', interval)
     }
 
-    protected String getElementSrcAttribute(by, interval = INTERVAL) {
+    protected String getElementSrcAttribute(by, interval = WAITING_INTERVAL) {
         getElementAttribute(by, 'src', interval)
     }
 
@@ -77,7 +77,7 @@ abstract class PageSteps extends WebUiActions {
         return ((JavascriptExecutor) Browser.instance).executeScript('return arguments[0].innerHTML', element(by)).toString().replaceAll('\n', '').replaceAll('\t', '').trim()
     }
 
-    def getElementTextByJs(by, interval = INTERVAL) {
+    def getElementTextByJs(by, interval = WAITING_INTERVAL) {
         eventually(interval) {
             ((JavascriptExecutor) Browser.getInstance()).executeScript('return arguments[0].value', element(by))
         }

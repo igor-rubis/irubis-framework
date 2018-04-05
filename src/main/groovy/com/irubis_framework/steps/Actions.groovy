@@ -7,7 +7,6 @@ package com.irubis_framework.steps
 
 import com.irubis_framework.helpers.browser.Browser
 import com.irubis_framework.helpers.currentSession.CurrentSession
-import com.irubis_framework.helpers.jvmProperties.JVMProperties
 import groovy.json.JsonBuilder
 import org.apache.commons.lang.exception.ExceptionUtils
 import ru.yandex.qatools.allure.annotations.Attachment
@@ -18,8 +17,12 @@ import ru.yandex.qatools.allure.annotations.Step
  */
 
 abstract class Actions {
-    def INTERVAL = 15000
-    def POLLING_INTERVAL = JVMProperties.POLLING_INTERVAL
+    def WAITING_INTERVAL = System.getProperty('pollingInterval', '15000') as Integer
+    def POLLING_INTERVAL = System.getProperty('pollingInterval', '500') as Integer
+
+    protected eventually(interval = WAITING_INTERVAL, closure) {
+        eventually(interval, POLLING_INTERVAL, closure)
+    }
 
     protected eventually(interval, pollingInterval, closure) {
         long end = new Date().getTime() + interval

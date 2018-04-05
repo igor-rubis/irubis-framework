@@ -3,7 +3,7 @@
  * Licensed under the Apache License, Version 2.0
  */
 
-package com.irubis_framework.steps.webUiSteps
+package com.irubis_framework.steps.webUiActions
 
 import com.irubis_framework.helpers.browser.Browser
 import com.irubis_framework.steps.Actions
@@ -16,7 +16,7 @@ import ru.yandex.qatools.allure.annotations.Attachment
  */
 
 abstract class WebUiActions extends Actions {
-    protected eventually(interval = INTERVAL, closure) {
+    protected eventually(interval = WAITING_INTERVAL, closure) {
         eventually(interval, POLLING_INTERVAL, closure)
     }
 

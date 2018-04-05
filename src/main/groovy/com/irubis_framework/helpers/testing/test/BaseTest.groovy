@@ -3,10 +3,10 @@
  * Licensed under the Apache License, Version 2.0
  */
 
-package com.irubis_framework.testSuites
+package com.irubis_framework.helpers.testing.test
 
 import com.irubis_framework.helpers.currentSession.CurrentSession
-import com.irubis_framework.helpers.testRunner.AllureTestRunner
+import com.irubis_framework.helpers.testing.testRunner.AllureTestRunner
 import org.junit.After
 import org.junit.runner.RunWith
 
