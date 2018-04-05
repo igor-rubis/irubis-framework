@@ -1,5 +1,16 @@
 # My self-educational project to create automation testing framework from scratch.
 
+## Add to your project as a dependency to the build.gradle file
+```groovy
+repositories {
+    maven { url "https://jitpack.io" }
+}
+
+dependencies {
+    compile 'com.github.igor-rubis:irubis-framework:master'
+}
+```
+
 ## Command line options:
 * browser
     * firefox
