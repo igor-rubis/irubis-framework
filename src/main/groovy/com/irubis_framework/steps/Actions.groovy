@@ -17,7 +17,7 @@ import ru.yandex.qatools.allure.annotations.Step
  * Created by Igor_Rubis. 7/29/16.
  */
 
-abstract class Steps {
+abstract class Actions {
     def INTERVAL = 15000
     def POLLING_INTERVAL = JVMProperties.POLLING_INTERVAL
 

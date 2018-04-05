@@ -5,7 +5,7 @@
 
 package com.irubis_framework.steps.webUiSteps.userActionsLevelSteps.navigation
 
-import com.irubis_framework.steps.webUiSteps.WebUiSteps
+import com.irubis_framework.steps.webUiSteps.WebUiActions
 import ru.yandex.qatools.allure.annotations.Step
 
 import static com.irubis_framework.helpers.stepsAndPagesProvider.pageLevelSteps.GetPageLevelSteps.getHomePageSteps
@@ -15,7 +15,7 @@ import static org.hamcrest.MatcherAssert.assertThat
 /**
  * Created by Igor_Rubis. 9/15/16.
  */
-class HomePageActions extends WebUiSteps {
+class HomePageActions extends WebUiActions {
 
     @Step
     verifyTitleIs(text) {

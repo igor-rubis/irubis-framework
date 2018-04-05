@@ -6,7 +6,7 @@
 package com.irubis_framework.steps.webUiSteps.pageLevelSteps
 
 import com.irubis_framework.helpers.browser.Browser
-import com.irubis_framework.steps.webUiSteps.WebUiSteps
+import com.irubis_framework.steps.webUiSteps.WebUiActions
 import org.openqa.selenium.By
 import org.openqa.selenium.JavascriptExecutor
 import org.openqa.selenium.WebElement
@@ -14,7 +14,7 @@ import org.openqa.selenium.WebElement
 /**
  * Created by Igor_Rubis. 7/29/16.
  */
-abstract class PageSteps extends WebUiSteps {
+abstract class PageSteps extends WebUiActions {
 
     protected abstract open()
 

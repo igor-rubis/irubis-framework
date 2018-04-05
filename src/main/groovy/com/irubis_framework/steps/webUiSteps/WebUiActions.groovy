@@ -6,7 +6,7 @@
 package com.irubis_framework.steps.webUiSteps
 
 import com.irubis_framework.helpers.browser.Browser
-import com.irubis_framework.steps.Steps
+import com.irubis_framework.steps.Actions
 import org.openqa.selenium.OutputType
 import org.openqa.selenium.TakesScreenshot
 import ru.yandex.qatools.allure.annotations.Attachment
@@ -15,7 +15,7 @@ import ru.yandex.qatools.allure.annotations.Attachment
  * Created by Igor_Rubis. 7/29/16.
  */
 
-abstract class WebUiSteps extends Steps {
+abstract class WebUiActions extends Actions {
     protected eventually(interval = INTERVAL, closure) {
         eventually(interval, POLLING_INTERVAL, closure)
     }
