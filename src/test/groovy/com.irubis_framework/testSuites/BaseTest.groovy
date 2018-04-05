@@ -6,7 +6,7 @@
 package com.irubis_framework.testSuites
 
 import com.irubis_framework.helpers.currentSession.CurrentSession
-import com.irubis_framework.testRunner.AllureTestRunner
+import com.irubis_framework.helpers.testRunner.AllureTestRunner
 import org.junit.After
 import org.junit.runner.RunWith
 

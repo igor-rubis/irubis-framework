@@ -3,7 +3,7 @@
  * Licensed under the Apache License, Version 2.0
  */
 
-package com.irubis_framework.testRunner
+package com.irubis_framework.helpers.testRunner
 
 import org.junit.runner.Description
 import org.junit.runner.Result
