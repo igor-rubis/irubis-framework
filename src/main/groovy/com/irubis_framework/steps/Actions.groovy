@@ -5,7 +5,6 @@
 
 package com.irubis_framework.steps
 
-import com.irubis_framework.helpers.browser.Browser
 import com.irubis_framework.helpers.currentSession.CurrentSession
 import groovy.json.JsonBuilder
 import org.apache.commons.lang.exception.ExceptionUtils
@@ -43,7 +42,6 @@ abstract class Actions {
         }
         dumpStackTrace(exception)
         dumpCurrentSession()
-        dumpConsoleLog()
         throw exception
     }
 
@@ -68,20 +66,5 @@ abstract class Actions {
     @Attachment(value = 'Stack trace', type = 'text/plain')
     def dumpStackTrace(exception) {
         ExceptionUtils.getStackTrace(exception)
-    }
-
-    @Attachment(value = 'Console log', type = 'application/json')
-    def dumpConsoleLog() {
-        try {
-            def logs = Browser.instance.manage().logs()
-            def json = [
-                    browser: logs.get('browser'),
-                    driver : logs.get('driver'),
-                    client : logs.get('client')
-            ]
-            return new JsonBuilder(json).toPrettyString()
-        } catch (Throwable ignored) {
-            return 'Could not parse console logs'
-        }
     }
 }
