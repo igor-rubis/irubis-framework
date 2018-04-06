@@ -17,7 +17,7 @@ import ru.yandex.qatools.allure.annotations.Step
  */
 
 abstract class Actions {
-    def WAITING_INTERVAL = System.getProperty('pollingInterval', '15000') as Integer
+    def WAITING_INTERVAL = System.getProperty('waitingInterval', '15000') as Integer
     def POLLING_INTERVAL = System.getProperty('pollingInterval', '500') as Integer
 
     protected eventually(interval = WAITING_INTERVAL, closure) {
