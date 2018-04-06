@@ -45,6 +45,7 @@ sudo apt-add-repository ppa:yandex-qatools/allure-framework
 sudo apt-get update
 sudo apt-get install allure-commandline
 ```
+
 ##### Allure 2
 ```https://docs.qameta.io/allure/#_installing_a_commandline```
 
@@ -53,6 +54,7 @@ sudo apt-get install allure-commandline
 ```
 compile files("${projectDir}/src/main/groovy")
 ```
+
 ##### Splitting tests
 ```
 task splitTests(dependsOn: 'classes', type: JavaExec) {
@@ -61,6 +63,7 @@ task splitTests(dependsOn: 'classes', type: JavaExec) {
     systemProperties(System.properties as Map)
 }
 ```
+
 ##### Running tests
 ```
 task runAnyTest(type: Test) {
@@ -81,20 +84,31 @@ new HashSet(tasks.withType(Test)).each { task ->
     task.finalizedBy(generateAllureReport)
 }
 ```
+
 ##### Report generation
 ```
-//def allureExecutable = 'D:\\Downloads\\allure-2.5.0\\bin\\allure.bat'
 def allureExecutable = '/usr/bin/allure'
 
 task openAllureReport(type: Exec) {
     executable allureExecutable
-//    args('open') // for allure 2
     args('report', 'open')
 }
+```
+Or `args('open')`  for allure 2
 
+```
 task generateAllureReport(type: Exec) {
     executable allureExecutable
-//    args('generate', '--clean', 'build/reports/allure') // for allure 2, which requires '--clean' parameter
     args('generate', 'build/reports/allure')
 }
 ```
+Or `args('generate', '--clean', 'build/reports/allure')` for allure 2, which requires '--clean' parameter
+
+##### Classes inheritance
+Selenium tests -> `BaseUiTest`
+
+Page level steps classes -> `PageSteps`
+
+Rest web services classes -> `BaseWebService`
+
+User actions level classes -> `WebUiActions`
