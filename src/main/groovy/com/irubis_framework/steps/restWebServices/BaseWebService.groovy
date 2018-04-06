@@ -3,9 +3,10 @@
  * Licensed under the Apache License, Version 2.0
  */
 
-package com.irubis_framework.restWebServices
+package com.irubis_framework.steps.restWebServices
 
 import com.google.appengine.api.urlfetch.HTTPMethod
+import com.irubis_framework.steps.Actions
 import groovy.json.JsonBuilder
 import org.apache.http.HttpHost
 import org.apache.http.client.methods.HttpPost
@@ -15,16 +16,14 @@ import org.apache.http.impl.client.HttpClients
 import org.apache.http.impl.conn.DefaultProxyRoutePlanner
 import org.apache.http.util.EntityUtils
 import ru.yandex.qatools.allure.annotations.Attachment
+import ru.yandex.qatools.allure.annotations.Step
 import wslite.json.JSONObject
-
-import java.util.logging.Logger
 
 /**
  * Created by Igor_Rubis, 11/22/2016.
  */
 
-class BaseWebService {
-    def log = Logger.getAnonymousLogger()
+class BaseWebService extends Actions {
     def client
     def usingProxy
     def request
@@ -32,6 +31,7 @@ class BaseWebService {
     def response
     def responseJSON
 
+    @Step
     def buildHTTPClient() {
         usingProxy = usingProxy ?: System.getProperty('apiProxy')
         if (usingProxy) {
@@ -45,10 +45,12 @@ class BaseWebService {
         }
     }
 
+    @Step
     def initConnection(url, HTTPMethod httpMethod) {
         request = Eval.me("return new org.apache.http.client.methods.Http${httpMethod.name()}(${url})")
     }
 
+    @Step
     def initRequestBody(closure) {
         requestJSON = new JSONObject()
         closure()
@@ -57,16 +59,16 @@ class BaseWebService {
         (request as HttpPost).setEntity(input)
     }
 
+    @Step
     def setHeaders(headers) {
         headers.each { key, value ->
             request.setHeader(key, value)
         }
     }
 
+    @Step
     def analyzeResponseStatusCode(closure = null) {
-        log.info("Request:  ${request}")
         response = client.execute(request)
-        log.info("Response: ${response}")
         if (closure) {
             responseJSON = new JSONObject(EntityUtils.toString(response.getEntity()))
             closure()
