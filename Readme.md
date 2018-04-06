@@ -39,6 +39,16 @@ Which tests folder to split for parallel test run:
 * testsFolder
 
 ## Install allure ubuntu:
+##### Required configuration
+```
+configurations {
+    agent
+}
+
+dependencies {
+    agent "org.aspectj:aspectjweaver:1.8.13"
+}
+```
 ##### Allure 1
 ```bash
 sudo apt-add-repository ppa:yandex-qatools/allure-framework
