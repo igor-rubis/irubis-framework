@@ -20,16 +20,16 @@ import org.openqa.selenium.chrome.ChromeOptions
  * Created by Igor_Rubis. 8/3/16.
  */
 class Browser {
-    private static FIREFOX = 'firefox'
-    private static CHROME = 'chrome'
-    private static J_BROWSER = 'jBrowser'
-    private static ELECTRON = 'electron'
     private static WEB_DRIVER
 
     private Browser() {}
 
     static WebDriver getInstance() {
         if (!WEB_DRIVER) {
+            def firefox = 'firefox'
+            def chrome = 'chrome'
+            def jBrowser = 'jBrowser'
+            def electron = 'electron'
             def drvr = System.getProperty('browser')
 
             try {
@@ -53,14 +53,14 @@ class Browser {
                         break
                     case 'local':
                         switch (drvr) {
-                            case [FIREFOX, CHROME]: WEB_DRIVER = Eval.me("return new org.openqa.selenium.${drvr}.${drvr.capitalize()}Driver()"); break
-                            case J_BROWSER: WEB_DRIVER = Eval.me("""return new ${JBrowserDriver.canonicalName}(
+                            case [firefox, chrome]: WEB_DRIVER = Eval.me("return new org.openqa.selenium.${drvr}.${drvr.capitalize()}Driver()"); break
+                            case jBrowser: WEB_DRIVER = Eval.me("""return new ${JBrowserDriver.canonicalName}(
                                                                     ${Settings.canonicalName}.builder()
                                                                         .hostnameVerification(false)
                                                                         .userAgent(${UserAgent.canonicalName}.CHROME)
                                                                         .build()
                                                                         )"""); break
-                            case ELECTRON:
+                            case electron:
                                 ChromeOptions options = new ChromeOptions()
                                 options.setBinary(System.getProperty('electronBinary'))
 
@@ -71,8 +71,8 @@ class Browser {
                 }
             } catch (IllegalStateException ignored) {
                 switch (drvr) {
-                    case [CHROME, ELECTRON]: ChromeDriverManager.instance.setup(); break
-                    case FIREFOX: FirefoxDriverManager.instance.setup(); break
+                    case [chrome, electron]: ChromeDriverManager.instance.setup(); break
+                    case firefox: FirefoxDriverManager.instance.setup(); break
                 }
                 instance
             }

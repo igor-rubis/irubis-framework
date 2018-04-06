@@ -15,9 +15,6 @@ import org.openqa.selenium.WebElement
  * Created by Igor_Rubis. 7/29/16.
  */
 abstract class PageSteps extends WebUiActions {
-
-    protected abstract open()
-
     protected WebElement element(List locators) {
         def chain = 'com.irubis_framework.helpers.browser.Browser.instance'
         locators.each { locator ->
