@@ -11,31 +11,32 @@ dependencies {
 }
 ```
 
-## Command line options:
-* testsMode
-    * mobile
-    * remote
-    * local
-* browser
-    * firefox
-    * chrome
-    * jBrowser
-    * electron
+## JVM options:
+Folder for allure test results:
 * allure.results.directory (`build/reports/allure`)
-* maxParallelForks
+
+Running tests locally, in selenium grid or on mobile device:
+* testsMode (`mobile` || `remote` || `local`)
+
+Browser options:
+* browser (`firefox` || `chrome` || `jBrowser` || `electron`)
+
+Proxy url for API calls:
 * apiProxy
+
+Path to electron app executable for test against astilectron app:
 * electronBinary
-* pollingInterval
-* url
+
+Waiting interval for tests:
+* pollingInterval (`500`)
+* waitingInterval (`15000`)
+
+Urls for selenium grid or appium hub:
 * uiHubUrl
 * mobileHubUrl
-* testsFolder
 
-## TODO:
-* bdd
-* API tests
-* Implement test-splitter to paralellize test run by batches
-* Consider adding feature to compare screenshots for testing the front end
+Which tests folder to split for parallel test run:
+* testsFolder
 
 ## Install allure ubuntu:
 ##### Allure 1
