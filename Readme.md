@@ -86,19 +86,29 @@ new HashSet(tasks.withType(Test)).each { task ->
 ```
 
 ##### Report generation
+###### Required configuration
 ```
-def allureExecutable = '/usr/bin/allure'
+configurations {
+    agent
+}
 
+dependencies {
+    agent "org.aspectj:aspectjweaver:1.8.13"
+}
+```
+###### Task to open allure report locally
+```
 task openAllureReport(type: Exec) {
-    executable allureExecutable
+    executable '/usr/bin/allure'
     args('report', 'open')
 }
 ```
 Or `args('open')`  for allure 2
 
+###### Task to generate report from Allure test results
 ```
 task generateAllureReport(type: Exec) {
-    executable allureExecutable
+    executable '/usr/bin/allure'
     args('generate', 'build/reports/allure')
 }
 ```
