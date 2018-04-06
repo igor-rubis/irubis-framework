@@ -7,7 +7,7 @@ repositories {
 }
 
 dependencies {
-    compile 'com.github.igor-rubis:irubis-framework:master'
+    compile 'com.github.igor-rubis:irubis-framework:master-alpha-1'
 }
 ```
 
