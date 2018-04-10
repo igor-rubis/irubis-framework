@@ -44,6 +44,16 @@ abstract class WebUiActions extends Actions {
 
     @Attachment(value = 'Console log', type = 'application/json')
     def dumpConsoleLog() {
-        return new JsonBuilder(Browser.logs()).toPrettyString()
+        try {
+            def logs = Browser.instance.manage().logs()
+            def json = [
+                    browser: logs.get('browser'),
+                    driver : logs.get('driver'),
+                    client : logs.get('client')
+            ]
+            return new JsonBuilder(json).toPrettyString()
+        } catch (Throwable ignored) {
+            return 'Could not parse console logs.'
+        }
     }
 }
