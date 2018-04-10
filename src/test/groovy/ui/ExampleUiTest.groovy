@@ -16,4 +16,10 @@ class ExampleUiTest extends BaseUiTest {
         Browser.instance.get('https://www.google.com/')
         assert (Browser.instance.getTitle() == 'Google')
     }
+
+    @Test
+    void errorTest() {
+        Browser.instance.get('https://www.google.com/')
+        throw new RuntimeException('smth went wrong!')
+    }
 }
