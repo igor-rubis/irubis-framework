@@ -27,6 +27,7 @@ abstract class WebUiActions extends Actions {
         } catch (Throwable e) {
             takeScreenShot()
             dumpPageSource()
+            dumpConsoleLog()
             throw e
         }
     }
@@ -42,7 +43,17 @@ abstract class WebUiActions extends Actions {
     }
 
     @Attachment(value = 'Console log', type = 'application/json')
-    static dumpConsoleLog(logs) {
-        return new JsonBuilder(logs).toPrettyString()
+    def dumpConsoleLog() {
+        try {
+            def logs = Browser.instance.manage().logs()
+            def json = [
+                    browser: logs.get('browser'),
+                    driver : logs.get('driver'),
+                    client : logs.get('client')
+            ]
+            return new JsonBuilder(json).toPrettyString()
+        } catch (Throwable ignored) {
+            return 'Could not parse console logs.'
+        }
     }
 }

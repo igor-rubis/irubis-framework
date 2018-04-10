@@ -100,29 +100,4 @@ class Browser {
             WEB_DRIVER = null
         }
     }
-
-    static logs() {
-        def errorsPresent
-        def logs
-        def browser
-        def driver
-        def client
-
-        try {
-            logs = instance.manage().logs()
-            browser = logs.get('browser')
-            driver = logs.get('driver')
-            client = logs.get('client')
-            errorsPresent = (browser && driver && client) as Boolean
-        } catch (Throwable ignored) {
-            errorsPresent = false
-        }
-
-        return [
-                errorsPresent: errorsPresent,
-                browser      : browser,
-                driver       : driver,
-                client       : client
-        ]
-    }
 }
