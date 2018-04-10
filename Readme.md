@@ -38,9 +38,6 @@ Urls for selenium grid or appium hub:
 Which tests folder to split for parallel test run:
 * testsFolder
 
-To throw an AssertionError if there are any console errors during the test
-* failOnBrowserConsoleError
-
 ## Install allure ubuntu:
 ##### Allure 1
 ```bash

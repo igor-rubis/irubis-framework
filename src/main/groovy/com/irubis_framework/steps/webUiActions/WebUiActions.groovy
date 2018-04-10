@@ -27,6 +27,7 @@ abstract class WebUiActions extends Actions {
         } catch (Throwable e) {
             takeScreenShot()
             dumpPageSource()
+            dumpConsoleLog()
             throw e
         }
     }
@@ -42,7 +43,7 @@ abstract class WebUiActions extends Actions {
     }
 
     @Attachment(value = 'Console log', type = 'application/json')
-    static dumpConsoleLog(logs) {
-        return new JsonBuilder(logs).toPrettyString()
+    def dumpConsoleLog() {
+        return new JsonBuilder(Browser.logs()).toPrettyString()
     }
 }
