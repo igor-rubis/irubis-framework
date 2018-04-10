@@ -73,10 +73,10 @@ class Browser {
 
                                 WEB_DRIVER = new ChromeDriver(options)
                                 break
-                            default: throw new RuntimeException("Please specify 'testsMode' system property. Available options are: ${browsers.values()}")
+                            default: throw new RuntimeException("Please specify 'browser' system property. Available options are: ${browsers.values()}")
                         }
                         break
-                    default: throw new RuntimeException("Please specify 'browser' system property. Available options are: ${testsModes.values()}")
+                    default: throw new RuntimeException("Please specify 'testsMode' system property. Available options are: ${testsModes.values()}")
                 }
             } catch (IllegalStateException ignored) {
                 switch (drvr) {

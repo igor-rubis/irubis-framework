@@ -15,7 +15,7 @@ import org.openqa.selenium.WebElement
  * Created by Igor_Rubis. 7/29/16.
  */
 abstract class PageSteps extends WebUiActions {
-    protected WebElement element(List locators) {
+    WebElement element(List locators) {
         def chain = 'com.irubis_framework.helpers.browser.Browser.instance'
         locators.each { locator ->
             def locStr = locator.toString()
@@ -24,21 +24,21 @@ abstract class PageSteps extends WebUiActions {
         Eval.me("return ${chain}")
     }
 
-    protected WebElement element(By by) {
+    WebElement element(By by) {
         Browser.instance.findElement(by)
     }
 
-    protected evaluateJavascript(script, Object... args) {
+    def evaluateJavascript(script, Object... args) {
         ((JavascriptExecutor) Browser.getInstance()).executeScript(script, args)
     }
 
-    protected clickElement(by) {
+    def clickElement(by) {
         eventually() {
             element(by).click()
         }
     }
 
-    protected clickVisibleElement(by) {
+    def clickVisibleElement(by) {
         eventually() {
             Browser.instance.findElements(by).find { element ->
                 element.isDisplayed()
@@ -46,35 +46,37 @@ abstract class PageSteps extends WebUiActions {
         }
     }
 
-    protected jsClickElement(by, interval = WAITING_INTERVAL) {
+    def jsClickElement(by, interval = WAITING_INTERVAL) {
         eventually(interval) {
             evaluateJavascript('arguments[0].click();', element(by))
         }
     }
 
-    protected String getElementAttribute(by, attr, interval = WAITING_INTERVAL) {
+    String getElementAttribute(by, attr, interval = WAITING_INTERVAL) {
         eventually(interval) {
             element(by).getAttribute(attr)
         }
     }
 
-    protected String getElementClassAttribute(by, interval = WAITING_INTERVAL) {
+    String getElementClassAttribute(by, interval = WAITING_INTERVAL) {
         getElementAttribute(by, 'class', interval)
     }
 
-    protected String getElementSrcAttribute(by, interval = WAITING_INTERVAL) {
+    String getElementSrcAttribute(by, interval = WAITING_INTERVAL) {
         getElementAttribute(by, 'src', interval)
     }
 
-    protected goToUrl(String url) {
+    def goToUrl(String url) {
         Browser.instance.navigate().to(url)
     }
 
-    protected String getElementText(by) {
-        return ((JavascriptExecutor) Browser.instance).executeScript('return arguments[0].innerHTML', element(by)).toString().replaceAll('\n', '').replaceAll('\t', '').trim()
+    String getElementText(by, interval = WAITING_INTERVAL) {
+        eventually(interval) {
+            return ((JavascriptExecutor) Browser.instance).executeScript('return arguments[0].innerHTML', element(by)).toString().replaceAll('\n', '').replaceAll('\t', '').trim()
+        }
     }
 
-    def getElementTextByJs(by, interval = WAITING_INTERVAL) {
+    String getElementTextByJs(by, interval = WAITING_INTERVAL) {
         eventually(interval) {
             ((JavascriptExecutor) Browser.getInstance()).executeScript('return arguments[0].value', element(by))
         }
