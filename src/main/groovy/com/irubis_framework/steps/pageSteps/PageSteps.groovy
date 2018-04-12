@@ -115,4 +115,8 @@ abstract class PageSteps extends WebUiActions {
             }
         }
     }
+
+    def getPageTitle() {
+        Browser.instance.title
+    }
 }

@@ -11,13 +11,14 @@ import org.apache.commons.lang.exception.ExceptionUtils
 import ru.yandex.qatools.allure.annotations.Attachment
 import ru.yandex.qatools.allure.annotations.Step
 
+import static com.irubis_framework.helpers.systemProp.SystemProp.POLLING_INTERVAL
+import static com.irubis_framework.helpers.systemProp.SystemProp.WAITING_INTERVAL
+
 /**
  * Created by Igor_Rubis. 7/29/16.
  */
 
 abstract class Actions {
-    def WAITING_INTERVAL = System.getProperty('waitingInterval', '15000') as Integer
-    def POLLING_INTERVAL = System.getProperty('pollingInterval', '500') as Integer
 
     protected eventually(interval = WAITING_INTERVAL, closure) {
         eventually(interval, POLLING_INTERVAL, closure)

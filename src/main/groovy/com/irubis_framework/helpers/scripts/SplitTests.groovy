@@ -1,10 +1,11 @@
 package com.irubis_framework.helpers.scripts
 
+import com.irubis_framework.helpers.systemProp.SystemProp
 import groovy.io.FileType
 
 class SplitTests {
     static void main(agrs) {
-        def testsFolder = System.getProperty("user.dir") + System.getProperty('testsFolder')
+        def testsFolder = SystemProp.USER_DIR + SystemProp.TESTS_FOLDER
         def files = []
         def folder = new File(testsFolder)
 
