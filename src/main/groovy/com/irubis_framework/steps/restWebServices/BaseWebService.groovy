@@ -6,6 +6,7 @@
 package com.irubis_framework.steps.restWebServices
 
 import com.google.appengine.api.urlfetch.HTTPMethod
+import com.irubis_framework.helpers.systemProp.SystemProp
 import com.irubis_framework.steps.Actions
 import groovy.json.JsonBuilder
 import groovy.json.JsonOutput
@@ -31,7 +32,6 @@ import static org.hamcrest.MatcherAssert.assertThat
 
 class BaseWebService extends Actions {
     def client
-    def usingProxy
     def request
     def requestJSON
     def response
@@ -40,9 +40,8 @@ class BaseWebService extends Actions {
 
     @Step
     def buildHTTPClient() {
-        usingProxy = usingProxy ?: System.getProperty('apiProxy')
-        if (usingProxy) {
-            def proxy = URI.create(usingProxy)
+        if (SystemProp.API_PROXY) {
+            def proxy = URI.create(SystemProp.API_PROXY)
             def routePlanner = new DefaultProxyRoutePlanner(new HttpHost(proxy.getHost(), proxy.getPort()))
             client = HttpClients.custom()
                     .setRoutePlanner(routePlanner)
