@@ -5,7 +5,6 @@
 
 package com.irubis_framework.helpers.browser
 
-
 import com.machinepublishers.jbrowserdriver.JBrowserDriver
 import com.machinepublishers.jbrowserdriver.Settings
 import com.machinepublishers.jbrowserdriver.UserAgent
@@ -15,6 +14,8 @@ import org.openqa.selenium.WebDriver
 import org.openqa.selenium.WebDriverException
 import org.openqa.selenium.chrome.ChromeDriver
 import org.openqa.selenium.chrome.ChromeOptions
+
+import static com.irubis_framework.helpers.systemProp.SystemProp.*
 
 /**
  * Created by Igor_Rubis. 8/3/16.
@@ -26,7 +27,6 @@ class Browser {
 
     static WebDriver getInstance() {
         if (!WEB_DRIVER) {
-            def drvr = System.getProperty('browser')
             def testsModes = [
                     mobile: 'mobile',
                     remote: 'remote',
@@ -40,7 +40,7 @@ class Browser {
             ]
 
             try {
-                switch (System.getProperty('testsMode')) {
+                switch (TESTS_MODE) {
                     case testsModes.mobile:
                         def capabilitiesMap = """[
                         'browserName' : '',
@@ -49,18 +49,18 @@ class Browser {
                         ]"""
                         def capabilities = "org.openqa.selenium.remote.DesiredCapabilities(${capabilitiesMap})"
 
-                        WEB_DRIVER = Eval.me("return new org.openqa.selenium.remote.RemoteWebDriver(new URL('${System.getProperty('mobileHubUrl')}'), new ${capabilities})")
+                        WEB_DRIVER = Eval.me("return new org.openqa.selenium.remote.RemoteWebDriver(new URL('${MOBILE_HUB_URL}'), new ${capabilities})")
                         break
                     case testsModes.remote:
                         WEB_DRIVER = Eval.me("""return new org.openqa.selenium.remote.RemoteWebDriver(
-                                                            new URL('${System.getProperty('uiHubUrl')}'),
-                                                            new org.openqa.selenium.${drvr}.${drvr.capitalize()}Options()
+                                                            new URL('${UI_HUB_URL}'),
+                                                            new org.openqa.selenium.${BROWSER}.${BROWSER.capitalize()}Options()
                                                         )""")
                         WEB_DRIVER.manage().window().maximize()
                         break
                     case testsModes.local:
-                        switch (drvr) {
-                            case [browsers.firefox, browsers.chrome]: WEB_DRIVER = Eval.me("return new org.openqa.selenium.${drvr}.${drvr.capitalize()}Driver()"); break
+                        switch (BROWSER) {
+                            case [browsers.firefox, browsers.chrome]: WEB_DRIVER = Eval.me("return new org.openqa.selenium.${BROWSER}.${BROWSER.capitalize()}Driver()"); break
                             case browsers.jBrowser: WEB_DRIVER = Eval.me("""return new ${JBrowserDriver.canonicalName}(
                                                                     ${Settings.canonicalName}.builder()
                                                                         .hostnameVerification(false)
@@ -69,7 +69,7 @@ class Browser {
                                                                         )"""); break
                             case browsers.electron:
                                 ChromeOptions options = new ChromeOptions()
-                                options.setBinary(System.getProperty('electronBinary'))
+                                options.setBinary(ELECTRON_BINARY)
 
                                 WEB_DRIVER = new ChromeDriver(options)
                                 break
@@ -79,7 +79,7 @@ class Browser {
                     default: throw new RuntimeException("Please specify 'testsMode' system property. Available options are: ${testsModes.values()}")
                 }
             } catch (IllegalStateException ignored) {
-                switch (drvr) {
+                switch (BROWSER) {
                     case [browsers.chrome, browsers.electron]: ChromeDriverManager.instance.setup(); break
                     case browsers.firefox: FirefoxDriverManager.instance.setup(); break
                 }
