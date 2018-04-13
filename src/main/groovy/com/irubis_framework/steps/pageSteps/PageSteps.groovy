@@ -30,6 +30,10 @@ abstract class PageSteps extends WebUiActions {
         Browser.instance.findElement(by)
     }
 
+    protected elements(By by) {
+        Browser.instance.findElements(by)
+    }
+
     def evaluateJavascript(script, Object... args) {
         ((JavascriptExecutor) Browser.getInstance()).executeScript(script, args)
     }
