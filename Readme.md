@@ -1,4 +1,4 @@
-# My self-educational project to create automation testing framework from scratch.
+# Testing automation framework based on Selenium
 
 ## Add to your project as a dependency to the build.gradle file
 ```
@@ -19,7 +19,7 @@ Running tests locally, in selenium grid or on mobile device:
 * testsMode (`mobile` || `remote` || `local`)
 
 Browser options:
-* browser (`firefox` || `chrome` || `jBrowser` || `electron`)
+* browser (`firefox` || `chrome` || [jBrowser](https://github.com/MachinePublishers/jBrowserDriver) || [electron](https://github.com/electron))
 
 Proxy url for API calls:
 * apiProxy
