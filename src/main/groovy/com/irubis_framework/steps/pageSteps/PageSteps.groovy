@@ -11,6 +11,8 @@ import org.openqa.selenium.By
 import org.openqa.selenium.JavascriptExecutor
 import org.openqa.selenium.WebElement
 
+import static com.irubis_framework.helpers.systemProp.SystemProp.WAITING_INTERVAL
+
 /**
  * Created by Igor_Rubis. 7/29/16.
  */
