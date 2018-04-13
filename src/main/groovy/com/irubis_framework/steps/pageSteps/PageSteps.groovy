@@ -78,6 +78,12 @@ abstract class PageSteps extends WebUiActions {
 
     String getElementText(by, interval = WAITING_INTERVAL) {
         eventually(interval) {
+            element(by).getText()
+        }
+    }
+
+    String getElementsInnerHtml(by, interval = WAITING_INTERVAL) {
+        eventually(interval) {
             return ((JavascriptExecutor) Browser.instance).executeScript('return arguments[0].innerHTML', element(by)).toString().replaceAll('\n', '').replaceAll('\t', '').trim()
         }
     }
