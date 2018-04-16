@@ -1,8 +1,4 @@
-package com.irubis_framework.helpers
-
-import com.irubis_framework.steps.pageSteps.TestPageSteps
-import com.irubis_framework.steps.pages.TestPage
-import com.irubis_framework.steps.webUiActions.TestPageActions
+package testData
 
 class StepsAndActionsProvider {
     static testPage

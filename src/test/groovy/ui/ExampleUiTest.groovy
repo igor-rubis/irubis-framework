@@ -2,19 +2,20 @@ package ui
 
 import com.irubis_framework.helpers.testing.test.ui.BaseUiTest
 import org.junit.Test
+import org.openqa.selenium.Point
 
-import static com.irubis_framework.helpers.StepsAndActionsProvider.getTestPageActions
-import static com.irubis_framework.helpers.StepsAndActionsProvider.getTestPageSteps
 import static org.hamcrest.CoreMatchers.is
+import static testData.StepsAndActionsProvider.getTestPageActions
+import static testData.StepsAndActionsProvider.getTestPageSteps
 
 class ExampleUiTest extends BaseUiTest {
-//    @Test
+    @Test
     void failingTest() {
         testPageSteps.openTestPage()
         testPageActions.verifyPageTitle(is('#######'))
     }
 
-//    @Test
+    @Test
     void errorTest() {
         testPageSteps.openTestPage()
         throw new RuntimeException('smth went wrong!')
@@ -23,9 +24,13 @@ class ExampleUiTest extends BaseUiTest {
     @Test
     void pageStepsMethodsTest() {
         testPageSteps.openTestPage()
-        testPageActions.verifyPageTitle(is('Google'))
         testPageActions.searchForTerm('Cheese!')
-        testPageActions.verifySearchInputCoordinates()
+        testPageActions.verifySearchInputCoordinates(is(new Point(166, 25)))
+        testPageSteps.scrollPageToBottom()
+        testPageSteps.scrollPageToSearchInput()
+        testPageSteps.scrollPageFromSearchInputByOffset(0, 300)
+        testPageSteps.scrollPageWithOffset(0, 300)
+        testPageSteps.scrollPageToTop()
         println()
     }
 }

@@ -1,4 +1,4 @@
-package com.irubis_framework.steps.pages
+package testData
 
 import org.openqa.selenium.By
 

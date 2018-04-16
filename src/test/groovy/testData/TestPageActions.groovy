@@ -1,8 +1,9 @@
-package com.irubis_framework.steps.webUiActions
+package testData
 
+import com.irubis_framework.steps.webUiActions.WebUiActions
 import ru.yandex.qatools.allure.annotations.Step
 
-import static com.irubis_framework.helpers.StepsAndActionsProvider.getTestPageSteps
+import static StepsAndActionsProvider.getTestPageSteps
 import static org.hamcrest.MatcherAssert.assertThat
 
 class TestPageActions extends WebUiActions {
@@ -20,9 +21,9 @@ class TestPageActions extends WebUiActions {
     }
 
     @Step
-    def verifySearchInputCoordinates() {
+    def verifySearchInputCoordinates(matcher) {
         eventually() {
-            assertThat(testPageSteps.getSearchInputCoordinates(), matcher)
+            assertThat(testPageSteps.getSearchInputLocation(), matcher)
         }
     }
 }
