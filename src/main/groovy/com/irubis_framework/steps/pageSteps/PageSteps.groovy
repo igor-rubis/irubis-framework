@@ -10,6 +10,9 @@ import com.irubis_framework.steps.webUiActions.WebUiActions
 import org.openqa.selenium.By
 import org.openqa.selenium.JavascriptExecutor
 import org.openqa.selenium.WebElement
+import org.openqa.selenium.interactions.internal.Locatable
+
+import static com.irubis_framework.helpers.systemProp.SystemProp.WAITING_INTERVAL
 
 /**
  * Created by Igor_Rubis. 7/29/16.
@@ -28,17 +31,21 @@ abstract class PageSteps extends WebUiActions {
         Browser.instance.findElement(by)
     }
 
-    def evaluateJavascript(script, Object... args) {
+    def elements(By by) {
+        Browser.instance.findElements(by)
+    }
+
+    void evaluateJavascript(script, Object... args) {
         ((JavascriptExecutor) Browser.getInstance()).executeScript(script, args)
     }
 
-    def clickElement(by) {
+    void clickElement(by) {
         eventually() {
             element(by).click()
         }
     }
 
-    def clickVisibleElement(by) {
+    void clickVisibleElement(by) {
         eventually() {
             Browser.instance.findElements(by).find { element ->
                 element.isDisplayed()
@@ -46,7 +53,7 @@ abstract class PageSteps extends WebUiActions {
         }
     }
 
-    def jsClickElement(by, interval = WAITING_INTERVAL) {
+    void jsClickElement(by, interval = WAITING_INTERVAL) {
         eventually(interval) {
             evaluateJavascript('arguments[0].click();', element(by))
         }
@@ -66,41 +73,47 @@ abstract class PageSteps extends WebUiActions {
         getElementAttribute(by, 'src', interval)
     }
 
-    def goToUrl(String url) {
+    void goToUrl(String url) {
         Browser.instance.navigate().to(url)
     }
 
     String getElementText(by, interval = WAITING_INTERVAL) {
         eventually(interval) {
-            return ((JavascriptExecutor) Browser.instance).executeScript('return arguments[0].innerHTML', element(by)).toString().replaceAll('\n', '').replaceAll('\t', '').trim()
+            element(by).getText()
+        }
+    }
+
+    String getElementsInnerHtml(by, interval = WAITING_INTERVAL) {
+        eventually(interval) {
+            evaluateJavascript('return arguments[0].innerHTML', element(by)).toString().replaceAll('\n', '').replaceAll('\t', '').trim()
         }
     }
 
     String getElementTextByJs(by, interval = WAITING_INTERVAL) {
         eventually(interval) {
-            ((JavascriptExecutor) Browser.getInstance()).executeScript('return arguments[0].value', element(by))
+            evaluateJavascript('return arguments[0].value', element(by))
         }
     }
 
-    def typeInto(by, String text) {
+    void typeInto(by, String text) {
         eventually() {
             element(by).clear()
             element(by).sendKeys(text)
         }
     }
 
-    def jumpToIFrame(by) {
+    void jumpToIFrame(by) {
         eventually() {
             Browser.instance.switchTo().defaultContent()
             Browser.instance.switchTo().frame(element(by))
         }
     }
 
-    def getcurrentUrl() {
+    String getcurrentUrl() {
         Browser.instance.currentUrl
     }
 
-    def isDisplayedElement(by) {
+    Boolean isDisplayedElement(by) {
         try {
             element(by).isDisplayed()
         } catch (org.openqa.selenium.NoSuchElementException ignored) {
@@ -108,7 +121,7 @@ abstract class PageSteps extends WebUiActions {
         }
     }
 
-    def waitForElementToAppear(by) {
+    void waitForElementToAppear(by) {
         eventually() {
             if (!isDisplayedElement(by)) {
                 throw new AssertionError('Element did not appear on the page')
@@ -116,7 +129,29 @@ abstract class PageSteps extends WebUiActions {
         }
     }
 
-    def getPageTitle() {
+    String getPageTitle() {
         Browser.instance.title
+    }
+
+    void scrollPageWithOffset(x, y) {
+        evaluateJavascript("window.scrollBy(${x}, ${y});")
+    }
+
+    void scrollPageWithOffsetFromElement(by, x, y) {
+        def elementLocation = element(by).getLocation()
+        evaluateJavascript("window.scroll(${elementLocation.x + x}, ${elementLocation.y + y});")
+    }
+
+    void scrollPageToElement(by) {
+        evaluateJavascript('arguments[0].scrollIntoView();', element(by))
+    }
+
+    def getElementCoordinates(by) {
+        ((Locatable) element(by)).getLocationOnScreenOnceScrolledIntoView()
+//        ((Locatable) element(by)).getCoordinates()
+    }
+
+    void scrollPageToBottom() {
+        evaluateJavascript('window.scrollTo(0, document.body.scrollHeight)')
     }
 }
