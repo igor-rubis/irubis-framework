@@ -147,8 +147,7 @@ abstract class PageSteps extends WebUiActions {
     }
 
     def getElementCoordinates(by) {
-        ((Locatable) element(by)).getLocationOnScreenOnceScrolledIntoView()
-//        ((Locatable) element(by)).getCoordinates()
+        ((Locatable) element(by)).getCoordinates()
     }
 
     void scrollPageToBottom() {
