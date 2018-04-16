@@ -1,28 +1,31 @@
 package ui
 
 import com.irubis_framework.helpers.testing.test.ui.BaseUiTest
-import com.irubis_framework.steps.pageSteps.TestPageSteps
-import com.irubis_framework.steps.webUiActions.TestPageActions
 import org.junit.Test
 
+import static com.irubis_framework.helpers.StepsAndActionsProvider.getTestPageActions
+import static com.irubis_framework.helpers.StepsAndActionsProvider.getTestPageSteps
 import static org.hamcrest.CoreMatchers.is
 
 class ExampleUiTest extends BaseUiTest {
-    @Test
+//    @Test
     void failingTest() {
-        new TestPageSteps().openTestPage()
-        new TestPageActions().verifyPageTitle(is('#######'))
+        testPageSteps.openTestPage()
+        testPageActions.verifyPageTitle(is('#######'))
     }
 
-    @Test
-    void passingTest() {
-        new TestPageSteps().openTestPage()
-        new TestPageActions().verifyPageTitle(is('Google'))
-    }
-
-    @Test
+//    @Test
     void errorTest() {
-        new TestPageSteps().openTestPage()
+        testPageSteps.openTestPage()
         throw new RuntimeException('smth went wrong!')
+    }
+
+    @Test
+    void pageStepsMethodsTest() {
+        testPageSteps.openTestPage()
+        testPageActions.verifyPageTitle(is('Google'))
+        testPageActions.searchForTerm('Cheese!')
+        testPageActions.verifySearchInputCoordinates()
+        println()
     }
 }
