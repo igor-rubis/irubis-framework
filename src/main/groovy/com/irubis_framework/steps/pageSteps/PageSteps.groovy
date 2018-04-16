@@ -9,8 +9,8 @@ import com.irubis_framework.helpers.browser.Browser
 import com.irubis_framework.steps.webUiActions.WebUiActions
 import org.openqa.selenium.By
 import org.openqa.selenium.JavascriptExecutor
+import org.openqa.selenium.Point
 import org.openqa.selenium.WebElement
-import org.openqa.selenium.interactions.internal.Locatable
 
 import static com.irubis_framework.helpers.systemProp.SystemProp.WAITING_INTERVAL
 
@@ -138,7 +138,7 @@ abstract class PageSteps extends WebUiActions {
     }
 
     void scrollPageWithOffsetFromElement(by, x, y) {
-        def elementLocation = element(by).getLocation()
+        def elementLocation = getElementsLocation(by)
         evaluateJavascript("window.scroll(${elementLocation.x + x}, ${elementLocation.y + y});")
     }
 
@@ -146,11 +146,17 @@ abstract class PageSteps extends WebUiActions {
         evaluateJavascript('arguments[0].scrollIntoView();', element(by))
     }
 
-    def getElementCoordinates(by) {
-        ((Locatable) element(by)).getCoordinates()
+    Point getElementsLocation(by) {
+        eventually() {
+            element(by).getLocation()
+        } as Point
     }
 
     void scrollPageToBottom() {
-        evaluateJavascript('window.scrollTo(0, document.body.scrollHeight)')
+        evaluateJavascript('window.scrollTo(0, document.body.scrollHeight);')
+    }
+
+    void scrollPageToTop() {
+        evaluateJavascript('window.scrollTo(0, 0);')
     }
 }
