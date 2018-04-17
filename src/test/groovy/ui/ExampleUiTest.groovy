@@ -31,6 +31,5 @@ class ExampleUiTest extends BaseUiTest {
         testPageSteps.scrollPageFromSearchInputByOffset(0, 300)
         testPageSteps.scrollPageWithOffset(0, 300)
         testPageSteps.scrollPageToTop()
-        println()
     }
 }
