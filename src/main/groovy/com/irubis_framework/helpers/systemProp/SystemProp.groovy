@@ -11,4 +11,5 @@ class SystemProp {
     static WAITING_INTERVAL = System.getProperty('waitingInterval', '15000') as Integer
     static POLLING_INTERVAL = System.getProperty('pollingInterval', '500') as Integer
     static API_PROXY = System.getProperty('apiProxy')
+    static API_URL = System.getProperty('apiUrl')
 }

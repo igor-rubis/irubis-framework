@@ -5,7 +5,6 @@
 
 package com.irubis_framework.steps.restWebServices
 
-import com.google.appengine.api.urlfetch.HTTPMethod
 import com.irubis_framework.helpers.systemProp.SystemProp
 import com.irubis_framework.steps.Actions
 import groovy.json.JsonBuilder
@@ -30,7 +29,7 @@ import static org.hamcrest.MatcherAssert.assertThat
  * Created by Igor_Rubis, 11/22/2016.
  */
 
-class BaseWebService extends Actions {
+abstract class BaseWebService extends Actions {
     def client
     def request
     def requestJSON
@@ -52,15 +51,19 @@ class BaseWebService extends Actions {
     }
 
     @Step
-    def initConnection(url, HTTPMethod httpMethod) {
-        request = Eval.me("return new org.apache.http.client.methods.Http${httpMethod.name()}(${url})")
+    def initConnection(endpoint, String httpMethod, closure = null) {
+        def method = httpMethod.toLowerCase().capitalize()
+        def url = SystemProp.API_URL + endpoint
+        request = Eval.me("return new org.apache.http.client.methods.Http${method}('${url}')")
+        if (closure) {
+            closure()
+        }
     }
 
     @Step
-    def initRequestBody(closure) {
-        requestJSON = new JSONObject()
-        closure()
-        def input = new StringEntity(requestJSON as String)
+    def initRequestBody(content) {
+        requestJSON = new JsonBuilder(content)
+        def input = new StringEntity(requestJSON.toPrettyString())
         input.setContentType("application/json")
         (request as HttpPost).setEntity(input)
     }
@@ -72,12 +75,12 @@ class BaseWebService extends Actions {
         }
     }
 
-    def analyzeResponseStatusCode(Matcher matcher, closure = null) {
+    def analyzeResponseStatusCode(Matcher matcher, Closure closure = null) {
         analyzeResponseStatusCode(matcher, null, closure)
     }
 
     @Step
-    def analyzeResponseStatusCode(Matcher matcher, HttpClientContext context, closure = null) {
+    def analyzeResponseStatusCode(Matcher matcher, HttpClientContext context, Closure closure = null) {
         response = context ? client.execute(request, context) : client.execute(request)
         responseBody = response.getEntity() ? EntityUtils.toString(response.getEntity()) : 'No response body'
         try {
