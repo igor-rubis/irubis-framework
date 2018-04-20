@@ -8,10 +8,8 @@ package com.irubis_framework.steps.restWebServices
 import com.irubis_framework.helpers.systemProp.SystemProp
 import com.irubis_framework.steps.Actions
 import groovy.json.JsonBuilder
-import groovy.json.JsonOutput
 import org.apache.http.HttpHost
 import org.apache.http.client.methods.HttpPost
-import org.apache.http.client.protocol.HttpClientContext
 import org.apache.http.entity.StringEntity
 import org.apache.http.impl.client.HttpClientBuilder
 import org.apache.http.impl.client.HttpClients
@@ -75,13 +73,9 @@ abstract class BaseWebService extends Actions {
         }
     }
 
-    def analyzeResponseStatusCode(Matcher matcher, Closure closure = null) {
-        analyzeResponseStatusCode(matcher, null, closure)
-    }
-
     @Step
-    def analyzeResponseStatusCode(Matcher matcher, HttpClientContext context, Closure closure = null) {
-        response = context ? client.execute(request, context) : client.execute(request)
+    def analyzeResponseStatusCode(Matcher matcher, Closure closure = null) {
+        response = client.execute(request)
         responseBody = response.getEntity() ? EntityUtils.toString(response.getEntity()) : 'No response body'
         try {
             responseJSON = new JSONObject(responseBody)
@@ -96,7 +90,6 @@ abstract class BaseWebService extends Actions {
             assertThat("Unexpected response status code. Response body: ${responseBody}", response.statusLine.statusCode, matcher)
         } catch (Throwable ex) {
             dumpCurrentSession()
-            !context ?: dumpHttpClientContext(context)
             throw ex
         }
     }
@@ -124,16 +117,5 @@ abstract class BaseWebService extends Actions {
             stringedInfo = "Could not dump request and response info due to error: ${error.message}"
         }
         return stringedInfo
-    }
-
-    @Attachment(value = 'Http client context', type = 'application/json')
-    static dumpHttpClientContext(context) {
-        JsonOutput.prettyPrint(
-                JsonOutput.toJson(
-                        context.properties.collectEntries { key, value ->
-                            [(key): value as String]
-                        }
-                )
-        )
     }
 }
