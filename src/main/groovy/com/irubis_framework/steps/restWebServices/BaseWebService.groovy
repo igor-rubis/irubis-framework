@@ -85,7 +85,7 @@ abstract class BaseWebService extends Actions {
         try {
             dumpRequestResponseInfo()
             if (closure) {
-                closure()
+                closure(this)
             }
             assertThat("Unexpected response status code. Response body: ${responseBody}", response.statusLine.statusCode, matcher)
         } catch (Throwable ex) {
