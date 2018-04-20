@@ -8,6 +8,7 @@ package com.irubis_framework.steps.restWebServices
 import com.irubis_framework.helpers.systemProp.SystemProp
 import com.irubis_framework.steps.Actions
 import groovy.json.JsonBuilder
+import groovy.json.JsonOutput
 import org.apache.http.HttpHost
 import org.apache.http.client.methods.HttpPost
 import org.apache.http.entity.StringEntity
@@ -117,5 +118,16 @@ abstract class BaseWebService extends Actions {
             stringedInfo = "Could not dump request and response info due to error: ${error.message}"
         }
         return stringedInfo
+    }
+
+    @Attachment(value = 'Http client context', type = 'application/json')
+    static dumpHttpClientContext(context) {
+        JsonOutput.prettyPrint(
+                JsonOutput.toJson(
+                        context.properties.collectEntries { key, value ->
+                            [(key): value as String]
+                        }
+                )
+        )
     }
 }
