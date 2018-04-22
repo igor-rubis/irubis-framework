@@ -19,12 +19,15 @@ import static com.irubis_framework.helpers.systemProp.SystemProp.WAITING_INTERVA
  */
 abstract class PageSteps extends WebUiActions {
     WebElement element(List locators) {
-        def chain = 'com.irubis_framework.helpers.browser.Browser.instance'
+        WebElement elem
         locators.each { locator ->
-            def locStr = locator.toString()
-            chain = "${chain}.findElement(org.openqa.selenium.${locStr.replace(locStr[locStr.indexOf(':') + 2..-1], "\"${locStr[locStr.indexOf(':') + 2..-1]}\")").replace(':', '(')})"
+            if (elem) {
+                elem = elem.findElement(locator)
+            } else {
+                elem = element(locator)
+            }
         }
-        Eval.me("return ${chain}")
+        elem
     }
 
     WebElement element(By by) {
