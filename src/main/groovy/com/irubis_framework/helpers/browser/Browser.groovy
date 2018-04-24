@@ -89,7 +89,7 @@ class Browser {
         return WEB_DRIVER
     }
 
-    static clear() {
+    static void clear() {
         try {
             if (WEB_DRIVER) {
                 WEB_DRIVER.close()

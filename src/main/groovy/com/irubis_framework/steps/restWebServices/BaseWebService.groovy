@@ -29,7 +29,7 @@ import static org.hamcrest.MatcherAssert.assertThat
  */
 
 abstract class BaseWebService extends Actions {
-    def client
+    def httpClient
     def request
     def requestJSON
     def response
@@ -37,20 +37,20 @@ abstract class BaseWebService extends Actions {
     def responseBody
 
     @Step
-    def buildHTTPClient() {
+    void buildHTTPClient() {
         if (SystemProp.API_PROXY) {
             def proxy = URI.create(SystemProp.API_PROXY)
             def routePlanner = new DefaultProxyRoutePlanner(new HttpHost(proxy.getHost(), proxy.getPort()))
-            client = HttpClients.custom()
+            httpClient = HttpClients.custom()
                     .setRoutePlanner(routePlanner)
                     .build()
         } else {
-            client = HttpClientBuilder.create().build()
+            httpClient = HttpClientBuilder.create().build()
         }
     }
 
     @Step
-    def initConnection(endpoint, String httpMethod, closure = null) {
+    void initConnection(endpoint, String httpMethod, closure = null) {
         def method = httpMethod.toLowerCase().capitalize()
         def url = SystemProp.API_URL + endpoint
         request = Eval.me("return new org.apache.http.client.methods.Http${method}('${url}')")
@@ -60,7 +60,7 @@ abstract class BaseWebService extends Actions {
     }
 
     @Step
-    def initRequestBody(content) {
+    void initRequestBody(content) {
         requestJSON = new JsonBuilder(content)
         def input = new StringEntity(requestJSON.toPrettyString())
         input.setContentType("application/json")
@@ -68,15 +68,15 @@ abstract class BaseWebService extends Actions {
     }
 
     @Step
-    def setHeaders(headers) {
+    void setHeaders(headers) {
         headers.each { key, value ->
             request.setHeader(key, value)
         }
     }
 
     @Step
-    def analyzeResponseStatusCode(Matcher matcher, Closure closure = null) {
-        response = client.execute(request)
+    void analyzeResponseStatusCode(Matcher matcher, Closure closure = null) {
+        response = httpClient.execute(request)
         responseBody = response.getEntity() ? EntityUtils.toString(response.getEntity()) : 'No response body'
         try {
             responseJSON = new JSONObject(responseBody)
@@ -96,7 +96,7 @@ abstract class BaseWebService extends Actions {
     }
 
     @Attachment(value = 'Request and response info', type = 'application/json')
-    def dumpRequestResponseInfo() {
+    String dumpRequestResponseInfo() {
         def info = [
                 request : [
                         request_method : request.method,
@@ -117,11 +117,11 @@ abstract class BaseWebService extends Actions {
         } catch (OutOfMemoryError error) {
             stringedInfo = "Could not dump request and response info due to error: ${error.message}"
         }
-        return stringedInfo
+        return stringedInfo as String
     }
 
     @Attachment(value = 'Http client context', type = 'application/json')
-    static dumpHttpClientContext(context) {
+    static String dumpHttpClientContext(context) {
         JsonOutput.prettyPrint(
                 JsonOutput.toJson(
                         context.properties.collectEntries { key, value ->

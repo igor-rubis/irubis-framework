@@ -34,7 +34,7 @@ abstract class PageSteps extends WebUiActions {
         Browser.instance.findElement(by)
     }
 
-    def elements(By by) {
+    List<WebElement> elements(By by) {
         Browser.instance.findElements(by)
     }
 
