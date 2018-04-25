@@ -5,14 +5,12 @@
 
 package com.irubis_framework.steps.restWebServices
 
-import com.google.appengine.api.urlfetch.HTTPMethod
 import com.irubis_framework.helpers.systemProp.SystemProp
 import com.irubis_framework.steps.Actions
 import groovy.json.JsonBuilder
 import groovy.json.JsonOutput
 import org.apache.http.HttpHost
 import org.apache.http.client.methods.HttpPost
-import org.apache.http.client.protocol.HttpClientContext
 import org.apache.http.entity.StringEntity
 import org.apache.http.impl.client.HttpClientBuilder
 import org.apache.http.impl.client.HttpClients
@@ -30,8 +28,8 @@ import static org.hamcrest.MatcherAssert.assertThat
  * Created by Igor_Rubis, 11/22/2016.
  */
 
-class BaseWebService extends Actions {
-    def client
+abstract class BaseWebService extends Actions {
+    def httpClient
     def request
     def requestJSON
     def response
@@ -39,46 +37,46 @@ class BaseWebService extends Actions {
     def responseBody
 
     @Step
-    def buildHTTPClient() {
+    void buildHTTPClient() {
         if (SystemProp.API_PROXY) {
             def proxy = URI.create(SystemProp.API_PROXY)
             def routePlanner = new DefaultProxyRoutePlanner(new HttpHost(proxy.getHost(), proxy.getPort()))
-            client = HttpClients.custom()
+            httpClient = HttpClients.custom()
                     .setRoutePlanner(routePlanner)
                     .build()
         } else {
-            client = HttpClientBuilder.create().build()
+            httpClient = HttpClientBuilder.create().build()
         }
     }
 
     @Step
-    def initConnection(url, HTTPMethod httpMethod) {
-        request = Eval.me("return new org.apache.http.client.methods.Http${httpMethod.name()}(${url})")
+    void initConnection(endpoint, String httpMethod, closure = null) {
+        def method = httpMethod.toLowerCase().capitalize()
+        def url = SystemProp.API_URL + endpoint
+        request = Eval.me("return new org.apache.http.client.methods.Http${method}('${url}')")
+        if (closure) {
+            closure()
+        }
     }
 
     @Step
-    def initRequestBody(closure) {
-        requestJSON = new JSONObject()
-        closure()
-        def input = new StringEntity(requestJSON as String)
+    void initRequestBody(content) {
+        requestJSON = new JsonBuilder(content)
+        def input = new StringEntity(requestJSON.toPrettyString())
         input.setContentType("application/json")
         (request as HttpPost).setEntity(input)
     }
 
     @Step
-    def setHeaders(headers) {
+    void setHeaders(headers) {
         headers.each { key, value ->
             request.setHeader(key, value)
         }
     }
 
-    def analyzeResponseStatusCode(Matcher matcher, closure = null) {
-        analyzeResponseStatusCode(matcher, null, closure)
-    }
-
     @Step
-    def analyzeResponseStatusCode(Matcher matcher, HttpClientContext context, closure = null) {
-        response = context ? client.execute(request, context) : client.execute(request)
+    void analyzeResponseStatusCode(Matcher matcher, Closure closure = null) {
+        response = httpClient.execute(request)
         responseBody = response.getEntity() ? EntityUtils.toString(response.getEntity()) : 'No response body'
         try {
             responseJSON = new JSONObject(responseBody)
@@ -93,13 +91,12 @@ class BaseWebService extends Actions {
             assertThat("Unexpected response status code. Response body: ${responseBody}", response.statusLine.statusCode, matcher)
         } catch (Throwable ex) {
             dumpCurrentSession()
-            !context ?: dumpHttpClientContext(context)
             throw ex
         }
     }
 
     @Attachment(value = 'Request and response info', type = 'application/json')
-    def dumpRequestResponseInfo() {
+    String dumpRequestResponseInfo() {
         def info = [
                 request : [
                         request_method : request.method,
@@ -120,11 +117,11 @@ class BaseWebService extends Actions {
         } catch (OutOfMemoryError error) {
             stringedInfo = "Could not dump request and response info due to error: ${error.message}"
         }
-        return stringedInfo
+        return stringedInfo as String
     }
 
     @Attachment(value = 'Http client context', type = 'application/json')
-    static dumpHttpClientContext(context) {
+    static String dumpHttpClientContext(context) {
         JsonOutput.prettyPrint(
                 JsonOutput.toJson(
                         context.properties.collectEntries { key, value ->
