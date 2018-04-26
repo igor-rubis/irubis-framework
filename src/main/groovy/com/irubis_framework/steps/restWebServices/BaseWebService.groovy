@@ -106,7 +106,7 @@ abstract class BaseWebService extends Actions {
                 response: [
                         response_status_code: "${response.statusLine.statusCode} '${response.statusLine.reasonPhrase}'",
                         response_headers    : response.original.headergroup.headers.collect { header -> header as String },
-                        response_body       : responseJSON ? responseJSON.toString() : responseBody
+                        response_body       : responseJSON ? new JsonBuilder(responseJSON).toPrettyString() : responseBody
                 ]
         ]
 
