@@ -49,10 +49,14 @@ abstract class BaseWebService extends Actions {
     }
 
     @Step
-    def initConnection(endpoint, String httpMethod, closure = null) {
-        def method = httpMethod.toLowerCase().capitalize()
+    def initConnectionToEndpoint(endpoint, String httpMethod, closure = null) {
         def url = SystemProp.API_URL + endpoint
-        request = Eval.me("return new org.apache.http.client.methods.Http${method}('${url}')")
+        initConnectionToUrl(url, httpMethod, closure)
+    }
+
+    @Step
+    def initConnectionToUrl(url, String httpMethod, closure = null) {
+        request = Eval.me("return new org.apache.http.client.methods.Http${httpMethod.toLowerCase().capitalize()}('${url}')")
         if (closure) {
             closure()
         }
