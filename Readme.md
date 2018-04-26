@@ -7,9 +7,10 @@ repositories {
 }
 
 dependencies {
-    compile 'com.github.igor-rubis:irubis-framework:1.0.0'
+    compile 'com.github.igor-rubis:irubis-framework:2.0.0'
 }
 ```
+> To init tag in the repo go to https://jitpack.io/com/github/igor-rubis/irubis-framework/<tag>
 
 ## JVM options:
 Folder for allure test results:
