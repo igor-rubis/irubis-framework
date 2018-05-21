@@ -11,6 +11,7 @@ import groovy.json.JsonBuilder
 import groovy.json.JsonOutput
 import org.apache.http.HttpHost
 import org.apache.http.client.methods.HttpPost
+import org.apache.http.client.methods.HttpPut
 import org.apache.http.entity.StringEntity
 import org.apache.http.impl.client.HttpClientBuilder
 import org.apache.http.impl.client.HttpClients
@@ -35,6 +36,7 @@ abstract class BaseWebService extends Actions {
     def response
     def responseJSON
     def responseBody
+    def httpMethod
 
     @Step
     void buildHTTPClient() {
@@ -50,10 +52,15 @@ abstract class BaseWebService extends Actions {
     }
 
     @Step
-    void initConnection(endpoint, String httpMethod, closure = null) {
-        def method = httpMethod.toLowerCase().capitalize()
+    def initConnectionToEndpoint(endpoint, String httpMethod, closure = null) {
         def url = SystemProp.API_URL + endpoint
-        request = Eval.me("return new org.apache.http.client.methods.Http${method}('${url}')")
+        initConnectionToUrl(url, httpMethod, closure)
+    }
+
+    @Step
+    def initConnectionToUrl(url, String httpMethod, closure = null) {
+        this.httpMethod = httpMethod
+        request = Eval.me("return new org.apache.http.client.methods.Http${this.httpMethod.toLowerCase().capitalize()}('${url}')")
         if (closure) {
             closure()
         }
@@ -64,7 +71,11 @@ abstract class BaseWebService extends Actions {
         requestJSON = new JsonBuilder(content)
         def input = new StringEntity(requestJSON.toPrettyString())
         input.setContentType("application/json")
-        (request as HttpPost).setEntity(input)
+        switch (httpMethod.toLowerCase()) {
+            case 'post': (request as HttpPost).setEntity(input); break
+            case 'put': (request as HttpPut).setEntity(input); break
+            default: throw new RuntimeException("The method 'initRequestBody' is not set up for http method '${httpMethod}'")
+        }
     }
 
     @Step
@@ -86,7 +97,7 @@ abstract class BaseWebService extends Actions {
         try {
             dumpRequestResponseInfo()
             if (closure) {
-                closure()
+                closure(this)
             }
             assertThat("Unexpected response status code. Response body: ${responseBody}", response.statusLine.statusCode, matcher)
         } catch (Throwable ex) {
