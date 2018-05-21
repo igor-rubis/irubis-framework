@@ -9,7 +9,6 @@ import com.irubis_framework.helpers.systemProp.SystemProp
 import com.irubis_framework.steps.Actions
 import groovy.json.JsonBuilder
 import org.apache.http.HttpHost
-import org.apache.http.client.methods.HttpPost
 import org.apache.http.entity.StringEntity
 import org.apache.http.impl.client.HttpClientBuilder
 import org.apache.http.impl.client.HttpClients
@@ -34,6 +33,7 @@ abstract class BaseWebService extends Actions {
     def response
     def responseJSON
     def responseBody
+    def httpMethod
 
     @Step
     def buildHTTPClient() {
@@ -56,7 +56,8 @@ abstract class BaseWebService extends Actions {
 
     @Step
     def initConnectionToUrl(url, String httpMethod, closure = null) {
-        request = Eval.me("return new org.apache.http.client.methods.Http${httpMethod.toLowerCase().capitalize()}('${url}')")
+        this.httpMethod = httpMethod
+        request = Eval.me("return new org.apache.http.client.methods.Http${this.httpMethod.toLowerCase().capitalize()}('${url}')")
         if (closure) {
             closure()
         }
@@ -67,7 +68,7 @@ abstract class BaseWebService extends Actions {
         requestJSON = new JsonBuilder(content)
         def input = new StringEntity(requestJSON.toPrettyString())
         input.setContentType("application/json")
-        (request as HttpPost).setEntity(input)
+        Eval.me("(request as org.apache.http.client.methods.Http${httpMethod.toLowerCase().capitalize()}).setEntity(input)")
     }
 
     @Step
