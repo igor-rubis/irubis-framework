@@ -53,18 +53,7 @@ abstract class BaseWebService extends Actions {
         /*
         //TODO:
         ignore ssl certificate validation:
-        Here is a way to allow all hostnames when building an http client.
-
-CloseableHttpClient httpClient = HttpClients
-    .custom()
-    .setHostnameVerifier(AllowAllHostnameVerifier.INSTANCE)
-    .build();
-Or if you are using version 4.4 or later, the updated call looks like this:
-
-CloseableHttpClient httpClient = HttpClients
-    .custom()
-    .setSSLHostnameVerifier(NoopHostnameVerifier.INSTANCE)
-    .build();
+       https://memorynotfound.com/ignore-certificate-errors-apache-httpclient/
         */
     }
 
