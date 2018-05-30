@@ -24,6 +24,7 @@ import wslite.json.JSONException
 import wslite.json.JSONObject
 
 import static org.hamcrest.MatcherAssert.assertThat
+import static org.hamcrest.Matchers.is
 
 /**
  * Created by Igor_Rubis, 11/22/2016.
@@ -92,7 +93,7 @@ abstract class BaseWebService extends Actions {
     }
 
     @Step
-    void analyzeResponseStatusCode(Matcher matcher, Closure closure = null) {
+    void analyzeResponseStatusCode(Integer expectedStatusCode, Closure closure = null) {
         response = httpClient.execute(request)
         responseBody = response.getEntity() ? EntityUtils.toString(response.getEntity()) : 'No response body'
         try {
@@ -105,7 +106,7 @@ abstract class BaseWebService extends Actions {
             if (closure) {
                 closure(this)
             }
-            assertThat("Unexpected response status code. Response body: ${responseBody}", response.statusLine.statusCode, matcher)
+            assertThat("Unexpected response status code. Response body: ${responseBody}", response.statusLine.statusCode, is(expectedStatusCode))
         } catch (Throwable ex) {
             dumpCurrentSession()
             throw ex
