@@ -81,7 +81,7 @@ abstract class BaseWebService extends Actions {
         switch (httpMethod.toLowerCase()) {
             case 'post': (request as HttpPost).setEntity(input); break
             case 'put': (request as HttpPut).setEntity(input); break
-            default: throw new RuntimeException("The method 'initRequestBody' is not set up for http method '${httpMethod}'")
+            default: throw new RuntimeException("The method 'initRequestBody()' does not support http method '${httpMethod}'")
         }
     }
 
@@ -103,10 +103,10 @@ abstract class BaseWebService extends Actions {
         }
         try {
             dumpRequestResponseInfo()
+            assertThat("Unexpected response status code. Response body: ${responseBody}", response.statusLine.statusCode, is(expectedStatusCode))
             if (closure) {
                 closure(this)
             }
-            assertThat("Unexpected response status code. Response body: ${responseBody}", response.statusLine.statusCode, is(expectedStatusCode))
         } catch (Throwable ex) {
             dumpCurrentSession()
             throw ex
