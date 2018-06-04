@@ -52,9 +52,10 @@ abstract class BaseWebService extends Actions {
         }
         
         /*
-        //TODO:
-        ignore ssl certificate validation:
+        //TODO ignore ssl certificate validation:
        https://memorynotfound.com/ignore-certificate-errors-apache-httpclient/
+        
+        //TODO implement builder pattern 
         */
     }
 
@@ -93,6 +94,7 @@ abstract class BaseWebService extends Actions {
     }
 
     @Step
+    //TODO overload method to accept int and matcher as expectedStatusCode
     void analyzeResponseStatusCode(Integer expectedStatusCode, Closure closure = null) {
         response = httpClient.execute(request)
         responseBody = response.getEntity() ? EntityUtils.toString(response.getEntity()) : 'No response body'
