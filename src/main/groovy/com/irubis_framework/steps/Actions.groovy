@@ -7,7 +7,6 @@ package com.irubis_framework.steps
 
 import com.irubis_framework.helpers.currentSession.CurrentSession
 import groovy.json.JsonBuilder
-import groovy.transform.PackageScope
 import org.apache.commons.lang.exception.ExceptionUtils
 import ru.yandex.qatools.allure.annotations.Attachment
 import ru.yandex.qatools.allure.annotations.Step
@@ -18,7 +17,7 @@ import static com.irubis_framework.helpers.systemProp.SystemProp.WAITING_INTERVA
 /**
  * Created by Igor_Rubis. 7/29/16.
  */
-@PackageScope
+
 abstract class Actions {
     protected eventually(interval = WAITING_INTERVAL, closure) {
         eventually(interval, POLLING_INTERVAL, closure)
