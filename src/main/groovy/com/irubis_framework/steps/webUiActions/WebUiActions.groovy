@@ -41,12 +41,12 @@ abstract class WebUiActions extends Actions {
     }
 
     @Attachment(value = 'Page source', type = "text/html")
-    def dumpPageSource() {
+    String dumpPageSource() {
         return Browser.instance.getPageSource()
     }
 
     @Attachment(value = 'Console log', type = 'application/json')
-    def dumpConsoleLog() {
+    String dumpConsoleLog() {
         try {
             def logs = Browser.instance.manage().logs()
             def json = [
