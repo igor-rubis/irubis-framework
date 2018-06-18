@@ -5,7 +5,7 @@ class CurrentSession {
 
     private CurrentSession() {}
 
-    static private getInstance() {
+    static HashMap getInstance() {
         instance = instance ?: new HashMap()
     }
 
