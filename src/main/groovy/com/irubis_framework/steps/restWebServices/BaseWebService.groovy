@@ -12,16 +12,22 @@ import groovy.json.JsonOutput
 import org.apache.http.HttpHost
 import org.apache.http.client.methods.HttpPost
 import org.apache.http.client.methods.HttpPut
+import org.apache.http.conn.ssl.NoopHostnameVerifier
+import org.apache.http.conn.ssl.SSLConnectionSocketFactory
+import org.apache.http.conn.ssl.TrustSelfSignedStrategy
 import org.apache.http.entity.StringEntity
-import org.apache.http.impl.client.HttpClientBuilder
 import org.apache.http.impl.client.HttpClients
 import org.apache.http.impl.conn.DefaultProxyRoutePlanner
+import org.apache.http.ssl.SSLContextBuilder
 import org.apache.http.util.EntityUtils
 import org.hamcrest.Matcher
 import ru.yandex.qatools.allure.annotations.Attachment
 import ru.yandex.qatools.allure.annotations.Step
 import wslite.json.JSONException
 import wslite.json.JSONObject
+
+import javax.net.ssl.HostnameVerifier
+import javax.net.ssl.SSLContext
 
 import static org.hamcrest.MatcherAssert.assertThat
 import static org.hamcrest.Matchers.is
@@ -41,22 +47,27 @@ abstract class BaseWebService extends Actions {
 
     @Step
     void buildHTTPClient() {
+        def customHttpClient = HttpClients.custom()
+
         if (SystemProp.API_PROXY) {
             def proxy = URI.create(SystemProp.API_PROXY)
             def routePlanner = new DefaultProxyRoutePlanner(new HttpHost(proxy.getHost(), proxy.getPort()))
-            httpClient = HttpClients.custom()
-                    .setRoutePlanner(routePlanner)
-                    .build()
-        } else {
-            httpClient = HttpClientBuilder.create().build()
+            customHttpClient.setRoutePlanner(routePlanner)
         }
-        
-        /*
-        //TODO ignore ssl certificate validation:
-       https://memorynotfound.com/ignore-certificate-errors-apache-httpclient/
-        
-        //TODO implement builder pattern 
-        */
+
+        if (SystemProp.IGNORE_SSL_CERT_VALIDATION) {
+            SSLContext sslContext = SSLContextBuilder.create().loadTrustMaterial(new TrustSelfSignedStrategy()).build()
+            SSLConnectionSocketFactory connectionFactory
+            if (SystemProp.ALLOW_ALL_HOSTS) {
+                HostnameVerifier allowAllHosts = new NoopHostnameVerifier()
+                connectionFactory = new SSLConnectionSocketFactory(sslContext, allowAllHosts)
+            } else {
+                connectionFactory = new SSLConnectionSocketFactory(sslContext)
+            }
+            customHttpClient.setSSLSocketFactory(connectionFactory)
+        }
+
+        httpClient = customHttpClient.build()
     }
 
     @Step
