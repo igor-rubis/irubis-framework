@@ -162,4 +162,14 @@ abstract class PageSteps extends WebUiActions {
     void scrollPageToTop() {
         evaluateJavascript('window.scrollTo(0, 0);')
     }
+
+    void confirmAlert() {
+        eventually() {
+            Browser.instance.switchTo().alert().accept()
+        }
+    }
+
+    void dontShowModalWindow() {
+        evaluateJavascript('window.showModalDialog = window.open;')
+    }
 }
