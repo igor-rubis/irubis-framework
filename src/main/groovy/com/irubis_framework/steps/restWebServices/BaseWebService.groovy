@@ -26,9 +26,6 @@ import ru.yandex.qatools.allure.annotations.Step
 import wslite.json.JSONException
 import wslite.json.JSONObject
 
-import javax.net.ssl.HostnameVerifier
-import javax.net.ssl.SSLContext
-
 import static org.hamcrest.MatcherAssert.assertThat
 import static org.hamcrest.Matchers.is
 
@@ -56,10 +53,10 @@ abstract class BaseWebService extends Actions {
         }
 
         if (SystemProp.IGNORE_SSL_CERT_VALIDATION) {
-            SSLContext sslContext = SSLContextBuilder.create().loadTrustMaterial(new TrustSelfSignedStrategy()).build()
-            SSLConnectionSocketFactory connectionFactory
+            def sslContext = SSLContextBuilder.create().loadTrustMaterial(new TrustSelfSignedStrategy()).build()
+            def connectionFactory
             if (SystemProp.ALLOW_ALL_HOSTS) {
-                HostnameVerifier allowAllHosts = new NoopHostnameVerifier()
+                def allowAllHosts = new NoopHostnameVerifier()
                 connectionFactory = new SSLConnectionSocketFactory(sslContext, allowAllHosts)
             } else {
                 connectionFactory = new SSLConnectionSocketFactory(sslContext)
