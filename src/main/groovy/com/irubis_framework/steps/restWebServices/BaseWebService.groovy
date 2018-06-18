@@ -94,8 +94,7 @@ abstract class BaseWebService extends Actions {
     }
 
     @Step
-    //TODO overload method to accept int and matcher as expectedStatusCode
-    void analyzeResponseStatusCode(Integer expectedStatusCode, Closure closure = null) {
+    void analyzeResponseStatusCode(Matcher expectedStatusCode, Closure closure = null) {
         response = httpClient.execute(request)
         responseBody = response.getEntity() ? EntityUtils.toString(response.getEntity()) : 'No response body'
         try {
@@ -105,7 +104,7 @@ abstract class BaseWebService extends Actions {
         }
         try {
             dumpRequestResponseInfo()
-            assertThat("Unexpected response status code. Response body: ${responseBody}", response.statusLine.statusCode, is(expectedStatusCode))
+            assertThat("Unexpected response status code. Response body: ${responseBody}", response.statusLine.statusCode, expectedStatusCode)
             if (closure) {
                 closure(this)
             }
@@ -113,6 +112,11 @@ abstract class BaseWebService extends Actions {
             dumpCurrentSession()
             throw ex
         }
+    }
+
+    @Step
+    void analyzeResponseStatusCode(Integer expectedStatusCode, Closure closure = null) {
+        analyzeResponseStatusCode(is(expectedStatusCode), closure)
     }
 
     @Attachment(value = 'Request and response info', type = 'application/json')
