@@ -56,13 +56,7 @@ abstract class BaseWebService extends Actions {
 
         if (SystemProp.IGNORE_SSL_CERT_VALIDATION) {
             def sslContext = SSLContextBuilder.create().loadTrustMaterial(new TrustSelfSignedStrategy()).build()
-            def connectionFactory
-            if (SystemProp.ALLOW_ALL_HOSTS) {
-                def allowAllHosts = new NoopHostnameVerifier()
-                connectionFactory = new SSLConnectionSocketFactory(sslContext, allowAllHosts)
-            } else {
-                connectionFactory = new SSLConnectionSocketFactory(sslContext)
-            }
+            def connectionFactory = SystemProp.ALLOW_ALL_HOSTS ? new SSLConnectionSocketFactory(sslContext, new NoopHostnameVerifier()) : new SSLConnectionSocketFactory(sslContext)
             customHttpClient.setSSLSocketFactory(connectionFactory)
         }
 
