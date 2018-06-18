@@ -12,6 +12,7 @@ import groovy.json.JsonOutput
 import org.apache.http.HttpHost
 import org.apache.http.client.methods.HttpPost
 import org.apache.http.client.methods.HttpPut
+import org.apache.http.client.protocol.HttpClientContext
 import org.apache.http.conn.ssl.NoopHostnameVerifier
 import org.apache.http.conn.ssl.SSLConnectionSocketFactory
 import org.apache.http.conn.ssl.TrustSelfSignedStrategy
@@ -41,6 +42,7 @@ abstract class BaseWebService extends Actions {
     def responseJSON
     def responseBody
     def httpMethod
+    def httpClientContext
 
     @Step
     void buildHTTPClient() {
@@ -102,8 +104,13 @@ abstract class BaseWebService extends Actions {
     }
 
     @Step
+    void createHttpClientContext() {
+        httpClientContext = HttpClientContext.create()
+    }
+
+    @Step
     void analyzeResponseStatusCode(Matcher expectedStatusCode, Closure closure = null) {
-        response = httpClient.execute(request)
+        response = httpClientContext ? httpClient.execute(request, httpClientContext) : httpClient.execute(request)
         responseBody = response.getEntity() ? EntityUtils.toString(response.getEntity()) : 'No response body'
         try {
             responseJSON = new JSONObject(responseBody)
@@ -118,6 +125,9 @@ abstract class BaseWebService extends Actions {
             }
         } catch (Throwable ex) {
             dumpCurrentSession()
+            if (httpClientContext) {
+                dumpHttpClientContext()
+            }
             throw ex
         }
     }
@@ -153,10 +163,10 @@ abstract class BaseWebService extends Actions {
     }
 
     @Attachment(value = 'Http client context', type = 'application/json')
-    static String dumpHttpClientContext(context) {
+    String dumpHttpClientContext() {
         JsonOutput.prettyPrint(
                 JsonOutput.toJson(
-                        context.properties.collectEntries { key, value ->
+                        httpClientContext.properties.collectEntries { key, value ->
                             [(key): value as String]
                         }
                 )
