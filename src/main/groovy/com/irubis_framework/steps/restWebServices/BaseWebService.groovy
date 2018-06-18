@@ -12,10 +12,14 @@ import groovy.json.JsonOutput
 import org.apache.http.HttpHost
 import org.apache.http.client.methods.HttpPost
 import org.apache.http.client.methods.HttpPut
+import org.apache.http.client.protocol.HttpClientContext
+import org.apache.http.conn.ssl.NoopHostnameVerifier
+import org.apache.http.conn.ssl.SSLConnectionSocketFactory
+import org.apache.http.conn.ssl.TrustSelfSignedStrategy
 import org.apache.http.entity.StringEntity
-import org.apache.http.impl.client.HttpClientBuilder
 import org.apache.http.impl.client.HttpClients
 import org.apache.http.impl.conn.DefaultProxyRoutePlanner
+import org.apache.http.ssl.SSLContextBuilder
 import org.apache.http.util.EntityUtils
 import org.hamcrest.Matcher
 import ru.yandex.qatools.allure.annotations.Attachment
@@ -38,25 +42,25 @@ abstract class BaseWebService extends Actions {
     def responseJSON
     def responseBody
     def httpMethod
+    def httpClientContext
 
     @Step
     void buildHTTPClient() {
+        def customHttpClient = HttpClients.custom()
+
         if (SystemProp.API_PROXY) {
             def proxy = URI.create(SystemProp.API_PROXY)
             def routePlanner = new DefaultProxyRoutePlanner(new HttpHost(proxy.getHost(), proxy.getPort()))
-            httpClient = HttpClients.custom()
-                    .setRoutePlanner(routePlanner)
-                    .build()
-        } else {
-            httpClient = HttpClientBuilder.create().build()
+            customHttpClient.setRoutePlanner(routePlanner)
         }
-        
-        /*
-        //TODO ignore ssl certificate validation:
-       https://memorynotfound.com/ignore-certificate-errors-apache-httpclient/
-        
-        //TODO implement builder pattern 
-        */
+
+        if (SystemProp.IGNORE_SSL_CERT_VALIDATION) {
+            def sslContext = SSLContextBuilder.create().loadTrustMaterial(new TrustSelfSignedStrategy()).build()
+            def connectionFactory = SystemProp.ALLOW_ALL_HOSTS ? new SSLConnectionSocketFactory(sslContext, new NoopHostnameVerifier()) : new SSLConnectionSocketFactory(sslContext)
+            customHttpClient.setSSLSocketFactory(connectionFactory)
+        }
+
+        httpClient = customHttpClient.build()
     }
 
     @Step
@@ -94,9 +98,13 @@ abstract class BaseWebService extends Actions {
     }
 
     @Step
-    //TODO overload method to accept int and matcher as expectedStatusCode
-    void analyzeResponseStatusCode(Integer expectedStatusCode, Closure closure = null) {
-        response = httpClient.execute(request)
+    void createHttpClientContext() {
+        httpClientContext = HttpClientContext.create()
+    }
+
+    @Step
+    void analyzeResponseStatusCode(Matcher expectedStatusCode, Closure closure = null) {
+        response = httpClientContext ? httpClient.execute(request, httpClientContext) : httpClient.execute(request)
         responseBody = response.getEntity() ? EntityUtils.toString(response.getEntity()) : 'No response body'
         try {
             responseJSON = new JSONObject(responseBody)
@@ -105,14 +113,22 @@ abstract class BaseWebService extends Actions {
         }
         try {
             dumpRequestResponseInfo()
-            assertThat("Unexpected response status code. Response body: ${responseBody}", response.statusLine.statusCode, is(expectedStatusCode))
+            assertThat("Unexpected response status code. Response body: ${responseBody}", response.statusLine.statusCode, expectedStatusCode)
             if (closure) {
                 closure(this)
             }
         } catch (Throwable ex) {
             dumpCurrentSession()
+            if (httpClientContext) {
+                dumpHttpClientContext()
+            }
             throw ex
         }
+    }
+
+    @Step
+    void analyzeResponseStatusCode(Integer expectedStatusCode, Closure closure = null) {
+        analyzeResponseStatusCode(is(expectedStatusCode), closure)
     }
 
     @Attachment(value = 'Request and response info', type = 'application/json')
@@ -141,10 +157,10 @@ abstract class BaseWebService extends Actions {
     }
 
     @Attachment(value = 'Http client context', type = 'application/json')
-    static String dumpHttpClientContext(context) {
+    String dumpHttpClientContext() {
         JsonOutput.prettyPrint(
                 JsonOutput.toJson(
-                        context.properties.collectEntries { key, value ->
+                        httpClientContext.properties.collectEntries { key, value ->
                             [(key): value as String]
                         }
                 )

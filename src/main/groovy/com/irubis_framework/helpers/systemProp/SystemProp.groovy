@@ -12,4 +12,6 @@ class SystemProp {
     static Integer POLLING_INTERVAL = System.getProperty('pollingInterval', '500') as Integer
     static String API_PROXY = System.getProperty('apiProxy')
     static String API_URL = System.getProperty('apiUrl')
+    static Boolean IGNORE_SSL_CERT_VALIDATION = System.getProperty('ignoreSslCertValidation', 'false').toBoolean()
+    static Boolean ALLOW_ALL_HOSTS = System.getProperty('allowAllHosts', 'false').toBoolean()
 }

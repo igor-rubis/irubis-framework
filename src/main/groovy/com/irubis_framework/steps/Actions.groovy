@@ -10,7 +10,6 @@ import groovy.json.JsonBuilder
 import org.apache.commons.lang.exception.ExceptionUtils
 import ru.yandex.qatools.allure.annotations.Attachment
 import ru.yandex.qatools.allure.annotations.Step
-import groovy.transform.*
 
 import static com.irubis_framework.helpers.systemProp.SystemProp.POLLING_INTERVAL
 import static com.irubis_framework.helpers.systemProp.SystemProp.WAITING_INTERVAL
@@ -18,9 +17,8 @@ import static com.irubis_framework.helpers.systemProp.SystemProp.WAITING_INTERVA
 /**
  * Created by Igor_Rubis. 7/29/16.
  */
-@PackageScope
-abstract class Actions {
 
+abstract class Actions {
     protected eventually(interval = WAITING_INTERVAL, closure) {
         eventually(interval, POLLING_INTERVAL, closure)
     }
@@ -48,7 +46,7 @@ abstract class Actions {
     }
 
     @Step
-    protected waitABit(timestamp, interval) {
+    protected void waitABit(timestamp, interval) {
         eventually(interval) {
             if (timestamp) {
                 def current = new Date().getTime() + POLLING_INTERVAL
@@ -61,12 +59,12 @@ abstract class Actions {
     }
 
     @Attachment(value = 'Current session', type = 'application/json')
-    def dumpCurrentSession() {
+    String dumpCurrentSession() {
         new JsonBuilder(CurrentSession.instance).toPrettyString()
     }
 
     @Attachment(value = 'Stack trace', type = 'text/plain')
-    def dumpStackTrace(exception) {
+    String dumpStackTrace(exception) {
         ExceptionUtils.getStackTrace(exception)
     }
 }
