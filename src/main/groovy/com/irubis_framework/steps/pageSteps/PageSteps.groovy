@@ -25,11 +25,7 @@ abstract class PageSteps extends WebUiActions {
     WebElement element(List<By> locators) {
         WebElement elem
         locators.each { locator ->
-            if (elem) {
-                elem = elem.findElement(locator)
-            } else {
-                elem = element(locator)
-            }
+            elem = elem ? elem.findElement(locator) : element(locator)
         }
         elem
     }
