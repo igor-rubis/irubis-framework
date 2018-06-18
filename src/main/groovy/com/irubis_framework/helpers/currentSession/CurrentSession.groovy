@@ -5,19 +5,19 @@ class CurrentSession {
 
     private CurrentSession() {}
 
-    static getInstance() {
+    static HashMap getInstance() {
         instance = instance ?: new HashMap()
     }
 
-    static get(key) {
+    static Object get(Object key) {
         getInstance()[key]
     }
 
-    static put(key, value) {
+    static void put(Object key, Object value) {
         getInstance()[key] = value
     }
 
-    static clear() {
+    static void clear() {
         instance = null
     }
 }

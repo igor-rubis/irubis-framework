@@ -8,13 +8,18 @@ package com.irubis_framework.steps.restWebServices
 import com.irubis_framework.helpers.systemProp.SystemProp
 import com.irubis_framework.steps.Actions
 import groovy.json.JsonBuilder
+import groovy.json.JsonOutput
 import org.apache.http.HttpHost
 import org.apache.http.client.methods.HttpPost
 import org.apache.http.client.methods.HttpPut
+import org.apache.http.client.protocol.HttpClientContext
+import org.apache.http.conn.ssl.NoopHostnameVerifier
+import org.apache.http.conn.ssl.SSLConnectionSocketFactory
+import org.apache.http.conn.ssl.TrustSelfSignedStrategy
 import org.apache.http.entity.StringEntity
-import org.apache.http.impl.client.HttpClientBuilder
 import org.apache.http.impl.client.HttpClients
 import org.apache.http.impl.conn.DefaultProxyRoutePlanner
+import org.apache.http.ssl.SSLContextBuilder
 import org.apache.http.util.EntityUtils
 import org.hamcrest.Matcher
 import ru.yandex.qatools.allure.annotations.Attachment
@@ -23,31 +28,39 @@ import wslite.json.JSONException
 import wslite.json.JSONObject
 
 import static org.hamcrest.MatcherAssert.assertThat
+import static org.hamcrest.Matchers.is
 
 /**
  * Created by Igor_Rubis, 11/22/2016.
  */
 
 abstract class BaseWebService extends Actions {
-    def client
+    def httpClient
     def request
     def requestJSON
     def response
     def responseJSON
     def responseBody
     def httpMethod
+    def httpClientContext
 
     @Step
-    def buildHTTPClient() {
+    void buildHTTPClient() {
+        def customHttpClient = HttpClients.custom()
+
         if (SystemProp.API_PROXY) {
             def proxy = URI.create(SystemProp.API_PROXY)
             def routePlanner = new DefaultProxyRoutePlanner(new HttpHost(proxy.getHost(), proxy.getPort()))
-            client = HttpClients.custom()
-                    .setRoutePlanner(routePlanner)
-                    .build()
-        } else {
-            client = HttpClientBuilder.create().build()
+            customHttpClient.setRoutePlanner(routePlanner)
         }
+
+        if (SystemProp.IGNORE_SSL_CERT_VALIDATION) {
+            def sslContext = SSLContextBuilder.create().loadTrustMaterial(new TrustSelfSignedStrategy()).build()
+            def connectionFactory = SystemProp.ALLOW_ALL_HOSTS ? new SSLConnectionSocketFactory(sslContext, new NoopHostnameVerifier()) : new SSLConnectionSocketFactory(sslContext)
+            customHttpClient.setSSLSocketFactory(connectionFactory)
+        }
+
+        httpClient = customHttpClient.build()
     }
 
     @Step
@@ -66,27 +79,32 @@ abstract class BaseWebService extends Actions {
     }
 
     @Step
-    def initRequestBody(content) {
+    void initRequestBody(content) {
         requestJSON = new JsonBuilder(content)
         def input = new StringEntity(requestJSON.toPrettyString())
         input.setContentType("application/json")
         switch (httpMethod.toLowerCase()) {
             case 'post': (request as HttpPost).setEntity(input); break
             case 'put': (request as HttpPut).setEntity(input); break
-            default: throw new RuntimeException("The method 'initRequestBody' is not set up for http method '${httpMethod}'")
+            default: throw new RuntimeException("The method 'initRequestBody()' does not support http method '${httpMethod}'")
         }
     }
 
     @Step
-    def setHeaders(headers) {
+    void setHeaders(headers) {
         headers.each { key, value ->
             request.setHeader(key, value)
         }
     }
 
     @Step
-    def analyzeResponseStatusCode(Matcher matcher, Closure closure = null) {
-        response = client.execute(request)
+    void createHttpClientContext() {
+        httpClientContext = HttpClientContext.create()
+    }
+
+    @Step
+    void analyzeResponseStatusCode(Matcher expectedStatusCode, Closure closure = null) {
+        response = httpClientContext ? httpClient.execute(request, httpClientContext) : httpClient.execute(request)
         responseBody = response.getEntity() ? EntityUtils.toString(response.getEntity()) : 'No response body'
         try {
             responseJSON = new JSONObject(responseBody)
@@ -95,18 +113,26 @@ abstract class BaseWebService extends Actions {
         }
         try {
             dumpRequestResponseInfo()
+            assertThat("Unexpected response status code. Response body: ${responseBody}", response.statusLine.statusCode, expectedStatusCode)
             if (closure) {
                 closure(this)
             }
-            assertThat("Unexpected response status code. Response body: ${responseBody}", response.statusLine.statusCode, matcher)
         } catch (Throwable ex) {
             dumpCurrentSession()
+            if (httpClientContext) {
+                dumpHttpClientContext()
+            }
             throw ex
         }
     }
 
+    @Step
+    void analyzeResponseStatusCode(Integer expectedStatusCode, Closure closure = null) {
+        analyzeResponseStatusCode(is(expectedStatusCode), closure)
+    }
+
     @Attachment(value = 'Request and response info', type = 'application/json')
-    def dumpRequestResponseInfo() {
+    String dumpRequestResponseInfo() {
         def info = [
                 request : [
                         request_method : request.method,
@@ -127,6 +153,17 @@ abstract class BaseWebService extends Actions {
         } catch (OutOfMemoryError error) {
             stringedInfo = "Could not dump request and response info due to error: ${error.message}"
         }
-        return stringedInfo
+        return stringedInfo as String
+    }
+
+    @Attachment(value = 'Http client context', type = 'application/json')
+    String dumpHttpClientContext() {
+        JsonOutput.prettyPrint(
+                JsonOutput.toJson(
+                        httpClientContext.properties.collectEntries { key, value ->
+                            [(key): value as String]
+                        }
+                )
+        )
     }
 }
