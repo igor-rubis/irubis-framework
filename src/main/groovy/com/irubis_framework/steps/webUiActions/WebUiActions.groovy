@@ -28,25 +28,25 @@ abstract class WebUiActions extends Actions {
         try {
             super.eventually(interval, pollingInterval, closure)
         } catch (Throwable e) {
-            takeScreenShot()
-            dumpPageSource()
-            dumpConsoleLog()
+            attachScreenShot()
+            attachHtmlPageSnapshot()
+            attachConsoleLog()
             throw e
         }
     }
 
     @Attachment(value = 'Page screenshot', type = 'image/png')
-    def takeScreenShot() throws IOException {
+    def attachScreenShot() throws IOException {
         return ((TakesScreenshot) Browser.instance).getScreenshotAs(OutputType.BYTES)
     }
 
     @Attachment(value = 'Page source', type = "text/html")
-    String dumpPageSource() {
+    String attachHtmlPageSnapshot() {
         return Browser.instance.getPageSource()
     }
 
     @Attachment(value = 'Console log', type = 'application/json')
-    String dumpConsoleLog() {
+    String attachConsoleLog() {
         try {
             def logs = Browser.instance.manage().logs()
             def json = [

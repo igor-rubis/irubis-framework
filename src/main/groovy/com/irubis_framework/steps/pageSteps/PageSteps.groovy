@@ -105,8 +105,8 @@ abstract class PageSteps extends WebUiActions {
         eventually() {
             element(by).clear()
             element(by).sendKeys(text)
-            sleep 500
-           assertThat(getElementText(by), not(equalTo('')))
+            sleep 100
+            assertThat(getElementText(by), equalTo(text))
         }
     }
 
