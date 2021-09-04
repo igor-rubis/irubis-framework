@@ -45,7 +45,6 @@ abstract class Actions {
         throw exception
     }
 
-    @Step
     protected void waitABit(timestamp, interval) {
         eventually(interval) {
             if (timestamp) {

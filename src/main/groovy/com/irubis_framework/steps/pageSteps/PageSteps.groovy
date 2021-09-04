@@ -13,6 +13,9 @@ import org.openqa.selenium.Point
 import org.openqa.selenium.WebElement
 
 import static com.irubis_framework.helpers.systemProp.SystemProp.WAITING_INTERVAL
+import static org.hamcrest.CoreMatchers.equalTo
+import static org.hamcrest.MatcherAssert.assertThat
+import static org.hamcrest.core.IsNot.not
 
 /**
  * Created by Igor_Rubis. 7/29/16.
@@ -102,6 +105,8 @@ abstract class PageSteps extends WebUiActions {
         eventually() {
             element(by).clear()
             element(by).sendKeys(text)
+            sleep 500
+           assertThat(getElementText(by), not(equalTo('')))
         }
     }
 
