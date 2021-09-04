@@ -44,7 +44,6 @@ abstract class BaseWebService extends Actions {
     def httpMethod
     def httpClientContext
 
-    @Step
     void buildHTTPClient() {
         def customHttpClient = HttpClients.custom()
 
@@ -63,13 +62,11 @@ abstract class BaseWebService extends Actions {
         httpClient = customHttpClient.build()
     }
 
-    @Step
     def initConnectionToEndpoint(endpoint, String httpMethod, closure = null) {
         def url = SystemProp.API_URL + endpoint
         initConnectionToUrl(url, httpMethod, closure)
     }
 
-    @Step
     def initConnectionToUrl(url, String httpMethod, closure = null) {
         this.httpMethod = httpMethod
         request = Eval.me("return new org.apache.http.client.methods.Http${this.httpMethod.toLowerCase().capitalize()}('${url}')")
@@ -78,7 +75,6 @@ abstract class BaseWebService extends Actions {
         }
     }
 
-    @Step
     void initRequestBody(content) {
         requestJSON = new JsonBuilder(content)
         def input = new StringEntity(requestJSON.toPrettyString())
@@ -90,19 +86,16 @@ abstract class BaseWebService extends Actions {
         }
     }
 
-    @Step
     void setHeaders(headers) {
         headers.each { key, value ->
             request.setHeader(key, value)
         }
     }
 
-    @Step
     void createHttpClientContext() {
         httpClientContext = HttpClientContext.create()
     }
 
-    @Step
     void analyzeResponseStatusCode(Matcher expectedStatusCode, Closure closure = null) {
         response = httpClientContext ? httpClient.execute(request, httpClientContext) : httpClient.execute(request)
         responseBody = response.getEntity() ? EntityUtils.toString(response.getEntity()) : 'No response body'
@@ -126,7 +119,6 @@ abstract class BaseWebService extends Actions {
         }
     }
 
-    @Step
     void analyzeResponseStatusCode(Integer expectedStatusCode, Closure closure = null) {
         analyzeResponseStatusCode(is(expectedStatusCode), closure)
     }
