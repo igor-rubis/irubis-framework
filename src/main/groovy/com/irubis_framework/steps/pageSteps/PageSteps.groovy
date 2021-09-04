@@ -172,4 +172,10 @@ abstract class PageSteps extends WebUiActions {
     void dontShowModalWindow() {
         evaluateJavascript('window.showModalDialog = window.open;')
     }
+
+    void switchToBrowserTabByIndex(int index) {
+        eventually() {
+            Browser.instance.switchTo().window(Browser.instance.getWindowHandles()[index - 1])
+        }
+    }
 }
