@@ -9,6 +9,8 @@ import com.irubis_framework.helpers.systemProp.SystemProp
 import com.irubis_framework.steps.Actions
 import groovy.json.JsonBuilder
 import groovy.json.JsonOutput
+import io.qameta.allure.Attachment
+import io.qameta.allure.Step
 import org.apache.http.HttpHost
 import org.apache.http.client.methods.HttpPost
 import org.apache.http.client.methods.HttpPut
@@ -22,13 +24,11 @@ import org.apache.http.impl.conn.DefaultProxyRoutePlanner
 import org.apache.http.ssl.SSLContextBuilder
 import org.apache.http.util.EntityUtils
 import org.hamcrest.Matcher
-import ru.yandex.qatools.allure.annotations.Attachment
-import ru.yandex.qatools.allure.annotations.Step
 import wslite.json.JSONException
 import wslite.json.JSONObject
 
 import static org.hamcrest.MatcherAssert.assertThat
-import static org.hamcrest.Matchers.is
+import static org.hamcrest.core.Is.is
 
 /**
  * Created by Igor_Rubis, 11/22/2016.

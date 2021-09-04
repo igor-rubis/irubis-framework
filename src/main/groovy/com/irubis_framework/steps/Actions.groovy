@@ -7,9 +7,9 @@ package com.irubis_framework.steps
 
 import com.irubis_framework.helpers.currentSession.CurrentSession
 import groovy.json.JsonBuilder
+import io.qameta.allure.Attachment
+import io.qameta.allure.Step
 import org.apache.commons.lang.exception.ExceptionUtils
-import ru.yandex.qatools.allure.annotations.Attachment
-import ru.yandex.qatools.allure.annotations.Step
 
 import static com.irubis_framework.helpers.systemProp.SystemProp.POLLING_INTERVAL
 import static com.irubis_framework.helpers.systemProp.SystemProp.WAITING_INTERVAL

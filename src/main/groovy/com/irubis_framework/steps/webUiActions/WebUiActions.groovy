@@ -8,9 +8,9 @@ package com.irubis_framework.steps.webUiActions
 import com.irubis_framework.helpers.browser.Browser
 import com.irubis_framework.steps.Actions
 import groovy.json.JsonBuilder
+import io.qameta.allure.Attachment
 import org.openqa.selenium.OutputType
 import org.openqa.selenium.TakesScreenshot
-import ru.yandex.qatools.allure.annotations.Attachment
 
 import static com.irubis_framework.helpers.systemProp.SystemProp.POLLING_INTERVAL
 import static com.irubis_framework.helpers.systemProp.SystemProp.WAITING_INTERVAL

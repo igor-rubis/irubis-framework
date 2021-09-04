@@ -8,8 +8,7 @@ package com.irubis_framework.helpers.browser
 import com.machinepublishers.jbrowserdriver.JBrowserDriver
 import com.machinepublishers.jbrowserdriver.Settings
 import com.machinepublishers.jbrowserdriver.UserAgent
-import io.github.bonigarcia.wdm.ChromeDriverManager
-import io.github.bonigarcia.wdm.FirefoxDriverManager
+import io.github.bonigarcia.wdm.WebDriverManager
 import org.openqa.selenium.WebDriver
 import org.openqa.selenium.WebDriverException
 import org.openqa.selenium.chrome.ChromeDriver
@@ -80,8 +79,8 @@ class Browser {
                 }
             } catch (IllegalStateException ignored) {
                 switch (BROWSER) {
-                    case [browsers.chrome, browsers.electron]: ChromeDriverManager.instance.setup(); break
-                    case browsers.firefox: FirefoxDriverManager.instance.setup(); break
+                    case [browsers.chrome, browsers.electron]: WebDriverManager.chromedriver().setup(); break
+                    case browsers.firefox: WebDriverManager.firefoxdriver().setup(); break
                 }
                 instance
             }

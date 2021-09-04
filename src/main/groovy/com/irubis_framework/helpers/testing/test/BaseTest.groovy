@@ -6,17 +6,14 @@
 package com.irubis_framework.helpers.testing.test
 
 import com.irubis_framework.helpers.currentSession.CurrentSession
-import com.irubis_framework.helpers.testing.testRunner.AllureTestRunner
-import org.junit.After
-import org.junit.runner.RunWith
+import org.junit.jupiter.api.AfterAll
 
 /**
  * Created by Igor_Rubis. 8/3/16.
  */
 
-@RunWith(AllureTestRunner.class)
 abstract class BaseTest {
-    @After
+    @AfterAll
     void tearDown() {
         CurrentSession.clear()
     }
