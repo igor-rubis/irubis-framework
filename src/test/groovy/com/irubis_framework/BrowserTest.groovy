@@ -22,6 +22,7 @@ class BrowserTest {
         System.setProperty('chromeOptions', "user-agent=${userAgent}")
         System.setProperty('webdriverNavigatorUndefined', 'true')
         System.setProperty('excludeSwitches', 'enable-automation')
+        System.setProperty('turnOffUseAutomationExtension', 'true')
         assertThat(((JavascriptExecutor) Browser.getInstance()).executeScript("return navigator.userAgent"), equalTo(userAgent))
     }
 }

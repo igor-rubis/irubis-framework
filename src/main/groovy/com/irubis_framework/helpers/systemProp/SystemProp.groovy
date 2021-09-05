@@ -17,4 +17,5 @@ class SystemProp {
     static ArrayList<String> EXCLUDE_SWITCHES = System.getProperty('excludeSwitches', '').split(',')
     static Boolean ALLOW_ALL_HOSTS = System.getProperty('allowAllHosts', 'false').toBoolean()
     static Boolean WEBDRIVER_NAVIGATOR_UNDEFINED = System.getProperty('webdriverNavigatorUndefined', 'false').toBoolean()
+    static Boolean TURN_OFF_USE_AUTOMATION_EXTENSION = System.getProperty('turnOffUseAutomationExtension', 'false').toBoolean()
 }

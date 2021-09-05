@@ -75,6 +75,8 @@ class Browser {
                                 }
                                 if (excludeSwitches.size() > 0) options.setExperimentalOption('excludeSwitches', excludeSwitches)
 
+                                if (TURN_OFF_USE_AUTOMATION_EXTENSION) options.setExperimentalOption('useAutomationExtension', false)
+
                                 DesiredCapabilities capabilities = new DesiredCapabilities()
                                 capabilities.setCapability(ChromeOptions.CAPABILITY, options)
                                 WEB_DRIVER = new ChromeDriver(capabilities)
