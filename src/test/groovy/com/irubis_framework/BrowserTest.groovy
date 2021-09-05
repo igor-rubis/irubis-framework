@@ -3,6 +3,10 @@ package com.irubis_framework
 import com.irubis_framework.helpers.browser.Browser
 import org.junit.jupiter.api.AfterAll
 import org.junit.jupiter.api.Test
+import org.openqa.selenium.JavascriptExecutor
+
+import static org.hamcrest.CoreMatchers.equalTo
+import static org.hamcrest.MatcherAssert.assertThat
 
 class BrowserTest {
     @AfterAll
@@ -14,8 +18,8 @@ class BrowserTest {
     void chromeOptionsTest() {
         System.setProperty('testsMode', 'local')
         System.setProperty('browser', 'chrome')
-        System.setProperty('chromeOptions', '--allow-running-insecure-content,--start-maximized')
-        def browser = Browser.instance
-        System.out.println()
+        def userAgent = 'Mozilla/5.0 (Windows NT 6.1; WOW64; Trident/7.0; AS; rv:11.0) like Gecko'
+        System.setProperty('chromeOptions', "user-agent=${userAgent}")
+        assertThat(((JavascriptExecutor) Browser.getInstance()).executeScript("return navigator.userAgent"), equalTo(userAgent))
     }
 }
