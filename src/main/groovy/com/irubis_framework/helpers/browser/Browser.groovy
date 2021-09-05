@@ -8,8 +8,8 @@ package com.irubis_framework.helpers.browser
 import com.machinepublishers.jbrowserdriver.JBrowserDriver
 import com.machinepublishers.jbrowserdriver.Settings
 import com.machinepublishers.jbrowserdriver.UserAgent
-import io.github.bonigarcia.wdm.WdmServer
 import io.github.bonigarcia.wdm.WebDriverManager
+import org.openqa.selenium.JavascriptExecutor
 import org.openqa.selenium.WebDriver
 import org.openqa.selenium.WebDriverException
 import org.openqa.selenium.chrome.ChromeDriver
@@ -96,6 +96,7 @@ class Browser {
                 instance
             }
         }
+        if (WEBDRIVER_NAVIGATOR_UNDEFINED) ((JavascriptExecutor) WEB_DRIVER).executeScript("Object.defineProperty(navigator, 'webdriver', {get: () => undefined})")
         return WEB_DRIVER
     }
 

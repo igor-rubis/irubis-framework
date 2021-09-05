@@ -15,4 +15,5 @@ class SystemProp {
     static Boolean IGNORE_SSL_CERT_VALIDATION = System.getProperty('ignoreSslCertValidation', 'false').toBoolean()
     static ArrayList<String> CHROME_OPTIONS = System.getProperty('chromeOptions', '').split(',')
     static Boolean ALLOW_ALL_HOSTS = System.getProperty('allowAllHosts', 'false').toBoolean()
+    static Boolean WEBDRIVER_NAVIGATOR_UNDEFINED = System.getProperty('webdriverNavigatorUndefined', 'false').toBoolean()
 }
