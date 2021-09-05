@@ -9,6 +9,7 @@ import com.machinepublishers.jbrowserdriver.JBrowserDriver
 import com.machinepublishers.jbrowserdriver.Settings
 import com.machinepublishers.jbrowserdriver.UserAgent
 import io.github.bonigarcia.wdm.WebDriverManager
+import org.openqa.selenium.JavascriptExecutor
 import org.openqa.selenium.WebDriver
 import org.openqa.selenium.WebDriverException
 import org.openqa.selenium.chrome.ChromeDriver
@@ -80,12 +81,14 @@ class Browser {
                                 capabilities.setCapability(ChromeOptions.CAPABILITY, options)
                                 WEB_DRIVER = new ChromeDriver(capabilities)
 
-                                if (WEBDRIVER_NAVIGATOR_UNDEFINED) {
-                                    WEB_DRIVER.executeCdpCommand(
-                                            'Page.addScriptToEvaluateOnNewDocument',
-                                            [source: 'Object.defineProperty(navigator, "webdriver", {get: () => undefined, configurable: true})']
-                                    );
-                                }
+//                                TODO replace this for 'selenium-chrome-driver' v4
+//                                if (WEBDRIVER_NAVIGATOR_UNDEFINED) {
+//                                    WEB_DRIVER.executeCdpCommand(
+//                                            'Page.addScriptToEvaluateOnNewDocument',
+//                                            [source: 'Object.defineProperty(navigator, "webdriver", {get: () => undefined, configurable: true})']
+//                                    );
+//                                }
+                                if (WEBDRIVER_NAVIGATOR_UNDEFINED) ((JavascriptExecutor) WEB_DRIVER).executeScript("Object.defineProperty(navigator, 'webdriver', {get: () => undefined, configurable: true})")
                                 break
                             case browsers.jBrowser: WEB_DRIVER = Eval.me("""return new ${JBrowserDriver.canonicalName}(
                                                                     ${Settings.canonicalName}.builder()
