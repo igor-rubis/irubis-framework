@@ -24,5 +24,20 @@ dependencies {
     implementation group: 'io.github.bonigarcia', name: 'webdrivermanager', version: '5.0.1'
     implementation 'org.junit.jupiter:junit-jupiter-api:5.7.2'
     implementation group: 'com.machinepublishers', name: 'jbrowserdriver', version: '1.1.1'
+
     testImplementation group: 'org.seleniumhq.selenium', name: 'selenium-java', version: '3.141.59'
+    testImplementation files("${projectDir}/src/main/groovy")
+    testImplementation 'org.junit.jupiter:junit-jupiter-api:5.7.2'
+    
+    testRuntimeOnly 'org.junit.jupiter:junit-jupiter-engine:5.7.2'
+}
+
+test {
+    dependsOn(clean)
+    useJUnitPlatform()
+    testLogging {
+        showStandardStreams = true
+        events "started", "skipped", "failed"
+        exceptionFormat "full"
+    }
 }

@@ -8,11 +8,13 @@ package com.irubis_framework.helpers.browser
 import com.machinepublishers.jbrowserdriver.JBrowserDriver
 import com.machinepublishers.jbrowserdriver.Settings
 import com.machinepublishers.jbrowserdriver.UserAgent
+import io.github.bonigarcia.wdm.WdmServer
 import io.github.bonigarcia.wdm.WebDriverManager
 import org.openqa.selenium.WebDriver
 import org.openqa.selenium.WebDriverException
 import org.openqa.selenium.chrome.ChromeDriver
 import org.openqa.selenium.chrome.ChromeOptions
+import org.openqa.selenium.remote.DesiredCapabilities
 
 import static com.irubis_framework.helpers.systemProp.SystemProp.*
 
@@ -59,7 +61,16 @@ class Browser {
                         break
                     case testsModes.local:
                         switch (BROWSER) {
-                            case [browsers.firefox, browsers.chrome]: WEB_DRIVER = Eval.me("return new org.openqa.selenium.${BROWSER}.${BROWSER.capitalize()}Driver()"); break
+                            case [browsers.firefox]: WEB_DRIVER = Eval.me("return new org.openqa.selenium.${BROWSER}.${BROWSER.capitalize()}Driver()"); break
+                            case [browsers.chrome]:
+                                ChromeOptions options = new ChromeOptions()
+                                CHROME_OPTIONS.each { option ->
+                                    options.addArguments(option)
+                                }
+                                DesiredCapabilities capabilities = new DesiredCapabilities()
+                                capabilities.setCapability(ChromeOptions.CAPABILITY, options)
+                                WEB_DRIVER = new ChromeDriver(capabilities)
+                                break
                             case browsers.jBrowser: WEB_DRIVER = Eval.me("""return new ${JBrowserDriver.canonicalName}(
                                                                     ${Settings.canonicalName}.builder()
                                                                         .hostnameVerification(false)
