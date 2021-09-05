@@ -65,7 +65,7 @@ class Browser {
                             case [browsers.chrome]:
                                 ChromeOptions options = new ChromeOptions()
                                 CHROME_OPTIONS.each { option ->
-                                    options.addArguments(option)
+                                    if (option) options.addArguments(option)
                                 }
                                 DesiredCapabilities capabilities = new DesiredCapabilities()
                                 capabilities.setCapability(ChromeOptions.CAPABILITY, options)
@@ -96,7 +96,7 @@ class Browser {
                 instance
             }
         }
-        if (WEBDRIVER_NAVIGATOR_UNDEFINED) ((JavascriptExecutor) WEB_DRIVER).executeScript("Object.defineProperty(navigator, 'webdriver', {get: () => undefined})")
+        if (WEBDRIVER_NAVIGATOR_UNDEFINED) ((JavascriptExecutor) WEB_DRIVER).executeScript("Object.defineProperty(navigator, 'webdriver', {get: () => undefined, configurable: true})")
         return WEB_DRIVER
     }
 
