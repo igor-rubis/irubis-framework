@@ -64,9 +64,17 @@ class Browser {
                             case [browsers.firefox]: WEB_DRIVER = Eval.me("return new org.openqa.selenium.${BROWSER}.${BROWSER.capitalize()}Driver()"); break
                             case [browsers.chrome]:
                                 ChromeOptions options = new ChromeOptions()
+
                                 CHROME_OPTIONS.each { option ->
                                     if (option) options.addArguments(option)
                                 }
+
+                                def excludeSwitches = []
+                                EXCLUDE_SWITCHES.each {
+                                    if (it) excludeSwitches << it
+                                }
+                                if (excludeSwitches.size() > 0) options.setExperimentalOption('excludeSwitches', excludeSwitches)
+
                                 DesiredCapabilities capabilities = new DesiredCapabilities()
                                 capabilities.setCapability(ChromeOptions.CAPABILITY, options)
                                 WEB_DRIVER = new ChromeDriver(capabilities)
