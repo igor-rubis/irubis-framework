@@ -10,7 +10,7 @@ dependencies {
     compile 'com.github.igor-rubis:irubis-framework:2.0.0'
 }
 ```
-> To init tag in the repo go to https://jitpack.io/com/github/igor-rubis/irubis-framework/<tag>
+> To init tag in the repo go to https://jitpack.io/com/github/igor-rubis/irubis-framework/3.0.0
 
 ## JVM options:
 Folder for allure test results:
@@ -113,9 +113,11 @@ task generateAllureReport(type: Exec) {
     args('generate', 'build/reports/allure')
 }
 ```
+
 Or `args('generate', '--clean', 'build/reports/allure')` for allure 2, which requires '--clean' parameter
 
 ##### Classes inheritance
+
 Selenium tests -> `BaseUiTest`
 
 Page level steps classes -> `PageSteps`
@@ -123,3 +125,26 @@ Page level steps classes -> `PageSteps`
 Rest web services classes -> `BaseWebService`
 
 User actions level classes -> `WebUiActions`
+
+//TODO:
+
+Update the whole readme
+
+Selenium webdriver: Modifying navigator.webdriver flag to prevent selenium detection
+https://stackoverflow.com/questions/53039551/selenium-webdriver-modifying-navigator-webdriver-flag-to-prevent-selenium-detec/53040904#53040904
+
+all dependencies should be the same as in framework
+
+describe steps defined in the framework
+
+describe how to extend basic classes
+
+describe the possibility to use pure strings as css and xpath locators
+
+Add links to all the lids used in framework
+
+Add Jenkins pipelines to split tests, seed jobs etc.
+
+Describe how to work with all classes in the framework
+
+Add examples to all descriptions

@@ -8,7 +8,6 @@ package com.irubis_framework.steps
 import com.irubis_framework.helpers.currentSession.CurrentSession
 import groovy.json.JsonBuilder
 import io.qameta.allure.Attachment
-import io.qameta.allure.Step
 import org.apache.commons.lang.exception.ExceptionUtils
 
 import static com.irubis_framework.helpers.systemProp.SystemProp.POLLING_INTERVAL
@@ -19,11 +18,11 @@ import static com.irubis_framework.helpers.systemProp.SystemProp.WAITING_INTERVA
  */
 
 abstract class Actions {
-    protected eventually(interval = WAITING_INTERVAL, closure) {
+    protected eventually(int interval = WAITING_INTERVAL, Closure closure) {
         eventually(interval, POLLING_INTERVAL, closure)
     }
 
-    protected eventually(interval, pollingInterval, closure) {
+    protected eventually(int interval, int pollingInterval, Closure closure) {
         long end = new Date().getTime() + interval
         Throwable exception = null
         def poll = 0
@@ -45,7 +44,7 @@ abstract class Actions {
         throw exception
     }
 
-    protected void waitABit(timestamp, interval) {
+    protected void waitABit(int timestamp, int interval) {
         eventually(interval) {
             if (timestamp) {
                 def current = new Date().getTime() + POLLING_INTERVAL
