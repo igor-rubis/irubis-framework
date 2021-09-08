@@ -40,4 +40,5 @@ test {
         events "started", "skipped", "failed"
         exceptionFormat "full"
     }
+    include "**/PageStepsTest.*"
 }

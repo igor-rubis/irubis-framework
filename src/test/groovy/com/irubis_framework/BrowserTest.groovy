@@ -1,26 +1,13 @@
 package com.irubis_framework
 
 import com.irubis_framework.helpers.browser.Browser
-import org.junit.jupiter.api.AfterEach
-import org.junit.jupiter.api.BeforeAll
 import org.junit.jupiter.api.Test
 import org.openqa.selenium.JavascriptExecutor
 
 import static org.hamcrest.CoreMatchers.equalTo
 import static org.hamcrest.MatcherAssert.assertThat
 
-class BrowserTest {
-    @BeforeAll
-    static void setUp() {
-        System.setProperty('testsMode', 'local')
-        System.setProperty('browser', 'chrome')
-    }
-
-    @AfterEach
-    void tearDown() {
-        Browser.clear()
-    }
-
+class BrowserTest extends BaseChromeTest {
     @Test
     void chromeDriverTest() {
         Browser.getInstance()
