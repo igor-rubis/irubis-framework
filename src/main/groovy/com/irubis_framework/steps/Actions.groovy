@@ -39,8 +39,8 @@ abstract class Actions {
                 exception = e
             }
         }
-        dumpStackTrace(exception)
-        dumpCurrentSession()
+        attachStackTrace(exception)
+        attachCurrentSession()
         throw exception
     }
 
@@ -57,12 +57,12 @@ abstract class Actions {
     }
 
     @Attachment(value = 'Current session', type = 'application/json')
-    String dumpCurrentSession() {
+    String attachCurrentSession() {
         new JsonBuilder(CurrentSession.instance).toPrettyString()
     }
 
     @Attachment(value = 'Stack trace', type = 'text/plain')
-    String dumpStackTrace(exception) {
+    String attachStackTrace(exception) {
         ExceptionUtils.getStackTrace(exception)
     }
 }

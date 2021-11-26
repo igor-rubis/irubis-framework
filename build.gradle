@@ -5,6 +5,7 @@
 
 plugins {
     id 'groovy'
+    id "io.qameta.allure" version "2.8.1"
 }
 
 group 'com.irubis_framework'
@@ -12,6 +13,19 @@ version '1.0-SNAPSHOT'
 
 repositories {
     mavenCentral()
+}
+
+allure {
+    autoconfigure = true
+    version = '2.8.1'
+
+    useJUnit5 {
+        version = '2.8.1'
+    }
+}
+
+configurations {
+    testCompile
 }
 
 dependencies {
@@ -22,18 +36,22 @@ dependencies {
     implementation group: 'ru.yandex.qatools.ashot', name: 'ashot', version: '1.5.4'
     implementation group: 'com.github.groovy-wslite', name: 'groovy-wslite', version: '1.1.3'
     implementation group: 'io.github.bonigarcia', name: 'webdrivermanager', version: '5.0.1'
-    implementation 'org.junit.jupiter:junit-jupiter-api:5.7.2'
+    implementation 'org.junit.jupiter:junit-jupiter-api:5.8.1'
     implementation group: 'com.machinepublishers', name: 'jbrowserdriver', version: '1.1.1'
 
-    testImplementation group: 'org.seleniumhq.selenium', name: 'selenium-java', version: '3.141.59'
-    testImplementation files("${projectDir}/src/main/groovy")
-    testImplementation 'org.junit.jupiter:junit-jupiter-api:5.7.2'
+    implementation group: 'org.seleniumhq.selenium', name: 'selenium-java', version: '3.141.59'
+    implementation group: 'org.seleniumhq.selenium', name: 'selenium-support', version: '3.141.59'
 
-    testRuntimeOnly 'org.junit.jupiter:junit-jupiter-engine:5.7.2'
+    testImplementation files("${projectDir}/src/main/groovy")
+    testImplementation 'org.junit.jupiter:junit-jupiter-api:5.8.1'
+    testImplementation group: 'io.qameta.allure', name: 'allure-junit5', version: '2.14.0'
+
+    testRuntimeOnly 'org.junit.jupiter:junit-jupiter-engine:5.8.1'
 }
 
 test {
     dependsOn(clean)
+    maxHeapSize = "2048m"
     useJUnitPlatform()
     testLogging {
         showStandardStreams = true

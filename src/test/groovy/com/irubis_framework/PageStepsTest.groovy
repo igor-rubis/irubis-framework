@@ -8,9 +8,8 @@ import static org.junit.jupiter.api.Assertions.assertThrows
 import static org.junit.jupiter.api.Assertions.assertTrue
 
 class PageStepsTest extends BaseChromeTest {
-    class TestPageSteps extends PageSteps {
+    class TestPageSteps extends PageSteps {}
 
-    }
     TestPageSteps testPageSteps
     def text = 'test'
     def css = '[name="q"]'
@@ -28,7 +27,7 @@ class PageStepsTest extends BaseChromeTest {
     void locatorTest() {
         testPageSteps.typeInto(css, text)
         testPageSteps.typeInto(xpath, text)
-        assertThrows(RuntimeException.class, { testPageSteps.typeInto(invalidLocator, text) });
+        assertThrows(RuntimeException.class, { testPageSteps.typeInto(invalidLocator, text) })
     }
 
     @Test
@@ -40,8 +39,8 @@ class PageStepsTest extends BaseChromeTest {
         testPageSteps.typeInto([parentXpath, css], 'test')
         testPageSteps.typeInto([parentCss, xpath], 'test')
         testPageSteps.typeInto([parentXpath, xpath], 'test')
-        assertThrows(RuntimeException.class, { testPageSteps.typeInto([parentCss, invalidLocator], text) });
-        assertThrows(RuntimeException.class, { testPageSteps.typeInto([parentXpath, invalidLocator], text) });
+        assertThrows(RuntimeException.class, { testPageSteps.typeInto([parentCss, invalidLocator], text) })
+        assertThrows(RuntimeException.class, { testPageSteps.typeInto([parentXpath, invalidLocator], text) })
     }
 
     @Test

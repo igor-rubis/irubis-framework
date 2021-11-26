@@ -9,6 +9,7 @@ import com.irubis_framework.helpers.browser.Browser
 import com.irubis_framework.steps.webUiActions.WebUiActions
 import io.qameta.allure.Step
 import org.openqa.selenium.*
+import org.openqa.selenium.support.ui.Select
 
 import static com.irubis_framework.helpers.systemProp.SystemProp.WAITING_INTERVAL
 
@@ -100,6 +101,48 @@ abstract class PageSteps extends WebUiActions {
         }
     }
 
+    @Step('Select from dropdown list `{locator}` by index: {index - 1}')
+    void selectByIndex(String locator, int index) {
+        eventually() {
+            new Select(element(locator)).selectByIndex(index - 1)
+        }
+    }
+
+    @Step('Select from dropdown list `{locators}` by index: {index - 1}')
+    void selectByIndex(List<String> locators, int index) {
+        eventually() {
+            new Select(element(locators)).selectByIndex(index - 1)
+        }
+    }
+
+    @Step('Select from dropdown list `{locator}` by value: {value}')
+    void selectByValue(String locator, String value) {
+        eventually() {
+            new Select(element(locator)).selectByValue(value)
+        }
+    }
+
+    @Step('Select from dropdown list `{locators}` by value: {value}')
+    void selectByValue(List<String> locators, String value) {
+        eventually() {
+            new Select(element(locators)).selectByValue(value)
+        }
+    }
+
+    @Step('Select from dropdown list `{locator}` by text: {text}')
+    void selectByText(String locator, String text) {
+        eventually() {
+            new Select(element(locator)).selectByVisibleText(text)
+        }
+    }
+
+    @Step('Select from dropdown list `{locators}` by text: {text}')
+    void selectByText(List<String> locators, String text) {
+        eventually() {
+            new Select(element(locators)).selectByVisibleText(text)
+        }
+    }
+
     @Step('Get element aatribute `{attr}`: {locator}')
     String getElementAttribute(String locator, attr, interval = WAITING_INTERVAL) {
         eventually(interval) {
@@ -139,7 +182,7 @@ abstract class PageSteps extends WebUiActions {
     }
 
     @Step('Open url: {url}')
-    void goToUrl(String url) {
+    void openUrl(String url) {
         Browser.instance.navigate().to(url)
     }
 

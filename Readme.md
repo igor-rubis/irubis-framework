@@ -40,14 +40,6 @@ Which tests folder to split for parallel test run:
 * testsFolder
 
 ## Install allure ubuntu:
-##### Allure 1
-```bash
-sudo apt-add-repository ppa:yandex-qatools/allure-framework
-sudo apt-get update
-sudo apt-get install allure-commandline
-```
-
-##### Allure 2
 ```https://docs.qameta.io/allure/#_installing_a_commandline```
 
 ## Usage
@@ -128,6 +120,10 @@ User actions level classes -> `WebUiActions`
 
 //TODO:
 
+Framework uses strings as locators (no need to use `By` class). It automatically recognizes only css and xpath locators
+Each wrapper accepts a string or a list of strings as a locator parameter. In case of a list it appends list items
+consequently to build complex locator.
+
 Update the whole readme
 
 Selenium webdriver: Modifying navigator.webdriver flag to prevent selenium detection
@@ -148,3 +144,9 @@ Add Jenkins pipelines to split tests, seed jobs etc.
 Describe how to work with all classes in the framework
 
 Add examples to all descriptions
+
+add a full list of system props
+
+add information on how to run tests in Jenkins in parallel
+
+add an example build.gradle file to quickly setup new project

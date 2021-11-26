@@ -10,7 +10,6 @@ import com.irubis_framework.steps.Actions
 import groovy.json.JsonBuilder
 import groovy.json.JsonOutput
 import io.qameta.allure.Attachment
-import io.qameta.allure.Step
 import org.apache.http.HttpHost
 import org.apache.http.client.methods.HttpPost
 import org.apache.http.client.methods.HttpPut
@@ -111,7 +110,7 @@ abstract class BaseWebService extends Actions {
                 closure(this)
             }
         } catch (Throwable ex) {
-            dumpCurrentSession()
+            attachCurrentSession()
             if (httpClientContext) {
                 dumpHttpClientContext()
             }
