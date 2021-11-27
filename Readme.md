@@ -10,7 +10,7 @@ dependencies {
     compile 'com.github.igor-rubis:irubis-framework:2.0.0'
 }
 ```
-> To init tag in the repo go to https://jitpack.io/com/github/igor-rubis/irubis-framework/<tag>
+> To init tag in the repo go to https://jitpack.io/com/github/igor-rubis/irubis-framework/3.0.0
 
 ## JVM options:
 Folder for allure test results:
@@ -40,14 +40,6 @@ Which tests folder to split for parallel test run:
 * testsFolder
 
 ## Install allure ubuntu:
-##### Allure 1
-```bash
-sudo apt-add-repository ppa:yandex-qatools/allure-framework
-sudo apt-get update
-sudo apt-get install allure-commandline
-```
-
-##### Allure 2
 ```https://docs.qameta.io/allure/#_installing_a_commandline```
 
 ## Usage
@@ -113,9 +105,11 @@ task generateAllureReport(type: Exec) {
     args('generate', 'build/reports/allure')
 }
 ```
+
 Or `args('generate', '--clean', 'build/reports/allure')` for allure 2, which requires '--clean' parameter
 
 ##### Classes inheritance
+
 Selenium tests -> `BaseUiTest`
 
 Page level steps classes -> `PageSteps`
@@ -123,3 +117,36 @@ Page level steps classes -> `PageSteps`
 Rest web services classes -> `BaseWebService`
 
 User actions level classes -> `WebUiActions`
+
+//TODO:
+
+Framework uses strings as locators (no need to use `By` class). It automatically recognizes only css and xpath locators
+Each wrapper accepts a string or a list of strings as a locator parameter. In case of a list it appends list items
+consequently to build complex locator.
+
+Update the whole readme
+
+Selenium webdriver: Modifying navigator.webdriver flag to prevent selenium detection
+https://stackoverflow.com/questions/53039551/selenium-webdriver-modifying-navigator-webdriver-flag-to-prevent-selenium-detec/53040904#53040904
+
+all dependencies should be the same as in framework
+
+describe steps defined in the framework
+
+describe how to extend basic classes
+
+describe the possibility to use pure strings as css and xpath locators
+
+Add links to all the lids used in framework
+
+Add Jenkins pipelines to split tests, seed jobs etc.
+
+Describe how to work with all classes in the framework
+
+Add examples to all descriptions
+
+add a full list of system props
+
+add information on how to run tests in Jenkins in parallel
+
+add an example build.gradle file to quickly setup new project
