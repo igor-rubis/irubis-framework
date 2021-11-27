@@ -32,7 +32,7 @@ abstract class PageSteps extends WebUiActions {
     WebElement element(String locator) {
         applyBy(locator) { by ->
             Browser.instance.findElement(by)
-        }
+        } as WebElement
     }
 
     WebElement element(List<String> locators) {
